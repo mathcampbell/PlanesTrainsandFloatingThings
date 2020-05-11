@@ -483,7 +483,10 @@ public class MouseManager : MonoBehaviour {
 		Block[] allBlocks = ShipRoot.GetComponentsInChildren<Block>();
 		for (int i=0; i<allBlocks.Length; i++) 
 		{
-			allBlocks[i].ResetMaterials();
+			if (allBlocks[i] is ActiveBlock)
+			{}
+			else
+            allBlocks[i].ResetMaterials();
 		}
 	}
 

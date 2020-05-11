@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 672792947}
   - component: {fileID: 672792949}
   - component: {fileID: 672792948}
+  - component: {fileID: 1445316480}
   m_Layer: 9
   m_Name: OnOffInput
   m_TagString: Untagged
@@ -96,6 +97,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedNode: {fileID: 0}
   inputIO: 0
+--- !u!135 &1445316480
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672792946}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &413971402698013736
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +329,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 0.84313726, a: 1}
-  m_Intensity: 0.1
+  m_Intensity: 0.01
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
