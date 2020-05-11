@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7225751c4ab9ad642b032a68c7e50676
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - PrefabBlock: {fileID: 1681808279, guid: b1a82d3c2d3d646278d559797addac50, type: 3}
+  - ComponentKeybindDialog: {instanceID: 0}
+  - ShipRoot: {fileID: 2771188277178218836, guid: d199c9a2f7d3a4c6a83f6ba5b346fab6,
+      type: 3}
+  - TransparentMat: {fileID: 2100000, guid: d20d14a1a51b54cada402534b4f0c120, type: 2}
+  - BlockMat: {fileID: 2100000, guid: f88ac31da91454bcaadf160a239df84b, type: 2}
+  - LastBlock: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

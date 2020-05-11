@@ -1,0 +1,29 @@
+# MTL written from /Users/math/Programming/Unity/Block_Primitives/Blockwithoutlet (2).obj
+newmtl Block
+Kd 0.8 0.799953 0.799984
+Ns 256
+d 1
+illum 2
+Ka 0 0 0
+Ks 0.04 0.04 0.04
+newmtl Block_Outlet
+Kd 0.00281015 0.0955539 0.420216
+Ns 256
+d 1
+illum 2
+Ka 0 0 0
+Ks 0.04 0.04 0.04
+newmtl Block_pipe
+Kd 0 0 0
+Ns 256
+d 1
+illum 2
+Ka 0 0 0
+Ks 0.04 0.04 0.04
+newmtl Default
+Kd 0.48 0.48 0.48
+Ns 256
+d 1
+illum 2
+Ka 0 0 0
+Ks 0.04 0.04 0.04
