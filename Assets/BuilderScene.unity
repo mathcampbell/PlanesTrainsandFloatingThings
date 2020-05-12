@@ -1835,7 +1835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7225751c4ab9ad642b032a68c7e50676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrefabBlock: {fileID: 1681808279, guid: b1a82d3c2d3d646278d559797addac50, type: 3}
+  PrefabBlock: {fileID: 1681808279, guid: 0423c3927a95246bd899645a5cd737ba, type: 3}
   SnapPointLayerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -2054,6 +2054,7 @@ MonoBehaviour:
   - {fileID: 2416830378692536084, guid: bc07dc9bf2d044e90b1c16db7bc13388, type: 3}
   - {fileID: 8128389140555253069, guid: f631a191426c24ecca6f42025ded4321, type: 3}
   - {fileID: 1617037118858483378, guid: d1bbe86b3745b4f3198b38221f5356c8, type: 3}
+  - {fileID: 1681808279, guid: 0423c3927a95246bd899645a5cd737ba, type: 3}
 --- !u!1 &1677278266
 GameObject:
   m_ObjectHideFlags: 0
@@ -2288,6 +2289,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1939121638}
   m_CullTransparentMesh: 0
+--- !u!1 &2038645322 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2771188277178218836, guid: d199c9a2f7d3a4c6a83f6ba5b346fab6,
+    type: 3}
+  m_PrefabInstance: {fileID: 566001815116367611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2038645323
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038645322}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5e087314e259145bdae129711ad9ca2a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2137430465
 GameObject:
   m_ObjectHideFlags: 0
@@ -2373,6 +2399,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2739188968273007340, guid: d199c9a2f7d3a4c6a83f6ba5b346fab6,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 7684625086359004581, guid: dcb9ba799301048ea86f0436654c550a,
+        type: 3}
     - target: {fileID: 2771188277178218836, guid: d199c9a2f7d3a4c6a83f6ba5b346fab6,
         type: 3}
       propertyPath: m_Name
@@ -2441,7 +2473,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 566001815116367611}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2038645322}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db567e9616653423bb71127858edb183, type: 3}

@@ -59,6 +59,7 @@ public class MouseManager : MonoBehaviour {
 		var startingPos = ShipRoot.transform.position;
 		startingPos.x += BlockLogic.Grid.x;
 		CurrentBlock.transform.position = startingPos;
+		ShipRoot.SetSolid();
 		GameMode = GameModes.BuildMode;
 	}
 	// Update is called once per frame
@@ -83,7 +84,7 @@ public class MouseManager : MonoBehaviour {
 					
 				var placePosition = position;
 				PositionOK = false;
-				for (int i = 0; i<10; i++)
+				for (int i = 0; i<3; i++)
 				{
 					var collider = Physics.OverlapBox(placePosition + CurrentBlock.transform.rotation * CurrentBlock.Collider.center, CurrentBlock.Collider.size /2, CurrentBlock.transform.rotation, BlockLogic.LayerMaskBlock);
 					if (collider.Length ==0)
@@ -124,11 +125,12 @@ public class MouseManager : MonoBehaviour {
 			if (Input.GetMouseButtonDown(0) && CurrentBlock != null && PositionOK)
 			{
 				CurrentBlock.Collider.enabled = true;
-				
+
 				// Returning all the materials to original 
-						
-				CurrentBlock.SetAllMaterials(BlockMats);
-				CurrentBlock.Init();
+
+				//CurrentBlock.SetAllMaterials(BlockMats);
+				CurrentBlock.SetSolid();
+                CurrentBlock.Init();
 						
 				// Adding our block's mass to the Root
 				Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
@@ -344,7 +346,7 @@ public class MouseManager : MonoBehaviour {
 		{
 			GameObject.DestroyImmediate(CurrentBlock.gameObject);
 			CurrentBlock = null;
-			BlockMats = null;
+			//BlockMats = null;
 		} 
 		CurrentBlock = Instantiate(PrefabBlock);
 		
@@ -352,16 +354,16 @@ public class MouseManager : MonoBehaviour {
 		
 
 		CurrentBlock.Collider.enabled = false;
-		
-		BlockMats = CurrentBlock.GetAllMaterials();
-		Material[] transMats = CurrentBlock.GetAllMaterials();
-		for(int i = 0; i<transMats.Length; i++)
-		{
-			transMats[i] = TransparentMat;
-		}
-		
-		CurrentBlock.SetAllMaterials(transMats);
 
+		//BlockMats = CurrentBlock.GetAllMaterials();
+		//Material[] transMats = CurrentBlock.GetAllMaterials();
+		//for(int i = 0; i<transMats.Length; i++)
+		//{
+		//	transMats[i] = TransparentMat;
+		//}
+
+		//CurrentBlock.SetAllMaterials(transMats);
+		CurrentBlock.SetGhost();
 
 	}
 
@@ -397,15 +399,16 @@ public class MouseManager : MonoBehaviour {
 
 		for (int i=0; i<allBlocks.Length; i++) 
 		{
-			Material[] dataMats = allBlocks[i].GetAllMaterials();
-			for(int j = 0; j<dataMats.Length; j++)
-			{
-				dataMats[j] = DataMat;
-			}
+			//Material[] dataMats = allBlocks[i].GetAllMaterials();
+			//for(int j = 0; j<dataMats.Length; j++)
+			//{
+			//	dataMats[j] = DataMat;
+			//}
 			if (allBlocks[i] is ActiveBlock)
-			{}
+			{ }
 			else
-				allBlocks[i].SetAllMaterials(dataMats);
+				//allBlocks[i].SetAllMaterials(dataMats);
+				allBlocks[i].SetGhost();
 		}
 	}
 
@@ -451,15 +454,17 @@ public class MouseManager : MonoBehaviour {
 
 		for (int i=0; i<allBlocks.Length; i++) 
 		{
-			Material[] IOMats = allBlocks[i].GetAllMaterials();
-			for(int j = 0; j<IOMats.Length; j++)
-			{
-				IOMats[j] = DataMat;
-			}
+			//Material[] IOMats = allBlocks[i].GetAllMaterials();
+			//for(int j = 0; j<IOMats.Length; j++)
+			//	{
+			//		IOMats[j] = DataMat;
+			//	}
 			if (allBlocks[i] is ActiveBlock)
-			{}
+			{ }
 			else
-				allBlocks[i].SetAllMaterials(IOMats);
+				//allBlocks[i].SetAllMaterials(IOMats);
+				// adding in new code using animation to change materials not manually
+				allBlocks[i].SetGhost();
 		}
 	}
 
@@ -483,10 +488,14 @@ public class MouseManager : MonoBehaviour {
 		Block[] allBlocks = ShipRoot.GetComponentsInChildren<Block>();
 		for (int i=0; i<allBlocks.Length; i++) 
 		{
-			if (allBlocks[i] is ActiveBlock)
+			/*
+            if (allBlocks[i] is ActiveBlock)
 			{}
 			else
             allBlocks[i].ResetMaterials();
+            */
+			allBlocks[i].SetSolid();
+          
 		}
 	}
 

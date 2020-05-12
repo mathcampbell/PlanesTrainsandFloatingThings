@@ -17,12 +17,14 @@ public class Block : MonoBehaviour
 
 	public Material[] matArray;
 
+	public Animator BlockAnim;
    
 	
 	void Awake()
 	{
 		Collider = GetComponent<BoxCollider>();
 		matArray = this.GetComponentInChildren<Renderer>().materials;
+		BlockAnim = GetComponent<Animator>();
 	}
 
 
@@ -73,4 +75,14 @@ public class Block : MonoBehaviour
 		return matArray.ToArray();
 		*/
 	}
+
+    public virtual void SetGhost()
+    {
+		BlockAnim.SetBool("BlockGhost", true);
+    }
+
+    public virtual void SetSolid()
+    {
+		BlockAnim.SetBool("BlockGhost", false);
+    }
 }
