@@ -364,6 +364,7 @@ GameObject:
   - component: {fileID: 7425809663454874704}
   - component: {fileID: 193388875}
   - component: {fileID: 193388876}
+  - component: {fileID: 1526502789438048814}
   m_Layer: 8
   m_Name: EngineV6
   m_TagString: VehicleBlock
@@ -427,6 +428,7 @@ MonoBehaviour:
   sidelength: 0.75
   volume: 0
   matArray: []
+  BlockAnim: {fileID: 0}
   fuelRequired: 0
   maxRPM: 0
   enginePower: 0
@@ -635,6 +637,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &1526502789438048814
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532088947192177000}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bca4c2d1cc221427d9516d15c25004b8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5532088947319856536
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,10 +665,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5532766609296053076}
-  - component: {fileID: 5519115663172547830}
   - component: {fileID: 5532214846510430274}
+  - component: {fileID: 1086374942}
   m_Layer: 0
-  m_Name: Cube Graphics
+  m_Name: EngineMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -667,7 +688,15 @@ Transform:
   m_Father: {fileID: 9055322134606512667}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &5519115663172547830
+--- !u!33 &5532214846510430274
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532088947319856536}
+  m_Mesh: {fileID: 8443757329370426804, guid: 20433088d29cf4dbcad48e1e218a86f3, type: 3}
+--- !u!23 &1086374942
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -685,14 +714,14 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: df3016348f4e04bf684aaf0163d059a2, type: 2}
+  - {fileID: 2100000, guid: 8c49ecc2d5fae43cfb5a2ffc4170f38a, type: 2}
   - {fileID: 2100000, guid: f88ac31da91454bcaadf160a239df84b, type: 2}
-  - {fileID: 2100000, guid: a627feaafa80f441497282818d5cf850, type: 2}
-  - {fileID: 2100000, guid: de18692f9551a447f9d930262435550a, type: 2}
-  - {fileID: 2100000, guid: 4ca0ec032d43c448dabff449725e4848, type: 2}
-  - {fileID: 2100000, guid: 7bbda6e99afad45308c57c891870a3f6, type: 2}
-  - {fileID: 2100000, guid: 3c027f67f5d804a9f93dbcd3324faeac, type: 2}
-  - {fileID: 2100000, guid: de18692f9551a447f9d930262435550a, type: 2}
+  - {fileID: 5567965776208314871, guid: 2ea7d68749f454f2a880e8271f357d1e, type: 3}
+  - {fileID: 2100000, guid: 7adff1d3f6449425ca5755194cf9b7c5, type: 2}
+  - {fileID: 2100000, guid: 7d7ef04a358d845f9943f9b26c2c471e, type: 2}
+  - {fileID: 2100000, guid: e65b9501130fa4e36a3734e49879d96f, type: 2}
+  - {fileID: 2100000, guid: 103f31f560d3543cb91a5734cf695774, type: 2}
+  - {fileID: 2100000, guid: 6aade063cf15a45caafc066b00424171, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -701,7 +730,7 @@ MeshRenderer:
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_ReceiveGI: 1
-  m_PreserveUVs: 1
+  m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
@@ -713,14 +742,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &5532214846510430274
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5532088947319856536}
-  m_Mesh: {fileID: 7684625086359004581, guid: c31052b20e1e64b519c6b586cbdc3289, type: 3}
 --- !u!1 &6276477468513314103
 GameObject:
   m_ObjectHideFlags: 0

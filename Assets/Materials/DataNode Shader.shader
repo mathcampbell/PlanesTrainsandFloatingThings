@@ -19,7 +19,7 @@ Shader "Sprites/Default"
         ZTest Always
         Tags
         {
-            "Queue"="Transparent"
+            "Queue"="Overlay"
             "IgnoreProjector"="True"
             "RenderType"="Overlay"
             "PreviewType"="Plane"

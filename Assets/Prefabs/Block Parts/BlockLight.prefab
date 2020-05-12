@@ -519,6 +519,7 @@ GameObject:
   - component: {fileID: 6397351112124454695}
   - component: {fileID: 2784475449211042099}
   - component: {fileID: 5224820763959387209}
+  - component: {fileID: 3713123172906150666}
   m_Layer: 8
   m_Name: BlockLight
   m_TagString: VehicleBlock
@@ -575,10 +576,30 @@ MonoBehaviour:
   sidelength: 1
   volume: 0
   matArray: []
+  BlockAnim: {fileID: 0}
   IOInputLightSwitch: {fileID: 672792948}
   lightOn: 0
   LightObject: {fileID: 5388748249588605464}
   lightMatOriginal: {fileID: 2100000, guid: e57a44b528c9f4c448c3ec38ad4962b3, type: 2}
+--- !u!95 &3713123172906150666
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6398010393184128365}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 23121f815be374d10912828288f1d8d7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8852489278872534829
 GameObject:
   m_ObjectHideFlags: 0

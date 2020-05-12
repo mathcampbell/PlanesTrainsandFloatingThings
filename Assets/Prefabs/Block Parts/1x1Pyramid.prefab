@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 6911278538749544705}
   - component: {fileID: 2416830378692536085}
   - component: {fileID: 2416830378692536084}
+  - component: {fileID: 8596892860707136890}
   m_Layer: 8
   m_Name: 1x1Pyramid
   m_TagString: VehicleBlock
@@ -285,6 +286,26 @@ MonoBehaviour:
   sidelength: 0.25
   volume: 0
   matArray: []
+  BlockAnim: {fileID: 0}
+--- !u!95 &8596892860707136890
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6909774491210814283}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 90b659be7d7934df59a079c766b21b8b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6909774492906726019
 GameObject:
   m_ObjectHideFlags: 0

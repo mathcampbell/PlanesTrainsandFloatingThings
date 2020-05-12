@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7748307295712938657}
   - component: {fileID: 3880287068862487073}
   - component: {fileID: 6736179413502548249}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -605,9 +605,8 @@ MonoBehaviour:
   sidelength: 0
   volume: 0
   matArray: []
+  BlockAnim: {fileID: 0}
   IOOutputSwitch: {fileID: 5949814005510277727}
-  PushButtonKeyOriginalMat: {fileID: 2100000, guid: b42553f76780e4a949d5efff46d849f4,
-    type: 2}
 --- !u!95 &1288108813
 Animator:
   serializedVersion: 3
