@@ -468,11 +468,14 @@ public class MouseManager : MonoBehaviour
 
         for (int i = 0; i < allBlocks.Length; i++)
         {
-            //Material[] dataMats = allBlocks[i].GetAllMaterials();
-            //for(int j = 0; j<dataMats.Length; j++)
-            //{
-            //	dataMats[j] = DataMat;
-            //}
+            NumericNodeLine[] numericNodeLines = allBlocks[i].GetComponentsInChildren<NumericNodeLine>();
+            for (int j = 0; j < numericNodeLines.Length; j++)
+            {
+                if (numericNodeLines[j].IsConnected() == false)
+                {
+                    GameObject.Destroy(numericNodeLines[j].gameObject);
+                }
+            }
             if (allBlocks[i] is ActiveBlock)
             { }
             else
@@ -523,11 +526,14 @@ public class MouseManager : MonoBehaviour
 
         for (int i = 0; i < allBlocks.Length; i++)
         {
-            //Material[] IOMats = allBlocks[i].GetAllMaterials();
-            //for(int j = 0; j<IOMats.Length; j++)
-            //	{
-            //		IOMats[j] = DataMat;
-            //	}
+            IONodeLine[] iONodeLines = allBlocks[i].GetComponentsInChildren<IONodeLine>();
+            for (int j = 0; j < iONodeLines.Length; j++)
+            {
+                if (iONodeLines[j].IsConnected() == false)
+                {
+                    GameObject.Destroy(iONodeLines[j].gameObject);
+                }
+            }
             if (allBlocks[i] is ActiveBlock)
             { }
             else
