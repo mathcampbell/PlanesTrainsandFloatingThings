@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4509614161566451545}
   - component: {fileID: 4509614161566451544}
+  - component: {fileID: -771289173733180207}
   m_Layer: 9
   m_Name: IOLine
   m_TagString: Untagged
@@ -128,3 +129,17 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &-771289173733180207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4509614161566451543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d09b3155d3e2481799dd6406d0ed01d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConnectedInput: {fileID: 0}
+  ConnectedOutput: {fileID: 0}

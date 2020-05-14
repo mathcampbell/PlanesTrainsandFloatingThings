@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 6348668274260397322}
   - component: {fileID: 6348668274260397323}
   - component: {fileID: 2427416734384521136}
+  - component: {fileID: 2038645323}
   m_Layer: 8
   m_Name: VehicleRoot
   m_TagString: VehicleBlock
@@ -110,6 +111,7 @@ MonoBehaviour:
   sidelength: 0
   volume: 0
   matArray: []
+  BlockAnim: {fileID: 0}
 --- !u!54 &2427416734384521136
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -126,6 +128,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!95 &2038645323
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2771188277178218836}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5e087314e259145bdae129711ad9ca2a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2771188278865463452
 GameObject:
   m_ObjectHideFlags: 0
