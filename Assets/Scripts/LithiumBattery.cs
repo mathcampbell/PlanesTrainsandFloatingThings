@@ -1,0 +1,28 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LithiumBattery : ActiveBlock
+{
+
+    public NumericOutput CurrentCharge;
+
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+ private  void FixedUpdate()
+    {
+        CurrentCharge.ouputNumeric = (GetComponent<BatteryPower>().available / GetComponent<BatteryPower>().capacity);
+        // Returns the current charge left on a scale of 1-0;
+    }
+}

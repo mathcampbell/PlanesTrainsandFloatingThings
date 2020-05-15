@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<catalog>
+	<Version app="modo" build="139786" xml_file_format="1">1103</Version>
+	<useRootPath>0</useRootPath>
+	<PtagAsID>0</PtagAsID>
+	<Material ID="Unity_Material" ptag="Block_Copper" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="0.6169360280036926, 0.23793315887451172, 0.03895934298634529"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.5"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="1.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<Material ID="Unity_Material_10" ptag="Block" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="1.0, 1.0, 1.0"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.405000001192"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="0.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<Material ID="Unity_Material_2" ptag="Block_Grey" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="0.1508222371339798, 0.15081265568733215, 0.15081804990768433"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.5"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="1.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<ImageFiles/>
+</catalog>

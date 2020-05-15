@@ -1,0 +1,175 @@
+<?xml version="1.0" ?>
+<catalog>
+	<Version app="modo" build="139786" xml_file_format="1">1103</Version>
+	<useRootPath>0</useRootPath>
+	<PtagAsID>0</PtagAsID>
+	<Material ID="Unity_Material_3" ptag="Pipe_Fuel" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="0.0, 0.7436708807945251, 0.005308510269969702"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.5"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="1.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<Material ID="Unity_Material" ptag="Pipe_Air" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="0.10815827548503876, 1.0, 0.9308373332023621"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.5"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="1.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<Material ID="Unity_Material_4" ptag="Pipe_Transmission" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="0.968331515789032, 0.0, 0.002085957210510969"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.5"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="1.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<Material ID="Unity_Material_2" ptag="Pipe_Fluid" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="0.002200306626036763, 0.07533027231693268, 0.9961678981781006"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.5"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="1.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<Material ID="Unity_Material_6" ptag="Engine_Metallic" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="0.4137912392616272, 0.4137635827064514, 0.4137791693210602"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.5"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="1.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<Material ID="Unity_Material_7" ptag="Block_Black" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="0.014790531247854233, 0.014662399888038635, 0.014914160594344139"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.5"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="1.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<Material ID="Unity_Material_10" ptag="Block" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="1.0, 1.0, 1.0"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.405"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="0.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<Material ID="Unity_Material_5" ptag="Pipe_Exhaust" type="unityShader">
+		<property name="Detail Normal" value="0.0"/>
+		<property name="Bump" value="0.0"/>
+		<property name="Normal" value="0.0"/>
+		<property name="Specular" value="0.0"/>
+		<property name="Detail Normal Scale" value="1.0"/>
+		<property name="Detail Mask" value="0.0"/>
+		<property name="Base Color" value="0.0"/>
+		<property name="Fresnel Reflectance 0" value="0.04"/>
+		<property name="Emission" value="0.0, 0.0, 0.0"/>
+		<property name="Normal Scale" value="1.0"/>
+		<property name="Albedo" value="0.14669281244277954, 0.08361048251390457, 0.0475211963057518"/>
+		<property name="Ambient Occlusion" value="0.0"/>
+		<property name="Opacity" value="1.0"/>
+		<property name="Smoothness" value="0.5"/>
+		<property name="Detail Albedo x2" value="0.0"/>
+		<property name="Emissive Level" value="1.0"/>
+		<property name="Height Scale" value="0.02"/>
+		<property name="Metallic" value="0.0"/>
+		<property name="Roughness" value="0.0"/>
+	</Material>
+	<ImageFiles/>
+</catalog>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ResourceConsumer : ResourceNetworkItem
+public abstract class PowerConsumer : PowerNetworkItem
 {
 	public readonly float maxConsumption = 1;
 
@@ -20,13 +20,13 @@ public abstract class ResourceConsumer : ResourceNetworkItem
 	}
 
     /// <summary>
-    /// Find the amount of resource that could be consumed this tick
+    /// Find the amount of power that could be consumed this tick
     /// </summary>
     /// <returns></returns>
     public abstract float PotentialConsumption();
 
 	/// <summary>
-	/// Consume the given amount of resource. (This method is to trigger any side effacts the consumption may have)
+	/// Consume the given amount of power. (This method is to trigger any side effacts the consumption may have)
 	/// </summary>
 	/// <param name="fractionOfPotential"></param>
 	public abstract void Consume(float fractionOfPotential);

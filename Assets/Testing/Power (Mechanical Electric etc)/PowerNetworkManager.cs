@@ -5,39 +5,39 @@ using UnityEngine;
 
 
 /// <summary>
-/// Manager for a single resource network.
+/// Manager for a single power network.
 /// </summary>
-public class ResourceNetworkManager : MonoBehaviour
+public class PowerNetworkManager : MonoBehaviour
 {
-	public Resource resource;
+	public PowerType powerType;
 
-	public List<ResourceProducer> producers;
-	public List<ResourceStorage>  storages;
-	public List<ResourceConsumer> consumers;
+	public List<PowerProducer> producers;
+	public List<PowerStorage>  storages;
+	public List<PowerConsumer> consumers;
 
 
-	public IEnumerable<ResourceNetworkItem> network
+	public IEnumerable<PowerNetworkItem> network
 	{
 		get
 		{
 			foreach(var producer in producers)
 			{
-				yield return (ResourceNetworkItem)producer;
+				yield return (PowerNetworkItem)producer;
 			}
 			foreach(var storage in storages)
 			{
-				yield return (ResourceNetworkItem)storage;
+				yield return (PowerNetworkItem)storage;
 			}
 			foreach(var consumer in consumers)
 			{
-				yield return (ResourceNetworkItem)consumer;
+				yield return (PowerNetworkItem)consumer;
 			}
 		}
 	}
 
 	
 
-	void ResourceNetworkUpdate()
+	void PowerNetworkUpdate()
 	{
 		float consumerDemand = 0;
 		foreach (var consumer in consumers)
@@ -98,10 +98,10 @@ public class ResourceNetworkManager : MonoBehaviour
 		}
 		else
 		{ // Not enough for everyone, check storage
-			float defacit = consumerDemand - potentialProduction;
+			float deficit = consumerDemand - potentialProduction;
 
 
-			if (storageAvailable > defacit)
+			if (storageAvailable > deficit)
 			{ // Storage can take care of defacit
 				foreach (var producer in producers)
 				{
@@ -129,7 +129,7 @@ public class ResourceNetworkManager : MonoBehaviour
 				}
 
 				float consumerFraction;
-				float filledDemand = consumerDemand - defacit;
+				float filledDemand = consumerDemand - deficit;
 
 				if (storageAvailable > 0)
 				{
@@ -161,6 +161,6 @@ public class ResourceNetworkManager : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		ResourceNetworkUpdate();
+		PowerNetworkUpdate();
 	}
 }

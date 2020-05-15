@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 20433088d29cf4dbcad48e1e218a86f3
+guid: a94f4dff951f94341953177a08514d4c
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
@@ -15,42 +15,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Block_Black
-    second: {fileID: 2100000, guid: e5fa00c99bad842acbb861da6a4bbde2, type: 2}
+      name: Block_Copper
+    second: {fileID: 2100000, guid: 543fb1c3280b04eb29d1860971a6170e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Engine_Metallic
-    second: {fileID: 2100000, guid: 8c49ecc2d5fae43cfb5a2ffc4170f38a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pipe_Air
-    second: {fileID: 2100000, guid: 7d7ef04a358d845f9943f9b26c2c471e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pipe_Exhaust
-    second: {fileID: 2100000, guid: 6aade063cf15a45caafc066b00424171, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pipe_Fluid
-    second: {fileID: 2100000, guid: 7adff1d3f6449425ca5755194cf9b7c5, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pipe_Fuel
-    second: {fileID: 2100000, guid: 103f31f560d3543cb91a5734cf695774, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pipe_Transmission
-    second: {fileID: 2100000, guid: e65b9501130fa4e36a3734e49879d96f, type: 2}
+      name: Block_Grey
+    second: {fileID: 2100000, guid: 9f01293cb1e3442889e2e1c4cf955f64, type: 2}
   materials:
     materialImportMode: 1
-    materialName: 2
-    materialSearch: 0
+    materialName: 0
+    materialSearch: 1
     materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
