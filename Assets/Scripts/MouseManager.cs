@@ -31,11 +31,14 @@ public class MouseManager : MonoBehaviour
     public Material DataMat;
     protected Material[] BlockMats;
 
+    //Stuff for Nodes
     protected Block CurrentBlock;
     protected NumericOutput CurrentNode;
     protected OnOffOutput CurrentOnOffNode;
     protected bool PositionOK;
-
+    protected PowerNetworkItem CurrentPowerNode;
+    protected PowerNetworkManager CurrentManager;
+    public PowerNetworkManager NewManager;
 
 
     public enum GameModes
@@ -405,6 +408,180 @@ public class MouseManager : MonoBehaviour
                     CurrentOnOffNode = null;
                 }
             }
+        }
+
+        if (GameMode == GameModes.ElectricMode)
+        {
+            // Do the ELectric Mode View stuff here
+
+            int lengthOfLine = 2;
+            var linePositions = new Vector3[lengthOfLine];
+
+
+            if (Input.GetMouseButton(0))
+            {
+
+                if (!CurrentLine)
+                {
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskElectricNode))
+                    {
+                        CurrentPowerNode = hitInfo.collider.GetComponent<PowerNetworkItem>();
+                        if (CurrentPowerNode != null)
+                        {
+
+                            CurrentLine = Instantiate(ElectricLine, CurrentPowerNode.transform);
+
+                            // If there's no Current Line, and the mouse is Down on a Node, we need to make a new CurrentLine and then start it at *that* point.  Then create a new power manager if there isn't one already.
+                            // Then next frame, just update the other end of the line to the curent mouse position!)
+                            linePositions[0] = CurrentPowerNode.transform.position;
+                            linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
+
+                            CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+                            CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+
+                            if (CurrentPowerNode.manager)
+                            {
+                                // We already have a Power Manager for this node, so simply set it as the CurrentManager.
+                                CurrentManager = CurrentPowerNode.manager;
+                                
+
+                            }
+
+                            else
+
+                            {
+                                // We don't have a Manager for the node, so we'll need to instantiate one!
+                                CurrentManager = Instantiate(NewManager, ShipRoot.transform);
+                                CurrentPowerNode.manager = CurrentManager;
+                                CurrentPowerNode.AddToNetwork();
+                            }
+
+
+                        }
+                        else
+                        {
+                            //Not an Output
+
+                            Debug.Log(hitInfo.collider);
+                        }
+                    }
+                }
+                if (CurrentLine)
+                {
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskElectricNode))
+                    {
+                        var newPowerNode = hitInfo.collider.GetComponent<PowerNetworkItem>();
+                        if (newPowerNode != null)
+                        {
+                            // First check it's not still our first node..
+                            if (newPowerNode == CurrentPowerNode)
+                            {
+                                linePositions[0] = CurrentPowerNode.transform.position;
+                                linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
+
+                                CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+                                CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+                            }
+
+                            else 
+                            // we found a node to connect to.
+
+                            // Now we need to check if it's an existing line we need to delete, or a new connection.
+                            if (CurrentPowerNode.DirectlyConnected.Contains(newPowerNode))
+                            {
+                                // We now know it's directly connected to this node, so we need to remove it!
+
+                                CurrentPowerNode.DirectlyConnected.Remove(newPowerNode);
+                                newPowerNode.DirectlyConnected.Remove(CurrentPowerNode);
+                                // Now we need to find the line and remove that too.
+                                ElectricNodeLine[] ConnectedLines = CurrentPowerNode.GetComponentsInChildren<ElectricNodeLine>();
+                                for (int i = 0; ConnectedLines.Length < i; i++)
+                                {
+                                    //Finding any lines in CurrentPowerNode that need to be wiped.
+                                    if (ConnectedLines[i].ConnectedTo == newPowerNode)
+                                        GameObject.Destroy(ConnectedLines[i].gameObject);
+
+                                }
+
+                                ElectricNodeLine[] newConnectedLines = newPowerNode.GetComponentsInChildren<ElectricNodeLine>();
+                                for (int j = 0; newConnectedLines.Length < j; j++)
+                                {
+                                    // Finding any lines in newPowerNode that need to be wiped.
+                                    if (newConnectedLines[j].ConnectedTo == CurrentPowerNode)
+                                        GameObject.Destroy(newConnectedLines[j].gameObject);
+                                }
+
+                                // Now we check both to see if they have no connections left. If so, the relevent manager gets removed. Orphaned Managers will get cleaned up on GameMode change.
+
+                                if (CurrentPowerNode.DirectlyConnected.Count < 1)
+                                {
+                                    CurrentPowerNode.RemoveFromNetwork();
+                                    CurrentPowerNode.manager = null;
+                                }
+                                if (newPowerNode.DirectlyConnected.Count < 1)
+                                {
+                                    newPowerNode.RemoveFromNetwork();
+                                    newPowerNode.manager = null;
+                                }
+
+                                GameObject.DestroyImmediate(CurrentLine.gameObject);
+                                CurrentPowerNode = null;
+                                CurrentLine = null;
+                                CurrentManager = null;
+                            }
+
+                         else
+                            {
+                                //Still need to add some new coder here to check if it's in an existing network and if so, merge the networks.
+
+
+                                // Found a node, there's nothing on it, ready to connect! Need to add the new node to teh current network
+                                newPowerNode.DirectlyConnected.Add(CurrentPowerNode);
+                                CurrentPowerNode.DirectlyConnected.Add(newPowerNode);
+                                newPowerNode.manager = CurrentManager;
+                                newPowerNode.AddToNetwork();
+                                linePositions[0] = CurrentPowerNode.transform.position;
+                                linePositions[1] = newPowerNode.transform.position;
+                                CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+                                CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+                                CurrentLine.GetComponent<ElectricNodeLine>().ConnectedTo = newPowerNode;
+                                CurrentLine.GetComponent<ElectricNodeLine>().ConnectedFrom = CurrentPowerNode;
+                                CurrentLine = null;
+                                CurrentPowerNode = null;
+                                CurrentManager = null;
+                            }
+                        }
+                        
+                    }
+                    else
+                    {
+                        Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 1f)));
+                        linePositions[0] = CurrentPowerNode.transform.position;
+                        linePositions[1] = mouseLineDraw;
+                        Debug.Log("Drawing a line update cos no node");
+                        CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+                        CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+                    }
+                }
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (CurrentLine)
+                {
+                    if (CurrentPowerNode.DirectlyConnected.Count < 1)
+                    {
+                        CurrentPowerNode.RemoveFromNetwork();
+                        CurrentPowerNode.manager = null;
+                    }
+
+                    GameObject.DestroyImmediate(CurrentLine.gameObject);
+                    CurrentLine = null;
+                    CurrentPowerNode = null;
+                    CurrentManager = null;
+                }
+            }
+
         }
     }
 

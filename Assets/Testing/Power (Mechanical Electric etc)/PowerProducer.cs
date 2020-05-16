@@ -19,6 +19,16 @@ public abstract class PowerProducer : PowerNetworkItem
 		
 	}
 
+	public override void AddToNetwork()
+	{
+		manager.producers.Add(this);
+	}
+
+	public override void RemoveFromNetwork()
+	{
+		manager.producers.Remove(this);
+	}
+
 	/// <summary>
 	/// Find the amount of power that could be produced this tick
 	/// </summary>

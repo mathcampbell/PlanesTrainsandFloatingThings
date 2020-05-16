@@ -22,7 +22,7 @@ public class LithiumBattery : ActiveBlock
 
  private  void FixedUpdate()
     {
-        CurrentCharge.ouputNumeric = (GetComponent<BatteryPower>().available / GetComponent<BatteryPower>().capacity);
+        CurrentCharge.ouputNumeric = (GetComponentInChildren<BatteryPower>().available / GetComponentInChildren<BatteryPower>().capacity);
         // Returns the current charge left on a scale of 1-0;
     }
 }

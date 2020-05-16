@@ -19,11 +19,22 @@ public abstract class PowerConsumer : PowerNetworkItem
 		
 	}
 
-    /// <summary>
-    /// Find the amount of power that could be consumed this tick
-    /// </summary>
-    /// <returns></returns>
-    public abstract float PotentialConsumption();
+	public override void AddToNetwork()
+	{
+		manager.consumers.Add(this);
+	}
+
+	public override void RemoveFromNetwork()
+	{
+		manager.consumers.Remove(this);
+	}
+
+
+	/// <summary>
+	/// Find the amount of power that could be consumed this tick
+	/// </summary>
+	/// <returns></returns>
+	public abstract float PotentialConsumption();
 
 	/// <summary>
 	/// Consume the given amount of power. (This method is to trigger any side effacts the consumption may have)

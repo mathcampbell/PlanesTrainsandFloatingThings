@@ -10,7 +10,9 @@ public abstract class PowerNetworkItem : MonoBehaviour
 	/// <summary>
 	/// The network manager this item is part of.
 	/// </summary>
-	PowerNetworkManager manager;
+	public PowerNetworkManager manager;
+
+	public List<PowerNetworkItem> DirectlyConnected;
 
 	/// <summary>
 	/// The power type.
@@ -29,4 +31,9 @@ public abstract class PowerNetworkItem : MonoBehaviour
 	{
 		
 	}
+
+	public abstract void AddToNetwork();
+
+	public abstract void RemoveFromNetwork();
+    
 }

@@ -1844,7 +1844,7 @@ MonoBehaviour:
   DataLine: {fileID: 4509614161566451543, guid: 046e80c6c496c43feb945a8a22a40d06,
     type: 3}
   IOLine: {fileID: 4509614161566451543, guid: c5596dd9029844e91ad2869dfe9c1c6d, type: 3}
-  ElectricLine: {fileID: 4509614161566451543, guid: 046e80c6c496c43feb945a8a22a40d06,
+  ElectricLine: {fileID: 4509614161566451543, guid: 8f7495d5c81984e1498055934c23cb35,
     type: 3}
   CompLine: {fileID: 4509614161566451543, guid: 046e80c6c496c43feb945a8a22a40d06,
     type: 3}
@@ -1863,6 +1863,8 @@ MonoBehaviour:
   TransparentMat: {fileID: 2100000, guid: d20d14a1a51b54cada402534b4f0c120, type: 2}
   BlockMat: {fileID: 2100000, guid: f88ac31da91454bcaadf160a239df84b, type: 2}
   DataMat: {fileID: 2100000, guid: 3f59a2eef6bdf469588173ff6d7fc89e, type: 2}
+  NewManager: {fileID: 275153917320496413, guid: c56dd581c08a04b78a7abb1502b84cc2,
+    type: 3}
   GameMode: 0
 --- !u!4 &919505058
 Transform:

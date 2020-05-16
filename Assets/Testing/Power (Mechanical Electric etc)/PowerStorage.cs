@@ -24,4 +24,15 @@ public abstract class PowerStorage : PowerNetworkItem
 	{
 		
 	}
+
+    public override void AddToNetwork()
+    {
+        manager.storages.Add(this);
+    }
+
+	public override void RemoveFromNetwork()
+	{
+		manager.storages.Remove(this);
+	}
+
 }
