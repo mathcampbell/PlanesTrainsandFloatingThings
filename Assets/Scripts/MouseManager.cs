@@ -434,7 +434,7 @@ public class MouseManager : MonoBehaviour
                             // If there's no Current Line, and the mouse is Down on a Node, we need to make a new CurrentLine and then start it at *that* point.  Then create a new power manager if there isn't one already.
                             // Then next frame, just update the other end of the line to the curent mouse position!)
                             linePositions[0] = CurrentPowerNode.transform.position;
-                            linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
+                            linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 1f)));
 
                             CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
                             CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
@@ -477,7 +477,7 @@ public class MouseManager : MonoBehaviour
                             if (newPowerNode == CurrentPowerNode)
                             {
                                 linePositions[0] = CurrentPowerNode.transform.position;
-                                linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
+                                linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 1f)));
 
                                 CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
                                 CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
@@ -489,7 +489,18 @@ public class MouseManager : MonoBehaviour
                             // Now we need to check if it's an existing line we need to delete, or a new connection.
                             if (CurrentPowerNode.DirectlyConnected.Contains(newPowerNode))
                             {
-                                // We now know it's directly connected to this node, so we need to remove it!
+                                // We now know it's directly connected to this node, so we need to remove it! Also need to de-merge netorks possibly
+
+                                /*
+
+                                This is a problem I haven't yet worked out how to solve.
+                                We might have a situation here wheren there is a network where the link we are about to delete is the ONLY link between one group of objects and another...so the two groups should be made into two-networks
+
+                                But..
+
+                                They might also be joined somewhere else, so it's "one" network, and needs to stay that way. So we need to somehow check every object in the network to see if there is a path from CurrentPowerNode to newPowerNode, or if this is it...
+
+                                */
 
                                 CurrentPowerNode.DirectlyConnected.Remove(newPowerNode);
                                 newPowerNode.DirectlyConnected.Remove(CurrentPowerNode);
@@ -516,15 +527,26 @@ public class MouseManager : MonoBehaviour
                                 if (CurrentPowerNode.DirectlyConnected.Count < 1)
                                 {
                                     CurrentPowerNode.RemoveFromNetwork();
+                                   if (CurrentManager.producers.Count == 0 && CurrentManager.consumers.Count == 0 && CurrentManager.storages.Count == 0)
+                                    {
+                                        GameObject.Destroy(CurrentManager.gameObject);
+                                    }
                                     CurrentPowerNode.manager = null;
+
+
                                 }
                                 if (newPowerNode.DirectlyConnected.Count < 1)
                                 {
                                     newPowerNode.RemoveFromNetwork();
+                                    var newManager = newPowerNode.manager;
+                                    if (newManager.producers.Count == 0 && newManager.consumers.Count == 0 && newManager.storages.Count == 0)
+                                    {
+                                        GameObject.Destroy(newManager.gameObject);
+                                    }
                                     newPowerNode.manager = null;
                                 }
 
-                                GameObject.DestroyImmediate(CurrentLine.gameObject);
+                                GameObject.Destroy(CurrentLine.gameObject);
                                 CurrentPowerNode = null;
                                 CurrentLine = null;
                                 CurrentManager = null;
@@ -532,23 +554,74 @@ public class MouseManager : MonoBehaviour
 
                          else
                             {
-                                //Still need to add some new coder here to check if it's in an existing network and if so, merge the networks.
+                                // check if it's in an existing network and if so, merge the networks.
+
+                                if (newPowerNode.manager)
+                                {
+                                    // Firstly, is the new node in the same network already?
+                                    if (newPowerNode.manager != CurrentManager)
+                                    
+                                    {
+                                        // Merge the lists from second manager into first manager, set all the objects in second manager to now look to the first, then delete the second manager.
+                                        var newManager = newPowerNode.manager;
+                                        CurrentManager.producers.AddRange(newManager.producers);
+                                        CurrentManager.consumers.AddRange(newManager.consumers);
+                                        CurrentManager.storages.AddRange(newManager.storages);
+                                        foreach (PowerProducer producer in newManager.producers)
+                                        {
+                                            producer.manager = CurrentManager;
+                                        }
+
+                                        foreach (PowerConsumer consumer in newManager.consumers)
+                                        {
+                                            consumer.manager = CurrentManager;
+                                        }
+
+                                        foreach (PowerStorage storage in newManager.storages)
+                                        {
+                                            storage.manager = CurrentManager;
+                                        }
+                                        newManager.producers.Clear();
+                                        newManager.consumers.Clear();
+                                        newManager.storages.Clear();
+                                        GameObject.Destroy(newManager.gameObject);
+                                        newPowerNode.manager = CurrentManager;
+                                    }
+                                    // We've reassigned the objects to the merged network, we've cleared the old manager of it's objects and told the objects who their boss is ;)
+                                    // Now we do the "connect the two nodes together with a line, and set it all up to be left in the next frame.
+                                    
+                                    newPowerNode.DirectlyConnected.Add(CurrentPowerNode);
+                                    CurrentPowerNode.DirectlyConnected.Add(newPowerNode);
+                                    linePositions[0] = CurrentPowerNode.transform.position;
+                                    linePositions[1] = newPowerNode.transform.position;
+                                    CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+                                    CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+                                    CurrentLine.GetComponent<ElectricNodeLine>().ConnectedTo = newPowerNode;
+                                    CurrentLine.GetComponent<ElectricNodeLine>().ConnectedFrom = CurrentPowerNode;
+                                    CurrentLine = null;
+                                    CurrentPowerNode = null;
+                                    CurrentManager = null;
 
 
-                                // Found a node, there's nothing on it, ready to connect! Need to add the new node to teh current network
-                                newPowerNode.DirectlyConnected.Add(CurrentPowerNode);
-                                CurrentPowerNode.DirectlyConnected.Add(newPowerNode);
-                                newPowerNode.manager = CurrentManager;
-                                newPowerNode.AddToNetwork();
-                                linePositions[0] = CurrentPowerNode.transform.position;
-                                linePositions[1] = newPowerNode.transform.position;
-                                CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-                                CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-                                CurrentLine.GetComponent<ElectricNodeLine>().ConnectedTo = newPowerNode;
-                                CurrentLine.GetComponent<ElectricNodeLine>().ConnectedFrom = CurrentPowerNode;
-                                CurrentLine = null;
-                                CurrentPowerNode = null;
-                                CurrentManager = null;
+                                }
+                                else
+                                {
+
+                                    // Found a node, there's nothing on it, ready to connect! Need to add the new node to teh current network and set it to be left in the next frame.
+                                    newPowerNode.DirectlyConnected.Add(CurrentPowerNode);
+                                    CurrentPowerNode.DirectlyConnected.Add(newPowerNode);
+                                    newPowerNode.manager = CurrentManager;
+                                    newPowerNode.AddToNetwork();
+                                    linePositions[0] = CurrentPowerNode.transform.position;
+                                    linePositions[1] = newPowerNode.transform.position;
+                                    CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+                                    CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+                                    CurrentLine.GetComponent<ElectricNodeLine>().ConnectedTo = newPowerNode;
+                                    CurrentLine.GetComponent<ElectricNodeLine>().ConnectedFrom = CurrentPowerNode;
+                                    CurrentLine = null;
+                                    CurrentPowerNode = null;
+                                    CurrentManager = null;
+                                }
                             }
                         }
                         
@@ -572,6 +645,11 @@ public class MouseManager : MonoBehaviour
                     if (CurrentPowerNode.DirectlyConnected.Count < 1)
                     {
                         CurrentPowerNode.RemoveFromNetwork();
+                        if (CurrentManager.producers.Count == 0 && CurrentManager.consumers.Count == 0 && CurrentManager.storages.Count == 0)
+                        {
+                            GameObject.Destroy(CurrentManager.gameObject);
+                        }
+
                         CurrentPowerNode.manager = null;
                     }
 
