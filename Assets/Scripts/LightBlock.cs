@@ -10,6 +10,8 @@ public class LightBlock : ActiveBlock
 
 	public Material lightMatOriginal;
 	private Material lightMat;
+	private float powerAvailable;
+    
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -35,11 +37,15 @@ public class LightBlock : ActiveBlock
 	private void FixedUpdate() {
 		if (IOInputLightSwitch.inputIO)
 		{
+            GetComponentInChildren<LightPower>().requested = 0.1f;
+			powerAvailable = GetComponentInChildren<LightPower>().recieved;
 			TurnLightOn();
 			lightOn = true;
+
 		}
 		else
 		{
+			GetComponentInChildren<LightPower>().requested = 0f;
 			TurnLightOff();
 			lightOn = false;
 		}
@@ -48,9 +54,12 @@ public class LightBlock : ActiveBlock
 	void TurnLightOn()
 	{
 		this.GetComponentInChildren<Renderer>().material = lightMat;
-		LightObject.intensity = 0.2f;
+
+		LightObject.intensity = (0.2f * powerAvailable);
 		lightMat.EnableKeyword("_EMISSION");
-	
+		
+
+
 
 	}
 

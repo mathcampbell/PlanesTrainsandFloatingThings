@@ -5,18 +5,19 @@ using UnityEngine;
 public abstract class PowerConsumer : PowerNetworkItem
 {
 	public readonly float maxConsumption = 1;
-
+	public float requested;
+	public float recieved;
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+
 	}
 
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		
+
 	}
 
 	public override void AddToNetwork()
@@ -35,7 +36,7 @@ public abstract class PowerConsumer : PowerNetworkItem
 	/// </summary>
 	/// <returns></returns>
 	public abstract float PotentialConsumption();
-
+  
 	/// <summary>
 	/// Consume the given amount of power. (This method is to trigger any side effacts the consumption may have)
 	/// </summary>

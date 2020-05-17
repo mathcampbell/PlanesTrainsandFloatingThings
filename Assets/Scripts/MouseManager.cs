@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class MouseManager : MonoBehaviour
 {
@@ -452,6 +453,7 @@ public class MouseManager : MonoBehaviour
                             {
                                 // We don't have a Manager for the node, so we'll need to instantiate one!
                                 CurrentManager = Instantiate(NewManager, ShipRoot.transform);
+                                CurrentManager.powerType = new Electricity();
                                 CurrentPowerNode.manager = CurrentManager;
                                 CurrentPowerNode.AddToNetwork();
                             }
@@ -502,25 +504,57 @@ public class MouseManager : MonoBehaviour
 
                                 */
 
-                                CurrentPowerNode.DirectlyConnected.Remove(newPowerNode);
-                                newPowerNode.DirectlyConnected.Remove(CurrentPowerNode);
+                                
                                 // Now we need to find the line and remove that too.
                                 ElectricNodeLine[] ConnectedLines = CurrentPowerNode.GetComponentsInChildren<ElectricNodeLine>();
-                                for (int i = 0; ConnectedLines.Length < i; i++)
+                                Debug.Log("CurrenPowerNode has these connected lines:");
+                                Debug.Log(ConnectedLines.Count());
+                                for (int i = 0; i < ConnectedLines.Length; i++)
                                 {
+                                    Debug.Log("Connected Node is:");
+                                    Debug.Log(ConnectedLines[i].ConnectedTo);
                                     //Finding any lines in CurrentPowerNode that need to be wiped.
+
                                     if (ConnectedLines[i].ConnectedTo == newPowerNode)
                                         GameObject.Destroy(ConnectedLines[i].gameObject);
 
                                 }
 
                                 ElectricNodeLine[] newConnectedLines = newPowerNode.GetComponentsInChildren<ElectricNodeLine>();
-                                for (int j = 0; newConnectedLines.Length < j; j++)
+                                Debug.Log("newPowerNode has these connected lines:");
+                                Debug.Log(newConnectedLines.Count());
+                                for (int j = 0; j < newConnectedLines.Length; j++)
                                 {
                                     // Finding any lines in newPowerNode that need to be wiped.
+                                    Debug.Log("ConnectedNode is");
+                                    Debug.Log(newConnectedLines[j].ConnectedTo);
                                     if (newConnectedLines[j].ConnectedTo == CurrentPowerNode)
+                                    {
                                         GameObject.Destroy(newConnectedLines[j].gameObject);
+                                        Debug.Log("Destroying a line");
+                                    }
                                 }
+
+                                CurrentPowerNode.DirectlyConnected.Remove(newPowerNode);
+                                newPowerNode.DirectlyConnected.Remove(CurrentPowerNode);
+
+                                //here's my attempt to work out if the network needs demerged. Hang on to your butts...
+                                HashSet<PowerNetworkItem> RemainingNetworkNodes = new HashSet<PowerNetworkItem>(CurrentManager.network);
+                                HashSet<PowerNetworkItem> ConnectingNetworkNodes = PowerNetworkLogic.TraverseConnectedNetwork(CurrentPowerNode);
+                                RemainingNetworkNodes.ExceptWith(ConnectingNetworkNodes);
+
+
+                                // Now we check if the RemainingNetworkNodes set still has any nodes in it - if it does it should be it's own network...it will ususally have at least then newPowerNode!
+                                if (RemainingNetworkNodes.Count > 0)
+                                {
+                                    List<PowerNetworkItem> NewNetworkNodes = RemainingNetworkNodes.ToList<PowerNetworkItem>();
+                                   PowerNetworkManager NewNetwork = Instantiate(NewManager, ShipRoot.transform);
+                                    NewNetwork.powerType = new Electricity();
+                                    NewNetwork.AddToNetwork(NewNetworkNodes);
+                                    CurrentManager.RemoveFromNetwork(NewNetworkNodes);
+                                    // We've now found all the networkitems that aren't in our current network anymore, we've removed them, put them in their own network.
+                                }
+
 
                                 // Now we check both to see if they have no connections left. If so, the relevent manager gets removed. Orphaned Managers will get cleaned up on GameMode change.
 

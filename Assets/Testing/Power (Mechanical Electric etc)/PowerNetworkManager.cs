@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 /// <summary>
@@ -35,7 +36,33 @@ public class PowerNetworkManager : MonoBehaviour
 		}
 	}
 
-	
+	public void AddToNetwork(List<PowerNetworkItem> Nodes)
+    {
+		producers.AddRange(Nodes.OfType<PowerProducer>());
+		consumers.AddRange(Nodes.OfType<PowerConsumer>());
+		storages.AddRange(Nodes.OfType<PowerStorage>());
+        foreach(var producer in producers)
+        {
+			producer.manager = this;
+        }
+        foreach (var consumer in consumers)
+        {
+			consumer.manager = this;
+        }
+        foreach (var storage in storages)
+        {
+			storage.manager = this;
+        }
+    }
+
+	public void RemoveFromNetwork(List<PowerNetworkItem> Nodes)
+	{
+		Debug.Log("Removing this from the network:");
+		Debug.Log(Nodes);
+		producers = producers.Except(Nodes.OfType<PowerProducer>()).ToList();
+		storages = storages.Except(Nodes.OfType<PowerStorage>()).ToList();
+		consumers = consumers.Except(Nodes.OfType<PowerConsumer>()).ToList();
+	}
 
 	void PowerNetworkUpdate()
 	{
