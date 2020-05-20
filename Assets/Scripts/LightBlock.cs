@@ -37,15 +37,15 @@ public class LightBlock : ActiveBlock
 	private void FixedUpdate() {
 		if (IOInputLightSwitch.inputIO)
 		{
-            GetComponentInChildren<LightPower>().requested = 0.1f;
-			powerAvailable = GetComponentInChildren<LightPower>().recieved;
+            GetComponentInChildren<GenericConsumer>().requested = 0.1f;
+			powerAvailable = GetComponentInChildren<GenericConsumer>().recieved;
 			TurnLightOn();
 			lightOn = true;
 
 		}
 		else
 		{
-			GetComponentInChildren<LightPower>().requested = 0f;
+			GetComponentInChildren<GenericConsumer>().requested = 0f;
 			TurnLightOff();
 			lightOn = false;
 		}
