@@ -5,8 +5,8 @@ using UnityEngine;
 public static class BlockLogic
 {
 	public static readonly Vector3 Grid = new Vector3(0.25f, 0.25f, 0.25f);
-	public static int LayerMaskBlock     = LayerMask.GetMask("Block");
-	public static int LayerMaskSnappoint = LayerMask.GetMask("SnapPoint");
+	public static int LayerMaskBlock = LayerMask.GetMask("Block");
+	public static int LayerMaskSnapPoint = LayerMask.GetMask("SnapPoint");
 
 
 	public static Vector3 SnapToGrid(Vector3 input)

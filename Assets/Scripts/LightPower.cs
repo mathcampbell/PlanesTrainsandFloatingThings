@@ -5,8 +5,7 @@ using UnityEngine;
 public class LightPower : PowerConsumer
 {
 
-    public float requested;
-    public float recieved;
+    
 
     // Start is called before the first frame update
     void Start()

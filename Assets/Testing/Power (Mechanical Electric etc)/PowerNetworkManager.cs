@@ -138,6 +138,7 @@ public class PowerNetworkManager : MonoBehaviour
 				foreach (var storage in storages)
 				{
 					//TODO: Equally distribute
+                    
 				}
 
 

@@ -5,6 +5,8 @@ using System.Linq;
 public class MouseManager : MonoBehaviour
 {
     public Block PrefabBlock;
+    public GameObject BlockPlacementSprite;
+    public GameObject CurrentPlacementSprite;
 
     public LayerMask SnapPointLayerMask;
 
@@ -19,6 +21,7 @@ public class MouseManager : MonoBehaviour
 
     private GameObject CurrentLine;
     Camera theCamera;
+    public AudioSource BuilderClick;
 
     //Layer Masks
     public LayerMask LayerMaskIONode;
@@ -34,12 +37,15 @@ public class MouseManager : MonoBehaviour
 
     //Stuff for Nodes
     protected Block CurrentBlock;
+    protected Quaternion CurrentBlockRot;
     protected NumericOutput CurrentNode;
     protected OnOffOutput CurrentOnOffNode;
     protected bool PositionOK;
+    protected bool SnapPointOK;
     protected PowerNetworkItem CurrentPowerNode;
     protected PowerNetworkManager CurrentManager;
     public PowerNetworkManager NewManager;
+
 
 
     public enum GameModes
@@ -50,6 +56,8 @@ public class MouseManager : MonoBehaviour
         BuildMode
     }
     public GameModes GameMode;
+
+   
 
     // Use this for initialization
 
@@ -69,6 +77,7 @@ public class MouseManager : MonoBehaviour
         CurrentBlock.transform.position = startingPos;
         ShipRoot.SetSolid();
         GameMode = GameModes.BuildMode;
+        
     }
     // Update is called once per frame
     void Update()
@@ -76,81 +85,166 @@ public class MouseManager : MonoBehaviour
         if (GameMode == GameModes.BuildMode)
         {
             //if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out var hitInfo, BlockLogic.LayerMaskBlock))
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, BlockLogic.LayerMaskBlock))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, BlockLogic.LayerMaskBlock))
             {
                 if (CurrentBlock == null)
                 {
                     SetNextBlock();
                 }
                 //Snap the position to the grid
-                var hitBlock = hitInfo.collider.transform.position;
-                //var position = BlockLogic.SnapToGrid(hitInfo.point+(hitInfo.normal*0.125f));
-                var position = BlockLogic.SnapToGrid(hitBlock + (hitInfo.normal * 0.25f));
+                // Old approach used the snap points as the collider, but we don't really want that, so were using teh whole bloack we collide with..
+                //var hitBlock = hitInfo.collider.transform.position+(hitInfo.normal * -0.125f);
 
-                // var position = hitInfo.point+(hitInfo.normal*0.25f);
-                // position = BlockLogic.SnapToGrid(position);
+                var hitBlock = BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * -0.125f);
+                var placementBlockPosition = BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * 0.125f);
+                if (CurrentPlacementSprite == null)
+                {
+                    CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
+                }
+
+                CurrentPlacementSprite.transform.position = placementBlockPosition;
+                Animator SpriteAnimator = CurrentPlacementSprite.GetComponent<Animator>();
+                SpriteAnimator.SetBool("PlacementBad", false);
+
+
+                //var position = BlockLogic.SnapToGrid(hitInfo.point+(hitInfo.normal*0.125f));
+                var position = BlockLogic.SnapToGrid(hitBlock)+(hitInfo.normal * 0.25f);
+                Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
+                if (CurrentBlockRot ==  null)
+                    CurrentBlockRot = PlacementRot;
+                CurrentBlock.transform.rotation = CurrentBlockRot;
+               
+                CurrentPlacementSprite.transform.rotation = PlacementRot;
+                
                 // try to make sure it's not going to colide with anything!
 
                 var placePosition = position;
                 PositionOK = false;
-                for (int i = 0; i < 3; i++)
+                SnapPointOK = false;
+                for (int i = 0; i < 10; i++)
                 {
                     var collider = Physics.OverlapBox(placePosition + CurrentBlock.transform.rotation * CurrentBlock.Collider.center, CurrentBlock.Collider.size / 2, CurrentBlock.transform.rotation, BlockLogic.LayerMaskBlock);
                     if (collider.Length == 0)
+                    {
+                        CurrentBlock.transform.position = placePosition;
+                        
+                       Collider[] ColliderArray = CurrentBlock.gameObject.GetComponentsInChildren<Collider>();
+                        for (int j = 0; j < ColliderArray.Length; j++)
+                        {
+                            
+                            ColliderArray[j].enabled = true;
+                        }
+                        
+                        var snapPoints = Physics.OverlapSphere((BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * 0.125f)), 0.05f, BlockLogic.LayerMaskSnapPoint);
+                        if (snapPoints.Length == 2) 
+                        {
+                            
+
+                            
+                            SpriteAnimator.SetBool("PlacementBad", false);
+                            SnapPointOK = true;
+                            
+                            for (int j = 0; j < ColliderArray.Length; j++)
+                            {
+                                ColliderArray[j].enabled = false;
+                            }
+
+                        }
+                        else
+                        {
+                            
+                            SpriteAnimator.SetBool("PlacementBad", true);
+                            
+                            SnapPointOK = false;
+                            
+                           for (int j = 0; j < ColliderArray.Length; j++)
+                            {
+                                ColliderArray[j].enabled = false;
+                            }
+                           
+
+                        }
+
+
                         PositionOK = true;
 
+
+                    }
+
                     if (PositionOK)
-                        break;
+                    {
+                            
+                      break;
+                    }
+
                     else
                     {
                         //placePosition.y += BlockLogic.Grid.y;
                         placePosition += (hitInfo.normal * 0.25f);
+                        placementBlockPosition += (hitInfo.normal * 0.25f);
+
+
                     }
                 }
-                if (PositionOK)
+                if (PositionOK ==  false)
                 {
                     //   placePosition = placePosition + (hitInfo.normal*-0.25f);   
-                    CurrentBlock.transform.position = placePosition;
-
-                }
-                else
-                {  //position = position - (hitInfo.normal*-0.25f);
-                    if (CurrentBlock != null && CurrentBlock != ShipRoot)
-                    {
-                        CurrentBlock.GetComponentInParent<Rigidbody>().mass -= CurrentBlock.mass;
-                        GameObject.DestroyImmediate(CurrentBlock.gameObject);
-                    }
+                       
+                     if (CurrentBlock != null && CurrentBlock != ShipRoot)
+                     {
+                         
+                         GameObject.DestroyImmediate(CurrentBlock.gameObject);
+                        GameObject.Destroy(CurrentPlacementSprite.gameObject);
+                     }
+                     
                 }
             }
             else
             {
                 if (CurrentBlock != null && CurrentBlock != ShipRoot)
                 {
-                    CurrentBlock.GetComponentInParent<Rigidbody>().mass -= CurrentBlock.mass;
+                    
                     GameObject.DestroyImmediate(CurrentBlock.gameObject);
+                    GameObject.Destroy(CurrentPlacementSprite.gameObject);
                 }
             }
 
             if (Input.GetMouseButtonDown(0) && CurrentBlock != null && PositionOK)
             {
-                CurrentBlock.Collider.enabled = true;
+                // Now we're gonna check if the place we're gonna place it (which we've checked is physcially ok, ie no overlaps) has a block snap to connect to.
+                if (SnapPointOK == true)
+                {
 
-                // Returning all the materials to original 
+                    // Now we need to check that the new block has a snappoint that will accomodate the placement 
 
-                //CurrentBlock.SetAllMaterials(BlockMats);
-                CurrentBlock.SetSolid();
-                CurrentBlock.Init();
+                    CurrentBlock.Collider.enabled = true;
+                    Collider[] ColliderArray = CurrentBlock.GetComponentsInChildren<Collider>();
+                    for (int i = 0; i < ColliderArray.Length; i++)
+                    {
+                        ColliderArray[i].enabled = true;
+                    }
 
-                // Adding our block's mass to the Root
-                Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
-                CurrentBlock.GetComponentInParent<Rigidbody>().mass += CurrentBlock.mass;
-                Debug.Log("Vehicle mass is now:");
-                Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
+                    // Returning all the materials to original 
 
-                var rot = CurrentBlock.transform.rotation;
-                CurrentBlock = null;
-                SetNextBlock();
-                CurrentBlock.transform.rotation = rot;
+                    //CurrentBlock.SetAllMaterials(BlockMats);
+                    CurrentBlock.SetSolid();
+                    CurrentBlock.Init();
+
+                    // Adding our block's mass to the Root
+                    Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
+                    CurrentBlock.GetComponentInParent<Rigidbody>().mass += CurrentBlock.mass;
+                    Debug.Log("Vehicle mass is now:");
+                    Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
+                    BuilderClick.Play();
+                    
+                    CurrentBlock = null;
+                    SetNextBlock();
+                    CurrentBlock.transform.rotation = CurrentBlockRot;
+                }
+                else
+                { // It wasn't a suitable snap location!
+                    
+                }
             }
 
             // Delete Block
@@ -161,13 +255,24 @@ public class MouseManager : MonoBehaviour
             }
             // Rotate the block in Y
             if (Input.GetKeyDown(KeyCode.L))
+            {
                 CurrentBlock.transform.Rotate(Vector3.up, 90);
+                CurrentBlockRot = CurrentBlock.transform.rotation;
+
+            }
             // Rotate the block in X
             if (Input.GetKeyDown(KeyCode.K))
+            {
                 CurrentBlock.transform.Rotate(Vector3.left, 90);
+                CurrentBlockRot = CurrentBlock.transform.rotation;
+            }
             // Rotate the block in Z
             if (Input.GetKeyDown(KeyCode.J))
-                CurrentBlock.transform.Rotate(Vector3.forward, 90);
+            {
+               CurrentBlock.transform.Rotate(Vector3.forward, 90);
+                CurrentBlockRot = CurrentBlock.transform.rotation;
+            }
+                
         }
 
         if (GameMode == GameModes.DataMode)
@@ -712,6 +817,11 @@ public class MouseManager : MonoBehaviour
 
 
         CurrentBlock.Collider.enabled = false;
+        Collider[] ColliderArray = CurrentBlock.GetComponentsInChildren<Collider>();
+        for(int i = 0; i< ColliderArray.Length; i++)
+        {
+            ColliderArray[i].enabled = false;
+        }
 
         //BlockMats = CurrentBlock.GetAllMaterials();
         //Material[] transMats = CurrentBlock.GetAllMaterials();
@@ -728,7 +838,7 @@ public class MouseManager : MonoBehaviour
     public void DeleteBlock()
     {
         // Delete Block
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, BlockLogic.LayerMaskBlock))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, BlockLogic.LayerMaskBlock))
         {
             var block = hitInfo.collider.GetComponent<Block>();
             if (block != null && block != ShipRoot)
@@ -788,15 +898,16 @@ public class MouseManager : MonoBehaviour
 
         for (int i = 0; i < allBlocks.Length; i++)
         {
-            Material[] electricMats = allBlocks[i].GetAllMaterials();
-            for (int j = 0; j < electricMats.Length; j++)
-            {
-                electricMats[j] = DataMat;
-            }
+           // Material[] electricMats = allBlocks[i].GetAllMaterials();
+           // for (int j = 0; j < electricMats.Length; j++)
+           // {
+           //     electricMats[j] = DataMat;
+           // }
             if (allBlocks[i] is ActiveBlock)
             { }
             else
-                allBlocks[i].SetAllMaterials(electricMats);
+                //   allBlocks[i].SetAllMaterials(electricMats);
+                allBlocks[i].SetGhost();
         }
 
     }
@@ -1069,4 +1180,6 @@ public class MouseManager : MonoBehaviour
         Debug.Log("SumofMass:");
         Debug.Log(sumOfMass);
     }
+
+   
 }
