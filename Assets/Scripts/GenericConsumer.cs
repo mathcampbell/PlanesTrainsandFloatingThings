@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightPower : PowerConsumer
+public class GenericConsumer : PowerConsumer
 {
 
     

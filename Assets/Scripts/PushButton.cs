@@ -38,11 +38,12 @@ public class PushButton : ActiveBlock
         IOOutputSwitch.ouputIO = SwitchIsOn;
         if (Input.GetKey(KeyCode.F))
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, BlockLogic.LayerMaskBlock))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, BlockLogic.LayerMaskBlock))
             {
                 var hitcollider = this.GetComponent<Collider>();
                 if (hitInfo.collider == hitcollider && !SwitchIsOn)
                 {
+                    Debug.Log("Switch turning on");
                     TurnSwitchOn();
                 }
             }

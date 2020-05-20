@@ -84,194 +84,234 @@ public class MouseManager : MonoBehaviour
     {
         if (GameMode == GameModes.BuildMode)
         {
+            LayerMask combined = BlockLogic.LayerMaskBlock + BlockLogic.LayerMaskSnapPoint;
             //if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out var hitInfo, BlockLogic.LayerMaskBlock))
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, BlockLogic.LayerMaskBlock))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, combined))
             {
-                if (CurrentBlock == null)
+
+                if (hitInfo.collider.gameObject.tag != "BlockSnap")
                 {
-                    SetNextBlock();
-                }
-                //Snap the position to the grid
-                // Old approach used the snap points as the collider, but we don't really want that, so were using teh whole bloack we collide with..
-                //var hitBlock = hitInfo.collider.transform.position+(hitInfo.normal * -0.125f);
-
-                var hitBlock = BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * -0.125f);
-                var placementBlockPosition = BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * 0.125f);
-                if (CurrentPlacementSprite == null)
-                {
-                    CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
-                }
-
-                CurrentPlacementSprite.transform.position = placementBlockPosition;
-                Animator SpriteAnimator = CurrentPlacementSprite.GetComponent<Animator>();
-                SpriteAnimator.SetBool("PlacementBad", false);
-
-
-                //var position = BlockLogic.SnapToGrid(hitInfo.point+(hitInfo.normal*0.125f));
-                var position = BlockLogic.SnapToGrid(hitBlock)+(hitInfo.normal * 0.25f);
-                Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
-                if (CurrentBlockRot ==  null)
-                    CurrentBlockRot = PlacementRot;
-                CurrentBlock.transform.rotation = CurrentBlockRot;
-               
-                CurrentPlacementSprite.transform.rotation = PlacementRot;
-                
-                // try to make sure it's not going to colide with anything!
-
-                var placePosition = position;
-                PositionOK = false;
-                SnapPointOK = false;
-                for (int i = 0; i < 10; i++)
-                {
-                    var collider = Physics.OverlapBox(placePosition + CurrentBlock.transform.rotation * CurrentBlock.Collider.center, CurrentBlock.Collider.size / 2, CurrentBlock.transform.rotation, BlockLogic.LayerMaskBlock);
-                    if (collider.Length == 0)
+                    // We didn't hit a snappoint, we got a block, which means the current spot is NOT valid for placing our block, so lets just set it red and move on)
+                    var placementBlockPosition = BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * 0.125f);
+                    if (CurrentPlacementSprite == null)
                     {
-                        CurrentBlock.transform.position = placePosition;
-                        
-                       Collider[] ColliderArray = CurrentBlock.gameObject.GetComponentsInChildren<Collider>();
-                        for (int j = 0; j < ColliderArray.Length; j++)
-                        {
-                            
-                            ColliderArray[j].enabled = true;
-                        }
-                        
-                        var snapPoints = Physics.OverlapSphere((BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * 0.125f)), 0.05f, BlockLogic.LayerMaskSnapPoint);
-                        if (snapPoints.Length == 2) 
-                        {
-                            
+                        CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
+                    }
 
-                            
-                            SpriteAnimator.SetBool("PlacementBad", false);
-                            SnapPointOK = true;
-                            
+                    CurrentPlacementSprite.transform.position = placementBlockPosition;
+                    Animator SpriteAnimator = CurrentPlacementSprite.GetComponent<Animator>();
+                    SpriteAnimator.SetBool("PlacementBad", true);
+                    Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
+                    CurrentPlacementSprite.transform.rotation = PlacementRot;
+                    SnapPointOK = false;
+                    if (CurrentBlock != null && CurrentBlock != ShipRoot)
+                    {
+
+                        GameObject.DestroyImmediate(CurrentBlock.gameObject);
+                        
+                    }
+                    
+                    
+                }
+                else
+                {
+                    if (CurrentBlock == null)
+                    {
+                        SetNextBlock();
+                    }
+                    //Snap the position to the grid
+
+                    //var hitBlock = hitInfo.collider.transform.position+(hitInfo.normal * -0.125f);
+
+                    var hitBlock = BlockLogic.SnapToGrid(hitInfo.point + (hitInfo.normal * 0.125f)) + (hitInfo.normal * -0.25f);
+                    //var placementBlockPosition = BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * 0.125f);
+                    var placementBlockPosition = hitBlock + (hitInfo.normal * 0.125f);
+                    if (CurrentPlacementSprite == null)
+                    {
+                        CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
+                    }
+
+                    CurrentPlacementSprite.transform.position = placementBlockPosition;
+                    Animator SpriteAnimator = CurrentPlacementSprite.GetComponent<Animator>();
+                    SpriteAnimator.SetBool("PlacementBad", false);
+
+
+                    //var position = BlockLogic.SnapToGrid(hitInfo.point+(hitInfo.normal*0.125f));
+                    var position = BlockLogic.SnapToGrid(hitBlock) + (hitInfo.normal * 0.25f);
+                    Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
+                    if (CurrentBlockRot == null)
+                        CurrentBlockRot = PlacementRot;
+                    CurrentBlock.transform.rotation = CurrentBlockRot;
+
+                    CurrentPlacementSprite.transform.rotation = PlacementRot;
+
+                    // try to make sure it's not going to colide with anything!
+
+                    var placePosition = position;
+                    PositionOK = false;
+                    SnapPointOK = false;
+                    int repeater = 0;
+                    for (int i = 0; i < 4; i++)
+                    {
+
+                        var collider = Physics.OverlapBox(placePosition + CurrentBlock.transform.rotation * CurrentBlock.Collider.center, CurrentBlock.Collider.size / 2, CurrentBlock.transform.rotation, BlockLogic.LayerMaskBlock);
+                        if (collider.Length == 0)
+                        {
+                            CurrentBlock.transform.position = placePosition;
+                            //  CurrentPlacementSprite.transform.position = placementBlockPosition;
+
+                            Collider[] ColliderArray = CurrentBlock.gameObject.GetComponentsInChildren<Collider>();
                             for (int j = 0; j < ColliderArray.Length; j++)
                             {
-                                ColliderArray[j].enabled = false;
+
+                                ColliderArray[j].enabled = true;
+                            }
+                            Debug.Log("Repeater is: " + repeater);
+                            
+                            var snapPoints = Physics.OverlapSphere(BlockLogic.SnapToGrid(hitInfo.point+(hitInfo.normal *0.125f)) + (hitInfo.normal * -0.125f), 0.05f, BlockLogic.LayerMaskSnapPoint);
+                            if (snapPoints.Length == 2)
+                            {
+
+
+
+                                SpriteAnimator.SetBool("PlacementBad", false);
+                                SnapPointOK = true;
+
+                                for (int j = 0; j < ColliderArray.Length; j++)
+                                {
+                                    ColliderArray[j].enabled = false;
+                                }
+
+                            }
+                            else
+                            {
+
+                                SpriteAnimator.SetBool("PlacementBad", true);
+
+                                SnapPointOK = false;
+
+                                for (int j = 0; j < ColliderArray.Length; j++)
+                                {
+                                    ColliderArray[j].enabled = false;
+                                }
+
+
                             }
 
+
+                            PositionOK = true;
+
+
                         }
+
+                        if (PositionOK)
+                        {
+
+                            break;
+                        }
+
                         else
                         {
-                            
-                            SpriteAnimator.SetBool("PlacementBad", true);
-                            
-                            SnapPointOK = false;
-                            
-                           for (int j = 0; j < ColliderArray.Length; j++)
-                            {
-                                ColliderArray[j].enabled = false;
-                            }
-                           
+                            //placePosition.y += BlockLogic.Grid.y;
+                            placePosition += (hitInfo.normal * 0.25f);
+                            // placementBlockPosition += (hitInfo.normal * 0.25f);
+                            repeater += 1;
+
 
                         }
-
-
-                        PositionOK = true;
-
-
                     }
-
-                    if (PositionOK)
+                    if (PositionOK == false)
                     {
-                            
-                      break;
-                    }
+                        //   placePosition = placePosition + (hitInfo.normal*-0.25f);   
 
-                    else
-                    {
-                        //placePosition.y += BlockLogic.Grid.y;
-                        placePosition += (hitInfo.normal * 0.25f);
-                        placementBlockPosition += (hitInfo.normal * 0.25f);
+                        if (CurrentBlock != null && CurrentBlock != ShipRoot)
+                        {
 
+                            GameObject.DestroyImmediate(CurrentBlock.gameObject);
+                            GameObject.Destroy(CurrentPlacementSprite.gameObject);
+                        }
 
                     }
-                }
-                if (PositionOK ==  false)
-                {
-                    //   placePosition = placePosition + (hitInfo.normal*-0.25f);   
-                       
-                     if (CurrentBlock != null && CurrentBlock != ShipRoot)
-                     {
-                         
-                         GameObject.DestroyImmediate(CurrentBlock.gameObject);
-                        GameObject.Destroy(CurrentPlacementSprite.gameObject);
-                     }
-                     
                 }
             }
             else
             {
                 if (CurrentBlock != null && CurrentBlock != ShipRoot)
                 {
-                    
+
                     GameObject.DestroyImmediate(CurrentBlock.gameObject);
+                    
+                }
+                if (CurrentPlacementSprite != null)
+                {
                     GameObject.Destroy(CurrentPlacementSprite.gameObject);
                 }
             }
 
-            if (Input.GetMouseButtonDown(0) && CurrentBlock != null && PositionOK)
-            {
-                // Now we're gonna check if the place we're gonna place it (which we've checked is physcially ok, ie no overlaps) has a block snap to connect to.
-                if (SnapPointOK == true)
+                if (Input.GetMouseButtonDown(0) && CurrentBlock != null && PositionOK)
                 {
-
-                    // Now we need to check that the new block has a snappoint that will accomodate the placement 
-
-                    CurrentBlock.Collider.enabled = true;
-                    Collider[] ColliderArray = CurrentBlock.GetComponentsInChildren<Collider>();
-                    for (int i = 0; i < ColliderArray.Length; i++)
+                    // Now we're gonna check if the place we're gonna place it (which we've checked is physcially ok, ie no overlaps) has a block snap to connect to.
+                    if (SnapPointOK == true)
                     {
-                        ColliderArray[i].enabled = true;
+
+                        // Now we need to check that the new block has a snappoint that will accomodate the placement 
+
+                        CurrentBlock.Collider.enabled = true;
+                        Collider[] ColliderArray = CurrentBlock.GetComponentsInChildren<Collider>();
+                        for (int i = 0; i < ColliderArray.Length; i++)
+                        {
+                            ColliderArray[i].enabled = true;
+                        }
+
+                        // Returning all the materials to original 
+
+                        //CurrentBlock.SetAllMaterials(BlockMats);
+                        CurrentBlock.SetSolid();
+                        CurrentBlock.Init();
+
+                        // Adding our block's mass to the Root
+                        Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
+                        CurrentBlock.GetComponentInParent<Rigidbody>().mass += CurrentBlock.mass;
+                        Debug.Log("Vehicle mass is now:");
+                        Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
+                        BuilderClick.Play();
+
+                        CurrentBlock = null;
+                        SetNextBlock();
+                        CurrentBlock.transform.rotation = CurrentBlockRot;
                     }
+                    else
+                    { // It wasn't a suitable snap location!
 
-                    // Returning all the materials to original 
+                    }
+                }
 
-                    //CurrentBlock.SetAllMaterials(BlockMats);
-                    CurrentBlock.SetSolid();
-                    CurrentBlock.Init();
-
-                    // Adding our block's mass to the Root
-                    Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
-                    CurrentBlock.GetComponentInParent<Rigidbody>().mass += CurrentBlock.mass;
-                    Debug.Log("Vehicle mass is now:");
-                    Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
-                    BuilderClick.Play();
-                    
-                    CurrentBlock = null;
+                // Delete Block
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    DeleteBlock();
                     SetNextBlock();
-                    CurrentBlock.transform.rotation = CurrentBlockRot;
                 }
-                else
-                { // It wasn't a suitable snap location!
-                    
+                // Rotate the block in Y
+                if (Input.GetKeyDown(KeyCode.L))
+                {
+                    CurrentBlock.transform.Rotate(Vector3.up, 90);
+                    CurrentBlockRot = CurrentBlock.transform.rotation;
+
                 }
-            }
-
-            // Delete Block
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                DeleteBlock();
-                SetNextBlock();
-            }
-            // Rotate the block in Y
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                CurrentBlock.transform.Rotate(Vector3.up, 90);
-                CurrentBlockRot = CurrentBlock.transform.rotation;
-
-            }
-            // Rotate the block in X
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                CurrentBlock.transform.Rotate(Vector3.left, 90);
-                CurrentBlockRot = CurrentBlock.transform.rotation;
-            }
-            // Rotate the block in Z
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-               CurrentBlock.transform.Rotate(Vector3.forward, 90);
-                CurrentBlockRot = CurrentBlock.transform.rotation;
-            }
+                // Rotate the block in X
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    CurrentBlock.transform.Rotate(Vector3.left, 90);
+                    CurrentBlockRot = CurrentBlock.transform.rotation;
+                }
+                // Rotate the block in Z
+                if (Input.GetKeyDown(KeyCode.J))
+                {
+                    CurrentBlock.transform.Rotate(Vector3.forward, 90);
+                    CurrentBlockRot = CurrentBlock.transform.rotation;
+                }
+            
                 
         }
 
