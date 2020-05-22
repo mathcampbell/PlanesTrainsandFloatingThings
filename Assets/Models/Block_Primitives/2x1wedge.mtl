@@ -1,8 +1,9 @@
-# MTL written from /Users/math/Desktop/2x1wedge.obj
-newmtl Block
+# MTL written from /Users/math/Programming/Unity/Trains Planes and Floating Things/Assets/Models/Block_Primitives/2x1wedge.obj
+newmtl 2x1Wedge_Block
 Kd 0.8 0.799953 0.799984
 Ns 256
 d 1
 illum 2
 Ka 0 0 0
 Ks 0.04 0.04 0.04
+map_Kd /Users/math/Programming/Unity/Trains Planes and Floating Things/Assets/Sprite Images/BlockOutlineTextureTriangle1.png

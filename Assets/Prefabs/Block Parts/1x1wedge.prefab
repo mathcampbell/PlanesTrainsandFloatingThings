@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1057874779686654458}
   - component: {fileID: 1068860719303350954}
   - component: {fileID: 1076870617579202926}
+  - component: {fileID: 4191815210537435407}
   m_Layer: 0
   m_Name: Cube Graphics
   m_TagString: Untagged
@@ -79,6 +80,25 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!95 &4191815210537435407
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054946211563667674}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 89030d373fef2442d9c789cc9e1197d2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1054946212010668306
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,6 +110,7 @@ GameObject:
   - component: {fileID: 1057874778130852696}
   - component: {fileID: 8128389140555253068}
   - component: {fileID: 8128389140555253069}
+  - component: {fileID: 4974410413138179299}
   m_Layer: 8
   m_Name: 1x1wedge
   m_TagString: VehicleBlock
@@ -148,7 +169,26 @@ MonoBehaviour:
   sidelength: 0.25
   volume: 0
   matArray: []
-  BlockAnim: {fileID: 0}
+  BlockAnim: {fileID: 4191815210537435407}
+--- !u!95 &4974410413138179299
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054946212010668306}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9e740c36420b14b9b93d38347a87bb82, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3820013264773300802
 GameObject:
   m_ObjectHideFlags: 0

@@ -39,7 +39,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999929363378424138}
-  m_Mesh: {fileID: 7684625086359004581, guid: b625d3243a37a49dfbe6a7a5ce341923, type: 3}
+  m_Mesh: {fileID: -7521977547763990473, guid: a7f82a745cd80461eacac33a4ac088d9, type: 3}
 --- !u!23 &986936580224573694
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: f88ac31da91454bcaadf160a239df84b, type: 2}
@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 1003684831140733640}
   - component: {fileID: 8326675582170598620}
   - component: {fileID: 8326675582170598621}
+  - component: {fileID: 2380385284222024438}
   m_Layer: 8
   m_Name: 2x1Wedge
   m_TagString: VehicleBlock
@@ -152,6 +153,25 @@ MonoBehaviour:
   volume: 0
   matArray: []
   BlockAnim: {fileID: 0}
+--- !u!95 &2380385284222024438
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999929365075130498}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 71fb6b004a83440058cec8675ed88162, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1914639498782494230
 GameObject:
   m_ObjectHideFlags: 0
