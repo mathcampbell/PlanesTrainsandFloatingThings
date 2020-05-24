@@ -29,8 +29,8 @@ AnimationClip:
     script: {fileID: 0}
   - curve:
     - time: 0
-      value: {fileID: 2100000, guid: f88ac31da91454bcaadf160a239df84b, type: 2}
-    - time: 0.35
+      value: {fileID: 2100000, guid: 8b44b3bf1ff8f4382b175e7d580ee704, type: 2}
+    - time: 0.33333334
       value: {fileID: 2100000, guid: d20d14a1a51b54cada402534b4f0c120, type: 2}
     attribute: m_Materials.Array.data[2]
     path: EngineMesh
@@ -60,14 +60,14 @@ AnimationClip:
     pptrCurveMapping:
     - {fileID: 2100000, guid: 8c49ecc2d5fae43cfb5a2ffc4170f38a, type: 2}
     - {fileID: 2100000, guid: d20d14a1a51b54cada402534b4f0c120, type: 2}
-    - {fileID: 2100000, guid: f88ac31da91454bcaadf160a239df84b, type: 2}
+    - {fileID: 2100000, guid: 8b44b3bf1ff8f4382b175e7d580ee704, type: 2}
     - {fileID: 2100000, guid: d20d14a1a51b54cada402534b4f0c120, type: 2}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.36666667
+    m_StopTime: 0.35000002
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
