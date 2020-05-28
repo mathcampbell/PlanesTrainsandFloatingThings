@@ -9,5 +9,6 @@ public class Water : Resource
 		name = "water";
 
 		//usePressure = true;
+		density = 1000f;
 	}
 }

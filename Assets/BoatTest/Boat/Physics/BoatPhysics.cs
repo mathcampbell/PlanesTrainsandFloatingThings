@@ -103,10 +103,10 @@ public class BoatPhysics : MonoBehaviour
         }
 
         //Add forces to the part of the boat that's above the water
-        //if (modifyBoatMesh.aboveWaterTriangleData.Count > 0)
-        //{
-        //    AddAboveWaterForces();
-        //}
+        if (modifyBoatMesh.aboveWaterTriangleData.Count > 0)
+        {
+            AddAboveWaterForces();
+        }
     }
 
 
@@ -127,7 +127,8 @@ public class BoatPhysics : MonoBehaviour
 
         //Need this data for slamming forces
         float boatArea = modifyBoatMesh.boatArea;
-        float boatMass = VisbyData.mass;
+        float boatMass = 750f;
+            // Was VisbyData.mass;
 
         //To connect the submerged triangles with the original triangles
         List<int> indexOfOriginalTriangle = modifyBoatMesh.indexOfOriginalTriangle;

@@ -5,11 +5,12 @@ OcclusionCullingSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_OcclusionBakeSettings:
-    smallestOccluder: 5
+    smallestOccluder: 1
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: aaf520fad974a441fa1b63ba3cec9d12
+  m_OcclusionCullingData: {fileID: 36300000, guid: 9bda95fe72da74fd288821677da1e236,
+    type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -38,7 +39,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1846067617}
-  m_IndirectSpecularColor: {r: 0.44659364, g: 0.4964301, b: 0.5748256, a: 1}
+  m_IndirectSpecularColor: {r: 0.18029553, g: 0.2257272, b: 0.30693007, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -650,7 +651,7 @@ Rigidbody:
   m_GameObject: {fileID: 862032359}
   serializedVersion: 2
   m_Mass: 750
-  m_Drag: 0.5
+  m_Drag: 0.02
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -674,7 +675,7 @@ MonoBehaviour:
   aboveWaterObj: {fileID: 2015954377}
   underWaterMirrorObj: {fileID: 267710}
   foamSkirtObj: {fileID: 578267852}
-  centerOfMass: {x: 0, y: -0.3, z: 0}
+  centerOfMass: {x: 0, y: 0, z: 0}
 --- !u!114 &862032366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,12 +701,6 @@ MonoBehaviour:
 --- !u!1 &923575978 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1177033645}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &923575979 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 5e9e851c0e142814dac026a256ba2ac0,
     type: 3}
   m_PrefabInstance: {fileID: 1177033645}
   m_PrefabAsset: {fileID: 0}
@@ -850,47 +845,9 @@ PrefabInstance:
       propertyPath: boatMeshObj
       value: 
       objectReference: {fileID: 923575978}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 923575979, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
---- !u!1 &1181689413
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1181689414}
-  - component: {fileID: 1181689415}
-  m_Layer: 0
-  m_Name: UnderwaterMesh
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1181689414
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1181689413}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 923575979}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1181689415
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1181689413}
-  m_Mesh: {fileID: 0}
 --- !u!1 &1352301489
 GameObject:
   m_ObjectHideFlags: 0
