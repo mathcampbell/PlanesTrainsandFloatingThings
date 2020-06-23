@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 05ffe4e057c7c482388094046d26ad9c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - CurrentWaterController: {instanceID: 0}
+  - TheSun: {instanceID: 0}
+  - BlitPass: {fileID: 4526548512380105909, guid: 8b2107d5dc9124172b6e7c0396e91e93,
+      type: 2}
+  - theSkybox: {instanceID: 0}
+  - SkyboxMat: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -92,5 +92,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dbbbd025a8b29140a3b76449708628a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 500
-  resolution: 2
+  width: 200
+  resolution: 500

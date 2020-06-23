@@ -95,7 +95,7 @@ public class BoatPhysics : MonoBehaviour
 	{
         //Change the center of mass - experimental - move to Start() later
         boatRB.centerOfMass = centerOfMass;
-
+        Debug.Log(modifyBoatMesh.underWaterTriangleData.Count);
         //Add forces to the part of the boat that's below the water
         if (modifyBoatMesh.underWaterTriangleData.Count > 0)
         {

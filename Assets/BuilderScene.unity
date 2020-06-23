@@ -2229,7 +2229,7 @@ MonoBehaviour:
   BuildButtonPrefab: {fileID: 1000012535993196, guid: f0ed309e2f2b528409805954a30435b9,
     type: 3}
   VehiclePartPrefabs:
-  - {fileID: 1681808279, guid: b1a82d3c2d3d646278d559797addac50, type: 3}
+  - {fileID: 1249455729222037011, guid: 384dfacb43bf542108654ffbfbc5e910, type: 3}
   - {fileID: 7425809663454874704, guid: 58d2ac09f7b594539b9941f73b9307cd, type: 3}
   - {fileID: 6513141544646011987, guid: b6c63b6b669b845cf8f97526ff67735d, type: 3}
   - {fileID: 5224820763959387209, guid: 8aabf7c8acc4b439484c742361c9ca81, type: 3}

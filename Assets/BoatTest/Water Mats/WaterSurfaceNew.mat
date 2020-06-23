@@ -21,11 +21,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterSurfaceNew
-  m_Shader: {fileID: -6465566751694194690, guid: 99889a09f967648f5ad133de5d0030e7,
+  m_Shader: {fileID: -6465566751694194690, guid: cf3b163ab731e4af18fc39c7633a9bdd,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -33,6 +33,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_2C31CE68:
+        m_Texture: {fileID: 2800000, guid: a1ac72f4800584e319c5f340fa6b5569, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -58,7 +62,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_2F1B7352_Texture_1:
-        m_Texture: {fileID: 2800000, guid: fb6566c21f717904f83743a5a76dd0b0, type: 3}
+        m_Texture: {fileID: 2800000, guid: c2e6ef2e3c7a64bfaa1f1fd2597c9014, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7EC4A41A_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c2e6ef2e3c7a64bfaa1f1fd2597c9014, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8BDD1344_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c2e6ef2e3c7a64bfaa1f1fd2597c9014, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_AB9D044_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c2e6ef2e3c7a64bfaa1f1fd2597c9014, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -70,11 +86,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_32954C9F: 0.05
+    - Vector1_54E2D7D3: 0.01
+    - Vector1_57B7E531: -5
     - Vector1_67C822A0: 0.66
     - Vector1_6E8AC004: 0.08
     - Vector1_7FA33819: 0.48
     - Vector1_85AF9738: 0.78
+    - Vector1_8A7AEC2B: 1
     - Vector1_9456E5E1: 35.36
+    - Vector1_D55A7BC6: 1
+    - Vector1_D5BC44F7: 1
+    - Vector1_D70D2305: 0.41
+    - Vector1_F7981D3E: 0.1
     - Vector1_FA83BA9F: 0.98
     - _AlphaClip: 0
     - _Blend: 0
@@ -95,6 +119,8 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _WaterDistance: 0
+    - _WaterScale: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

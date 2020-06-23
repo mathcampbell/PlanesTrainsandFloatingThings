@@ -12,7 +12,7 @@ Material:
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -76,6 +76,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_2F1B7352_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c2e6ef2e3c7a64bfaa1f1fd2597c9014, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8BDD1344_Texture_1:
+        m_Texture: {fileID: 2800000, guid: c2e6ef2e3c7a64bfaa1f1fd2597c9014, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ShoreTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -85,11 +93,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_54E2D7D3: 1
     - Vector1_67C822A0: 0
     - Vector1_6E8AC004: 0
     - Vector1_7FA33819: 0
     - Vector1_85AF9738: 0
     - Vector1_9456E5E1: 0
+    - Vector1_D55A7BC6: 1
     - Vector1_FA83BA9F: 0
     - _AlphaClip: 0
     - _Blend: 0

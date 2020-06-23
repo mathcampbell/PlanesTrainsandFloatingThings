@@ -141,7 +141,7 @@ public class EndlessWaterController : MonoBehaviour
     //Update which water chuncks are visible
     private void UpdateWaterChunks()
     {
-        float maxViewDistance = 500f;
+        float maxViewDistance = 1000f;
 
         //How many chunks are visible in one direction
         int chunksVisible = Mathf.RoundToInt(maxViewDistance / chunkWidth);
