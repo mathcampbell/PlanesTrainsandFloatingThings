@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Assets.Testing.MechanicalPower
 {
+	/// <summary>
+	/// A <see cref="Component"/> that can connect or disconnect two <see cref="Network"/>s.
+	/// </summary>
 	public class Clutch : EdgeComponent
 	{
 		protected Network network2;
@@ -48,7 +51,7 @@ namespace Assets.Testing.MechanicalPower
 
 		public override void ShaftUpdate(SuperNetwork activeNetwork)
 		{
-			var active = activeNetwork.CU;
+			var active = activeNetwork.CU; // Shortcut.
 			
 			active.AddFriction(frictionLoss * active.RPM);
 
@@ -66,10 +69,10 @@ namespace Assets.Testing.MechanicalPower
 			{
 				var other = network.superNetwork.CU;
 				if (activeNetwork.Contains(network))
-					other = network2.superNetwork.CU;
+					other = network2.superNetwork.CU; // Shortcut.
 
 				float rpmDelta = active.RPM - other.RPM;
-				// TODO: Allow merger at application < 1 ?
+				// TODO: ? Allow merger at application < 1 ?
 				// Currently, once merged, we will never start slipping again.
 				// So that would need to be handled.
 				if (application >= 1 && Math.Abs(rpmDelta) < rpmDeltaThreshold)

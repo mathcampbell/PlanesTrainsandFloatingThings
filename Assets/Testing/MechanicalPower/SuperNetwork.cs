@@ -5,7 +5,9 @@ using UnityEngine;
 using System.Linq;
 
 /// <summary>
-/// Collection of connected Networks
+/// Collection of connected <see cref="Network"/>s
+/// The <see cref="SuperNetwork"/> is responsible for the logic.
+/// A <see cref="Network"/> is always part of a <see cref="SuperNetwork"/>, even if there is only one <see cref="Network"/>.
 /// </summary>
 public class SuperNetwork : MonoBehaviour
 {
@@ -124,6 +126,7 @@ public class SuperNetwork : MonoBehaviour
 
 	/// <summary>
 	/// The <see cref="ComponentUpdater"/> contains state variables that are only valid during <see cref="ComponentUpdate"/>
+	/// The state variables are updated depending on the current <see cref="Network"/> being eveluated, allowing easy access to RPM etc.
 	/// </summary>
 	public class ComponentUpdater
 	{
@@ -194,15 +197,12 @@ public class SuperNetwork : MonoBehaviour
 		}
 
 		/// <summary>
-		/// <see cref="AddTorque(float)"/> but always against rotation.
+		/// <see cref="AddTorque(float)"/> but always against rotation. Negative values are made positive.
 		/// </summary>
-		/// <param name="torque">Friction torque to apply. [0..]</param>
-		/// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="torque"/> less than 0.</exception>
+		/// <param name="torque">Friction torque to apply.</param>
 		public void AddFriction(float torque)
 		{
-			if (torque < 0) throw new ArgumentOutOfRangeException(nameof(torque), "Must be <= 0");
-
-			componentUpdatePendingFrictionTorque += torque * componentUpdateTorqueFactor;
+			componentUpdatePendingFrictionTorque += Math.Abs(torque * componentUpdateTorqueFactor);
 		}
 	}	
 

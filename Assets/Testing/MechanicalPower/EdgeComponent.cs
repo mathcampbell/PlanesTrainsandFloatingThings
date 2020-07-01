@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-
+/// <summary>
+/// A <see cref="Component"/> that can is connected to more than one <see cref="Network"/>(s).
+/// </summary>
 public abstract class EdgeComponent : Component
 {
 	public override void ShaftUpdate()
@@ -14,6 +16,7 @@ public abstract class EdgeComponent : Component
 
 	/// <summary>
 	/// For the perspective of <paramref name="activeNetwork"/> update the component.
+	/// Beware that this will be called for each <see cref="Network"/> the <see cref="Component"/> is part of.
 	/// </summary>
 	/// <param name="activeNetwork"></param>
 	public abstract void ShaftUpdate(SuperNetwork activeNetwork);

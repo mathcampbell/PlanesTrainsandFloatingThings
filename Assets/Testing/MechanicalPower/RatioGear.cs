@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assets.Testing.MechanicalPower
 {
+	/// <summary>
+	/// A <see cref="Component"/> that links two <see cref="Network"/>s with a fixed ratio between them.
+	/// </summary>
 	public class RatioGear : EdgeComponent
 	{
 		protected Network network2;
@@ -13,7 +16,7 @@ namespace Assets.Testing.MechanicalPower
 		public float gearRatio;
 
 
-		
+
 
 		public override List<Network> CurrentleConnectedNetworks(SuperNetwork activeNetwork)
 		{
