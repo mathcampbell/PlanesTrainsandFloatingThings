@@ -8,7 +8,7 @@ namespace Assets.Testing.MechanicalPower
 /// <summary>
 /// A <see cref="Network"/> is a collection of directly connected <see cref="Component"/>s.
 /// </summary>
-public class Network : MonoBehaviour
+public class Network
 {
 	/// <summary>
 	/// The <see cref="SuperNetwork"/> that this <see cref="Network"/> is part of.
@@ -45,7 +45,7 @@ public class Network : MonoBehaviour
 	public float inertia { get; set; }
 
 
-	bool needsReconfiguration = false;
+	internal bool needsReconfiguration = false;
 
 	/// <summary>
 	/// Signal to this network that it needs to reconfigure the <see cref="SuperNetwork"/> topography.
@@ -54,8 +54,6 @@ public class Network : MonoBehaviour
 	public void SignalNeedReconfiguration()
 	{
 		needsReconfiguration = true;
-		// TODO: The effect still needs to be implemented.
-		throw new NotImplementedException();
 	}
 
 }

@@ -10,7 +10,7 @@ namespace Assets.Testing.MechanicalPower
 /// The <see cref="SuperNetwork"/> is responsible for the logic.
 /// A <see cref="UnityEngine.Network"/> is always part of a <see cref="SuperNetwork"/>, even if there is only one <see cref="UnityEngine.Network"/>.
 /// </summary>
-public class SuperNetwork : MonoBehaviour
+public class SuperNetwork
 {
 	/// <summary>
 	/// <see cref="UnityEngine.Network"/>s that for this <see cref="SuperNetwork"/>
@@ -29,7 +29,7 @@ public class SuperNetwork : MonoBehaviour
 	float rpm = 0;
 
 
-	// uInt becasue it wraps around
+	// uInt because it wraps around
 	uint currentOrientation = 0;
 
 	const float rotationPerDeltaTimeToOrientationIntegerFactor = uint.MaxValue;
@@ -72,17 +72,7 @@ public class SuperNetwork : MonoBehaviour
 			throw new NotImplementedException();
 	}
 
-
-
-	private void FixedUpdate() // Physics update
-	{
-		ShaftUpdate();
-	}
-
-
-
-
-	void ShaftUpdate()
+	internal void ShaftUpdate()
 	{
 		ComponentUpdate();
 
@@ -97,8 +87,8 @@ public class SuperNetwork : MonoBehaviour
 
 	#region ShaftUpdate
 
-	bool componentUpdate = false;
-	void ComponentUpdate()
+	private bool componentUpdate = false;
+	private void ComponentUpdate()
 	{
 		componentUpdate = true;
 		componentUpdater.Run();
@@ -107,7 +97,7 @@ public class SuperNetwork : MonoBehaviour
 
 	#region ComponentUpdate
 
-	readonly ComponentUpdater componentUpdater;
+	private readonly ComponentUpdater componentUpdater;
 
 	/// <summary>
 	/// <see cref="ComponentUpdater"/> provides access to the state of the <see cref="SuperNetwork"/> taking into account the <see cref="UnityEngine.Network"/> that is currently being updated,
@@ -128,7 +118,7 @@ public class SuperNetwork : MonoBehaviour
 
 	/// <summary>
 	/// The <see cref="ComponentUpdater"/> contains state variables that are only valid during <see cref="ComponentUpdate"/>
-	/// The state variables are updated depending on the current <see cref="UnityEngine.Network"/> being eveluated, allowing easy access to RPM etc.
+	/// The state variables are updated depending on the current <see cref="UnityEngine.Network"/> being evaluated, allowing easy access to RPM etc.
 	/// </summary>
 	public class ComponentUpdater
 	{
@@ -151,15 +141,15 @@ public class SuperNetwork : MonoBehaviour
 
 		/// <summary>
 		/// Running tally of absolute value of torque in this network.
-		/// TODO: The total torque may not represent the highest torque value at any point in the shaft, 
-		/// given that the topology of <see cref="UnityEngine.Network"/>s may have parralel paths or multiple sources and consumers
+		/// TODO: The total torque may not represent the highest torque value at any point in the shaft,
+		/// given that the topology of <see cref="UnityEngine.Network"/>s may have parallel paths or multiple sources and consumers.
 		/// </summary>
 		internal float componentUpdateTotalAbsTorque;
 
 		internal Network componentUpdateActiveNetwork;
-		internal float   componentUpdateRPMFactor;
-		internal float   componentUpdateTorqueFactor;
-		internal float   componentUpdateOrientationFactor;
+		internal float   componentUpdateRPMFactor = 1;
+		internal float   componentUpdateTorqueFactor = 1;
+		internal float   componentUpdateOrientationFactor = 1;
 
 		internal void Run()
 		{
@@ -167,7 +157,7 @@ public class SuperNetwork : MonoBehaviour
 			componentUpdatePendingFrictionTorque = 0;
 			componentUpdateTotalAbsTorque = 0;
 
-			HashSet<EdgeComponent> processedComponents = new HashSet<EdgeComponent>();
+			var processedComponents = new HashSet<EdgeComponent>();
 
 			foreach (var activeNetwork in SuperNetwork.networks)
 			{
@@ -230,18 +220,18 @@ public class SuperNetwork : MonoBehaviour
 
 			componentUpdateTotalAbsTorque += adjustedTorque;
 		}
-	}	
+	}
 
 	#endregion
 
 
-	void ResolveTorques()
+	private void ResolveTorques()
 	{
 		//TODO: Math (I pulled this out of a hat, probably bullshit)
 		float rpmDelta         = componentUpdater.componentUpdatePendingTorque         / totalInertia * Time.fixedDeltaTime;
 		float rpmDeltaFriction = componentUpdater.componentUpdatePendingFrictionTorque / totalInertia * Time.fixedDeltaTime;
 
-		if (UnityEngine.Random.value == 2) // always true, but compiler can't tell and won't complain about unrerachable code.
+		if (UnityEngine.Random.value == 2) // always true, but compiler can't tell and won't complain about unreachable code.
 			throw new NotImplementedException("TODO: Math");
 
 		// Math below is probably fine.
