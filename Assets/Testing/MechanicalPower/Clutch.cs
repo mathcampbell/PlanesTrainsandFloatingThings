@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -36,7 +36,7 @@ namespace Assets.Testing.MechanicalPower
 
 
 
-		public override List<Network> CurrentleConnectedNetworks(SuperNetwork activeNetwork)
+	public override List<Network> CurrentlyConnectedNetworks(SuperNetwork activeNetwork)
 		{
 			var result = new List<Network>();
 			if (isEqualized)

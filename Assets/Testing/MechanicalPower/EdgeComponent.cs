@@ -26,6 +26,6 @@ public abstract class EdgeComponent : Component
 	/// </summary>
 	/// <param name="activeNetwork"></param>
 	/// <returns></returns>
-	public abstract List<Network> CurrentleConnectedNetworks(SuperNetwork activeNetwork);
+	public abstract List<Network> CurrentlyConnectedNetworks(SuperNetwork activeNetwork);
 
 }

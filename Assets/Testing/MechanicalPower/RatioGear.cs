@@ -18,7 +18,7 @@ namespace Assets.Testing.MechanicalPower
 
 
 
-		public override List<Network> CurrentleConnectedNetworks(SuperNetwork activeNetwork)
+		public override List<Network> CurrentlyConnectedNetworks(SuperNetwork activeNetwork)
 		{
 			var result = new List<Network>();
 			if (activeNetwork.Contains(network))

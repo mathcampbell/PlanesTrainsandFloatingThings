@@ -19,7 +19,7 @@ namespace Assets.Testing.MechanicalPower
 
 
 
-		public override List<Network> CurrentleConnectedNetworks(SuperNetwork activeNetwork)
+		public override List<Network> CurrentlyConnectedNetworks(SuperNetwork activeNetwork)
 		{
 			throw new NotImplementedException();
 		}
