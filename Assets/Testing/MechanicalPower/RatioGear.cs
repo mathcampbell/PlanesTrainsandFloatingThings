@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +12,6 @@ namespace Assets.Testing.MechanicalPower
 
 		public float gearRatio;
 
-		/// <summary>
-		/// Friction losses of the component. (Torque per RPM)
-		/// </summary>
-		public float frictionLoss;
 
 		
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -31,10 +31,7 @@ namespace Assets.Testing.MechanicalPower
 		/// </summary>
 		const float rpmDeltaThreshold = 0.001f;
 
-		/// <summary>
-		/// Friction losses of the component. (Torque per RPM)
-		/// </summary>
-		float frictionLosses;
+
 
 		public override List<Network> CurrentleConnectedNetworks(SuperNetwork activeNetwork)
 		{
@@ -53,7 +50,7 @@ namespace Assets.Testing.MechanicalPower
 		{
 			var active = activeNetwork.CU;
 			
-			active.AddFriction(frictionLosses * active.RPM);
+			active.AddFriction(frictionLoss * active.RPM);
 
 			if(application < 1)
 			{
