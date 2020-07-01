@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
 
+namespace Assets.Testing.MechanicalPower
+{
 /// <summary>
 /// A <see cref="Component"/> that can is connected to more than one <see cref="Network"/>(s).
 /// </summary>
@@ -28,4 +27,5 @@ public abstract class EdgeComponent : Component
 	/// <returns></returns>
 	public abstract List<Network> CurrentlyConnectedNetworks(SuperNetwork activeNetwork);
 
+}
 }

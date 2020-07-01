@@ -1,10 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 
+namespace Assets.Testing.MechanicalPower
+{
 /// <summary>
 /// A <see cref="Component"/> repressents any object in a Shaft network that has functionality.
 /// </summary>
@@ -26,4 +24,5 @@ public abstract class Component : MonoBehaviour
 	/// Do shaft related actions.
 	/// </summary>
 	public abstract void ShaftUpdate();
+}
 }

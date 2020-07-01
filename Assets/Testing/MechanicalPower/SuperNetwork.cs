@@ -1,23 +1,24 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
 
+using UnityEngine;
+
+namespace Assets.Testing.MechanicalPower
+{
 /// <summary>
-/// Collection of connected <see cref="Network"/>s
+/// Collection of connected <see cref="UnityEngine.Network"/>s
 /// The <see cref="SuperNetwork"/> is responsible for the logic.
-/// A <see cref="Network"/> is always part of a <see cref="SuperNetwork"/>, even if there is only one <see cref="Network"/>.
+/// A <see cref="UnityEngine.Network"/> is always part of a <see cref="SuperNetwork"/>, even if there is only one <see cref="UnityEngine.Network"/>.
 /// </summary>
 public class SuperNetwork : MonoBehaviour
 {
 	/// <summary>
-	/// <see cref="Network"/>s that for this <see cref="SuperNetwork"/>
+	/// <see cref="UnityEngine.Network"/>s that for this <see cref="SuperNetwork"/>
 	/// </summary>
 	List<Network> networks;
 
 	/// <summary>
-	/// The <see cref="Network"/> used as the perspective for calculations.
+	/// The <see cref="UnityEngine.Network"/> used as the perspective for calculations.
 	/// </summary>
 	Network primaryNetwork;
 
@@ -29,7 +30,7 @@ public class SuperNetwork : MonoBehaviour
 
 
 	// uInt becasue it wraps around
-	uint currentOrientation = 0;
+	uint        currentOrientation                             = 0;
 	const float rotationPerDeltaTimeToOrientationIntegerFactor = uint.MaxValue;
 
 
@@ -61,10 +62,10 @@ public class SuperNetwork : MonoBehaviour
 			throw new NotImplementedException();
 	}
 
-	public (float rpmFactor, float torqueFactor) ComputeConversionFactors(Network network)
+	public (float rpmFactor, float torqueFactor, float orientationFactor) ComputeConversionFactors(Network network)
 	{
 		if (network == primaryNetwork)
-			return (1, 1);
+			return (1, 1, 1);
 		else
 			// TODO: Find the conversion factors between the Primary and given network.
 			throw new NotImplementedException();
@@ -108,7 +109,7 @@ public class SuperNetwork : MonoBehaviour
 	readonly ComponentUpdater componentUpdater;
 
 	/// <summary>
-	/// <see cref="ComponentUpdater"/> provides access to the state of the <see cref="SuperNetwork"/> taking into account the <see cref="Network"/> that is currently being updated,
+	/// <see cref="ComponentUpdater"/> provides access to the state of the <see cref="SuperNetwork"/> taking into account the <see cref="UnityEngine.Network"/> that is currently being updated,
 	/// and applying the proper conversions for rps, torque etc.
 	/// It is only valid during <see cref="ComponentUpdate"/>, will throw <see cref="InvalidOperationException"/> when used outside of that context.
 	/// </summary>
@@ -126,7 +127,7 @@ public class SuperNetwork : MonoBehaviour
 
 	/// <summary>
 	/// The <see cref="ComponentUpdater"/> contains state variables that are only valid during <see cref="ComponentUpdate"/>
-	/// The state variables are updated depending on the current <see cref="Network"/> being eveluated, allowing easy access to RPM etc.
+	/// The state variables are updated depending on the current <see cref="UnityEngine.Network"/> being eveluated, allowing easy access to RPM etc.
 	/// </summary>
 	public class ComponentUpdater
 	{
@@ -137,13 +138,27 @@ public class SuperNetwork : MonoBehaviour
 			this.SuperNetwork = myNetwork;
 		}
 
+		/// <summary>
+		/// Running tally of torque to be applied.
+		/// </summary>
 		internal float componentUpdatePendingTorque;
+
+		/// <summary>
+		/// Running tally of friction torque to be applied.
+		/// </summary>
 		internal float componentUpdatePendingFrictionTorque;
 
+		/// <summary>
+		/// Running tally of absolute value of torque in this network.
+		/// TODO: The total torque may not represent the highest torque value at any point in the shaft, 
+		/// given that the topology of <see cref="UnityEngine.Network"/>s may have parralel paths or multiple sources and consumers
+		/// </summary>
+		internal float componentUpdateTotalAbsTorque;
+
 		internal Network componentUpdateActiveNetwork;
-		internal float componentUpdateRPMFactor;
-		internal float componentUpdateTorqueFactor;
-		internal float componentUpdateOrientationFactor;
+		internal float   componentUpdateRPMFactor;
+		internal float   componentUpdateTorqueFactor;
+		internal float   componentUpdateOrientationFactor;
 
 		internal void Run()
 		{
@@ -155,9 +170,10 @@ public class SuperNetwork : MonoBehaviour
 			foreach (var activeNetwork in SuperNetwork.networks)
 			{
 				componentUpdateActiveNetwork = activeNetwork;
-				var newFactors = SuperNetwork.ComputeConversionFactors(activeNetwork);
-				componentUpdateRPMFactor = newFactors.rpmFactor;
-				componentUpdateTorqueFactor = newFactors.torqueFactor;
+				var (rpmFactor, torqueFactor, orientationFactor) = this.SuperNetwork.ComputeConversionFactors(activeNetwork);
+				componentUpdateRPMFactor = rpmFactor;
+				componentUpdateTorqueFactor = torqueFactor;
+				componentUpdateOrientationFactor = orientationFactor;
 
 
 				foreach (var component in activeNetwork.nonEdgeComponents)
@@ -193,7 +209,11 @@ public class SuperNetwork : MonoBehaviour
 		/// <param name="torque"></param>
 		public void AddTorque(float torque)
 		{
-			componentUpdatePendingTorque += torque * componentUpdateTorqueFactor;
+			float adjustedTorque = torque * componentUpdateTorqueFactor;
+
+			componentUpdatePendingTorque += adjustedTorque;
+
+			componentUpdateTotalAbsTorque += Math.Abs(adjustedTorque);
 		}
 
 		/// <summary>
@@ -202,7 +222,11 @@ public class SuperNetwork : MonoBehaviour
 		/// <param name="torque">Friction torque to apply.</param>
 		public void AddFriction(float torque)
 		{
-			componentUpdatePendingFrictionTorque += Math.Abs(torque * componentUpdateTorqueFactor);
+			float adjustedTorque = Math.Abs(torque * componentUpdateTorqueFactor);
+
+			componentUpdatePendingFrictionTorque += adjustedTorque;
+
+			componentUpdateTotalAbsTorque += adjustedTorque;
 		}
 	}	
 
@@ -237,6 +261,11 @@ public class SuperNetwork : MonoBehaviour
 
 	#region ContainerFunctions
 
+	/// <summary>
+	/// Test if this <see cref="SuperNetwork"/> contains <paramref name="network"/>.
+	/// </summary>
+	/// <param name="network"></param>
+	/// <returns></returns>
 	public bool Contains(Network network)
 	{
 		return networks.Contains(network);
@@ -244,4 +273,5 @@ public class SuperNetwork : MonoBehaviour
 
 
 	#endregion
+}
 }

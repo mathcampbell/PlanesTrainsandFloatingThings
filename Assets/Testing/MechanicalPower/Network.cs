@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
-using System.Linq;
 
-
+namespace Assets.Testing.MechanicalPower
+{
 /// <summary>
 /// A <see cref="Network"/> is a collection of directly connected <see cref="Component"/>s.
 /// </summary>
@@ -38,7 +38,6 @@ public class Network : MonoBehaviour
 	/// </summary>
 	public List<Network> potentialNeighbours;
 
-	
 
 	/// <summary>
 	/// The inertia of this <see cref="Network"/>.
@@ -59,4 +58,5 @@ public class Network : MonoBehaviour
 		throw new NotImplementedException();
 	}
 
+}
 }
