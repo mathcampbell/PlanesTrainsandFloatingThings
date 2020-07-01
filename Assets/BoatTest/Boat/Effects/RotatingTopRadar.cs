@@ -1,20 +1,20 @@
 using UnityEngine;
 using System.Collections;
 
-public class RotatingTopRadar : MonoBehaviour 
+public class RotatingTopRadar : MonoBehaviour
 {
-    public float rotationSpeed;
+	public float rotationSpeed;
 
-	
-	void Start() 
+
+	void Start()
 	{
-	
+
 	}
-	
-	
-	
-	void Update() 
+
+
+
+	void Update()
 	{
-        transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
-    }
+		transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
+	}
 }

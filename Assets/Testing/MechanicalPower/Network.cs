@@ -30,7 +30,7 @@ public class Network : MonoBehaviour
 	public SuperNetwork superNetwork;
 
 	/// <summary>
-	/// 
+	///
 	/// </summary>
 	public float inertia { get; set; }
 

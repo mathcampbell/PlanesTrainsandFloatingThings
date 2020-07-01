@@ -30,7 +30,7 @@ class WaterEditorUtility
 	public static void SetMaterialTexture(System.String theName, Texture parameter, Material mat) {
 		mat.SetTexture(theName, parameter);
 	}
-	
+
 	public static Material LocateValidWaterMaterial(Transform parent)
 	{
 		if(parent.GetComponent<Renderer>() && parent.GetComponent<Renderer>().sharedMaterial)
@@ -42,7 +42,7 @@ class WaterEditorUtility
 		}
 		return null;
 	}
-	
+
 	public static void CurveGui (System.String name, SerializedObject serObj, Color color)
 	{
 		AnimationCurve curve = new AnimationCurve(new Keyframe(0, 0.0f, 1.0f, 1.0f), new Keyframe(1, 1.0f, 1.0f, 1.0f));
@@ -60,7 +60,7 @@ class WaterEditorUtility
 		Texture2D fresnel = (Texture2D)sharedMaterial.GetTexture("_Fresnel");
 		if(!fresnel)
 			fresnel = new Texture2D(256,1);
-			
+
 		for (int i = 0; i < 256; i++)
 		{
 			float val = Mathf.Clamp01(fresnelCurve.Evaluate((float)i)/255.0f);
@@ -68,8 +68,8 @@ class WaterEditorUtility
 			fresnel.SetPixel(i, 0, new Color(val,val,val,val));
 		}
 		fresnel.Apply();
-		
+
 		sharedMaterial.SetTexture("_Fresnel", fresnel);
-		
+
 	}	*/
 }

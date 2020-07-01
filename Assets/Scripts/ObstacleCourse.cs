@@ -27,7 +27,7 @@ public class ObstacleCourse : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	void SpawnCourse()
@@ -49,9 +49,9 @@ public class ObstacleCourse : MonoBehaviour {
 			// Position the checkpoint in an interesting manner
 			Vector3 offset = new Vector3(0, 0, Random.Range(MinDistance, MaxDistance));
 
-			cpRot *= Quaternion.Euler( 
-				Random.Range(-MaxAngle, MaxAngle), 
-				Random.Range(-MaxAngle, MaxAngle), 
+			cpRot *= Quaternion.Euler(
+				Random.Range(-MaxAngle, MaxAngle),
+				Random.Range(-MaxAngle, MaxAngle),
 				0 );
 
 			cpPos += cpRot * offset;

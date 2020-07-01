@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class IONodeLine : MonoBehaviour
 {
-    public OnOffInput ConnectedInput;
-    public OnOffOutput ConnectedOutput;
+	public OnOffInput ConnectedInput;
+	public OnOffOutput ConnectedOutput;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	// Start is called before the first frame update
+	void Start()
+	{
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	}
 
-    public bool IsConnected()
-    {
-        if (ConnectedInput && ConnectedOutput)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+	// Update is called once per frame
+	void Update()
+	{
+
+	}
+
+	public bool IsConnected()
+	{
+		if (ConnectedInput && ConnectedOutput)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 }

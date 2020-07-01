@@ -13,8 +13,8 @@ public class EngineV6 : ActiveBlock
 
 	public NumericOutput numericOutputTemp;
 	public NumericOutput numericOutputRPM;
-	
-	
+
+
 	// Datanodes (Inputs)
 
 	public OnOffInput IOInputStarter;
@@ -28,7 +28,7 @@ public class EngineV6 : ActiveBlock
 	// Ideal engine range should be around 90-100C
 	// Idle RPM should be around 600-1000RPM
 	// Max RPM should not exceed 7000RPM
-	
+
 	private float baseFuelCost = 2;
 	private bool engineRunning = false;
 	private bool engineIdling = false;
@@ -38,8 +38,7 @@ public class EngineV6 : ActiveBlock
 	private float RPM;
 	private float temp;
 
-	//Audio
-   
+	// Audio
 	public AudioSource engineV6EngineAudio;
 	public AudioSource engineV6StarterSource;
 	public AudioClip engineV6Idle;
@@ -51,7 +50,7 @@ public class EngineV6 : ActiveBlock
 
 	// Start is called before the first frame update
 	void Start()
-	{   
+	{
 		engineV6EngineAudio.clip = engineV6Running;
 		originalPitchRunning = engineV6EngineAudio.pitch;
 		engineV6EngineAudio.clip = engineV6Idle;
@@ -62,33 +61,33 @@ public class EngineV6 : ActiveBlock
 	// Update is called once per frame
 	void Update()
 	{
-		
+
 	}
 
 	void FixedUpdate()
 	{
-		//Get Inputs
+		// Get Inputs
 		throttle = (Mathf.Clamp(numericInputThrottle.inputNumeric, 0f, 1.0f));
-	   
+
 		starter = IOInputStarter.inputIO;
 		// Set Outputs
 		numericOutputRPM.ouputNumeric =  RPM;
 		numericOutputTemp.ouputNumeric = temp;
 
 		if (engineRunning == true)
-		{   
+		{
 			fuelRequired = baseFuelCost*throttle;
 			engineV6StarterSource.Stop();
 			if(RPM < 500f)
-				{   
+				{
 					StallEngine();
-					
+
 				}
 			if(RPM <1000f && engineRunning)
 			{
 				engineIdling = true;
 			}
-			
+
 			if(RPM >1001f && engineRunning)
 			{
 				engineIdling = false;
@@ -102,10 +101,9 @@ public class EngineV6 : ActiveBlock
 				Debug.Log(RPM);
 				RPM += (throttle*6f);
 				temp += (RPM/maxRPM)*tempCoefficient;
-			} 
-			
+			}
 		}
-		
+
 		if (starter)
 		{
 			RPM += 6f; //6 = 300RPM per second.
@@ -113,7 +111,7 @@ public class EngineV6 : ActiveBlock
 			if (!engineV6StarterSource.isPlaying)
 			{
 				engineV6StarterSource.Play();
-			} 
+			}
 
 		}
 

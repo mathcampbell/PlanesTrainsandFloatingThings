@@ -19,8 +19,8 @@ public abstract class Resource
 	/// </summary>
 	//public bool usePressure = false;
 	// Density is the mass in kg per m^3; Water is 1000 exactly. Seawater is around 1030 but lets not get that precise ;)
-    // Might also need the specific gas constant here as well/instead?
-	
-    public float density;
- 
+	// Might also need the specific gas constant here as well/instead?
+
+	public float density;
+
 }

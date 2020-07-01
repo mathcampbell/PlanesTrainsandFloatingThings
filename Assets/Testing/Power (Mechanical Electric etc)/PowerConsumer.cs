@@ -36,7 +36,7 @@ public abstract class PowerConsumer : PowerNetworkItem
 	/// </summary>
 	/// <returns></returns>
 	public abstract float PotentialConsumption();
-  
+
 	/// <summary>
 	/// Consume the given amount of power. (This method is to trigger any side effacts the consumption may have)
 	/// </summary>

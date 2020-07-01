@@ -30,7 +30,7 @@
 				sampler2D _MainTex;
 				fixed4 _TintColor;
 
-				//From script
+				// From script
 				float _WaterScale;
 				float _WaterSpeed;
 				float _WaterDistance;
@@ -67,7 +67,7 @@
 
 					pos.y += sin((_WaterTime * _WaterSpeed + waveType) / _WaterDistance) * _WaterScale;
 
-					//Add noise
+					// Add noise
 					//pos.y += tex2Dlod(_NoiseTex, float4(pos.x, pos.z + sin(_WaterTime * 0.1), 0.0, 0.0) * _WaterNoiseWalk).a * _WaterNoiseStrength;
 
 					pos.y += 1.0;
@@ -82,7 +82,7 @@
 					UNITY_SETUP_INSTANCE_ID(v);
 					UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-					//Update particle pos
+					// Update particle pos
 					float3 vertexWorldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
 					vertexWorldPos = getWavePos(vertexWorldPos);

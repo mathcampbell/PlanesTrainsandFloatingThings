@@ -52,7 +52,7 @@ namespace Assets.Testing.MechanicalPower
 		public override void ShaftUpdate(SuperNetwork activeNetwork)
 		{
 			var active = activeNetwork.CU;
-			
+
 			active.AddFriction(frictionLosses * active.RPM);
 
 			if(application < 1)

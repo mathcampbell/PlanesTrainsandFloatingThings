@@ -174,12 +174,12 @@ public class SuperNetwork : MonoBehaviour
 
 
 		/// <summary>
-		/// 
+		///
 		/// </summary>
 		public float RPM => SuperNetwork.rpm * componentUpdateRPMFactor;
 
 		/// <summary>
-		/// 
+		///
 		/// </summary>
 		public uint CurrentOrientation => (uint)(SuperNetwork.currentOrientation * componentUpdateOrientationFactor);
 
@@ -204,14 +204,14 @@ public class SuperNetwork : MonoBehaviour
 
 			componentUpdatePendingFrictionTorque += torque * componentUpdateTorqueFactor;
 		}
-	}	
+	}
 
 	#endregion
 
 
 	void ResolveTorques()
 	{
-		//TODO: Math (I pulled this out of a hat, probably bullshit)
+		// TODO: Math (I pulled this out of a hat, probably bullshit)
 		float rpmDelta         = componentUpdater.componentUpdatePendingTorque         / totalInertia * Time.fixedDeltaTime;
 		float rpmDeltaFriction = componentUpdater.componentUpdatePendingFrictionTorque / totalInertia * Time.fixedDeltaTime;
 

@@ -13,7 +13,7 @@ public class DustField : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+
 		if(DustMotePrefab == null)
 		{
 			Debug.LogError("You forgot to link the dust mote prefab, silly.");
@@ -37,22 +37,22 @@ public class DustField : MonoBehaviour {
 		MeshRenderer mr = DustMotePrefab.transform.GetComponentInChildren<MeshRenderer>();
 		Material matSpaceDust = mr.sharedMaterial;
 		matSpaceDust.SetFloat("_FalloffDistance", CloudRadius);
-		//mr.sharedMaterial = 
+		//mr.sharedMaterial =
 
 		for (int i = 0; i < NumDustMotes; i++)
 		{
-			Vector3 dustMotePosition = TheCamera.transform.position + 
+			Vector3 dustMotePosition = TheCamera.transform.position +
 				(Random.insideUnitSphere * CloudRadius);
-			
+
 			Instantiate(DustMotePrefab, dustMotePosition, Random.rotation, this.transform);
 		}
 
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
-		// If any dust mote gets too far from the camera, 
+
+		// If any dust mote gets too far from the camera,
 		// reposition it to the other side of the dust cloud "sphere"
 
 		float maxDistanceSquared = CloudRadius * CloudRadius;

@@ -30,10 +30,10 @@ namespace UnityStandardAssets.CrossPlatformInput
 			CreateVirtualAxes();
 		}
 
-        void Start()
-        {
-            m_StartPos = transform.position;
-        }
+		void Start()
+		{
+			m_StartPos = transform.position;
+		}
 
 		void UpdateVirtualAxes(Vector3 value)
 		{

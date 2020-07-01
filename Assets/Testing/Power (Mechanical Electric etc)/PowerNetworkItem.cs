@@ -23,17 +23,17 @@ public abstract class PowerNetworkItem : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+
 	}
 
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		
+
 	}
 
 	public abstract void AddToNetwork();
 
 	public abstract void RemoveFromNetwork();
-    
+
 }

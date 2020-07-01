@@ -24,7 +24,7 @@ public class WeaponDropper : MonoBehaviour
 		if (cooldown <= 0.0f && wep == null && weaponPrefab != null)
 		{
 			SpawnWeapon();
-		}		
+		}
 	}
 
 	public void Fire(Vector3 velocity)

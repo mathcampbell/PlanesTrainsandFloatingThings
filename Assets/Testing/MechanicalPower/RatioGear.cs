@@ -17,7 +17,7 @@ namespace Assets.Testing.MechanicalPower
 		/// </summary>
 		public float frictionLoss;
 
-		
+
 
 		public override List<Network> CurrentleConnectedNetworks(SuperNetwork activeNetwork)
 		{

@@ -3,48 +3,48 @@ using System.Collections;
 
 //Different wavetypes
 
-public class WaveTypes 
+public class WaveTypes
 {
 
-	//Sinus waves
+	// Sinus waves
 	public static float SinXWave(
-		Vector3 position, 
-		float speed, 
+		Vector3 position,
+		float speed,
 		float scale,
 		float waveDistance,
-		float noiseStrength, 
+		float noiseStrength,
 		float noiseWalk,
-        float timeSinceStart) 
+		float timeSinceStart)
 	{
-        float x = position.x;
-        float y = 0f;
-        float z = position.z;
+		float x = position.x;
+		float y = 0f;
+		float z = position.z;
 
-		//Using only vertex.x or vertex.z will produce straight waves
-		//Using only vertex.y will produce an up/down movement
+		// Using only vertex.x or vertex.z will produce straight waves
+		// Using only vertex.y will produce an up/down movement
 		//vertex.x + vertex.y + vertex.z rolling waves
 		//vertex.x * vertex.z produces a moving sea without rolling waves
 
 		float waveType = z;
 
-        y += Mathf.Sin((timeSinceStart * speed + waveType) / waveDistance) * scale;
+		y += Mathf.Sin((timeSinceStart * speed + waveType) / waveDistance) * scale;
 
-        //Add noise to make it more realistic
-        y += Mathf.PerlinNoise(x + noiseWalk, y + Mathf.Sin(timeSinceStart * 0.1f)) * noiseStrength;
+		// Add noise to make it more realistic
+		y += Mathf.PerlinNoise(x + noiseWalk, y + Mathf.Sin(timeSinceStart * 0.1f)) * noiseStrength;
 
-        return y;
+		return y;
 	}
 
 
 
-	//Gerstner Waves
+	// Gerstner Waves
 	public static float GerstnerWave(
-		float x_coord, 
-	    float z_coord) 
+		float x_coord,
+		float z_coord)
 	{
 		/*
 		 * y = A * cos(k * x_0 - w * t)
-		 * 
+		 *
 		 * A amplitude
 		 * x_0 = (x_o, z0)
 		 * w - frequency
@@ -57,12 +57,12 @@ public class WaveTypes
 
 		/*
 		 * k = 2 * pi / lamda
-		 * 
+		 *
 		 * k - wavevector (determines the direction of the wave)
 		 * lambda - length of the wave
 		 */
 
 
 		return y_coord;
-	}	
+	}
 }

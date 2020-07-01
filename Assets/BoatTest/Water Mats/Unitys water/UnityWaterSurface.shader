@@ -13,30 +13,30 @@ Shader "Custom/Water/UnityWaterWithWave"
 		//_TimeColor("Color", Color) = (1,1,1,1)
 		_HorizonColor("Horizon color", COLOR) = (.172 , .463 , .435 , 0)
 
-		//Noise waves
-		//Move this to static in final version to save space
+		// Noise waves
+		// Move this to static in final version to save space
 		_NoiseWaveScale("Noise wave scale", Range(0.02,0.15)) = .07
 		[NoScaleOffset] _ColorControl("Reflective color (RGB) fresnel (A) ", 2D) = "" { }
 		[NoScaleOffset] _BumpMap("Noise waves Normalmap", 2D) = "bump" { }
-		//Move this to static in final version to save space
+		// Move this to static in final version to save space
 		_NoiseWaveSpeed("Noise wave speed (map1 x,y; map2 x,y)", Vector) = (9,4.5,-8,-3.5)
 
-		//Big waves
-		//How high are the waves
+		// Big waves
+		// How high are the waves
 		_WaveHeight("Wave height", Float) = .07
-		//How fast are the waves moving
+		// How fast are the waves moving
 		_WaveSpeed("Wave speed", Float) = .07
-		//The distance between the waves
+		// The distance between the waves
 		_WaveDistance("Wave distance", Float) = .07
-		//Direction of the waves
+		// Direction of the waves
 		_WaveDirectionX("Wave direction x", Range(-1, 1)) = 0
 		_WaveDirectionZ("Wave direction z", Range(-1, 1)) = 0
 
-		//Foam
+		// Foam
 		[NoScaleOffset] _FoamTex("Foam texture", 2D) = "" { }
 		[NoScaleOffset] _FoamTex2("Foam texture 2", 2D) = "" { }
 
-		//Other
+		// Other
 		[NoScaleOffset] _NoiseTex("Noise texture", 2D) = "" { }
 	}
 
@@ -47,46 +47,46 @@ Shader "Custom/Water/UnityWaterWithWave"
 
 		CGPROGRAM
 
-		//Important that addshadow is on this line
+		// Important that addshadow is on this line
 		#pragma surface surf Lambert vertex:vert addshadow
 		#pragma target 3.0
 
-		//Variables
-		//Used to determine time of day
+		// Variables
+		// Used to determine time of day
 		//float4 _TimeColor;
 
-		//Noise waves
+		// Noise waves
 		uniform float4 _HorizonColor;
-		//The speed of the noise waves in 2 directions
+		// The speed of the noise waves in 2 directions
 		uniform float4 _NoiseWaveSpeed;
-		//How big are the noise waves
+		// How big are the noise waves
 		uniform float _NoiseWaveScale;
-		//To get noise waves
+		// To get noise waves
 		uniform sampler2D _BumpMap;
-		//Gradient
+		// Gradient
 		uniform sampler2D _ColorControl;
 
-		//Big waves
+		// Big waves
 		//uniform float _WaveSpeed;
 		//uniform float _WaveHeight;
 		//uniform float _WaveDistance;
-		//Direction of the waves
+		// Direction of the waves
 		//uniform float _WaveDirectionX;
 		//uniform float _WaveDirectionZ;
 		//static float2 waveDir = float2(_WaveDirectionX, _WaveDirectionZ);
 
-		//From script
+		// From script
 		float _WaterScale;
 		float _WaterSpeed;
 		float _WaterDistance;
 		float _WaterTime;
 
 
-		//Foam
+		// Foam
 		uniform sampler2D _FoamTex;
 		uniform sampler2D _FoamTex2;
 
-		//Other
+		// Other
 		uniform sampler2D _NoiseTex;
 
 		static float PI = 3.14159265358979323846264338327;
@@ -95,19 +95,19 @@ Shader "Custom/Water/UnityWaterWithWave"
 
 		struct Input
 		{
-			//What unity is providing
+			// What unity is providing
 			float2 uv_FoamTex;
 			float3 worldPos;
 			float3 viewDir;
 
-			//What you have to calculate yourself
+			// What you have to calculate yourself
 			float2 bumpuv1;
 			float2 bumpuv2;
 		};
 
 
 
-		//Shader version of c#'s Mathf.Repeat(t, length) - never larger than maxValue and never smaller than 0
+		// Shader version of c#'s Mathf.Repeat(t, length) - never larger than maxValue and never smaller than 0
 		float getRepeatedValue(float value, float maxValue)
 		{
 			if (value <= maxValue && value >= 0)
@@ -116,7 +116,7 @@ Shader "Custom/Water/UnityWaterWithWave"
 			}
 			else if (value < 0)
 			{
-				//Ex value = -6, maxValue = 2.5, should result in 1.5
+				// Ex value = -6, maxValue = 2.5, should result in 1.5
 
 				//-6 -> 6
 				float positiveValue = abs(value);
@@ -137,7 +137,7 @@ Shader "Custom/Water/UnityWaterWithWave"
 			}
 			else
 			{
-				//Ex value = 6, maxValue = 2.5, should result in 1
+				// Ex value = 6, maxValue = 2.5, should result in 1
 
 				//6/2.5 = 2.4 -> 0.4
 				float remainder = fmod(value, maxValue);
@@ -151,9 +151,9 @@ Shader "Custom/Water/UnityWaterWithWave"
 
 
 
-		//The wave function which should be the same as in the main script
-		//Add a timeoffset so we can get a wave pos at another time
-		//float3 updateVertexWithWave(float3 pos)
+		// The wave function which should be the same as in the main script
+		// Add a timeoffset so we can get a wave pos at another time
+		// float3 updateVertexWithWave(float3 pos)
 		//{
 		//	pos.y = 0.0;
 
@@ -213,9 +213,9 @@ Shader "Custom/Water/UnityWaterWithWave"
 		//	return pos;
 		//}
 
-		//Get height by using a noise texture
-		//Will make the waves a little different from each other, dont need to take it into account 
-		//in the wave script in c# because it makes no big difference
+		// Get height by using a noise texture
+		// Will make the waves a little different from each other, dont need to take it into account 
+		// in the wave script in c# because it makes no big difference
 		float getHeightFromNoise(float2 uv)
 		{
 			//pos.y = 0.0;
@@ -240,7 +240,7 @@ Shader "Custom/Water/UnityWaterWithWave"
 
 
 
-		//The square magnitude between two vectors
+		// The square magnitude between two vectors
 		float getSquareMagnitude(float3 vec1, float3 vec2)
 		{
 			float3 vec = vec1 - vec2;
@@ -251,7 +251,7 @@ Shader "Custom/Water/UnityWaterWithWave"
 		}
 
 
-		//The wave function
+		// The wave function
 		float3 getWavePos(float3 pos)
 		{
 			pos.y = 0.0;
@@ -260,7 +260,7 @@ Shader "Custom/Water/UnityWaterWithWave"
 
 			pos.y += sin((_WaterTime * _WaterSpeed + waveType) / _WaterDistance) * _WaterScale;
 
-			//Add noise
+			// Add noise
 			//pos.y += tex2Dlod(_NoiseTex, float4(pos.x, pos.z + sin(_WaterTime * 0.1), 0.0, 0.0) * _WaterNoiseWalk).a * _WaterNoiseStrength;
 
 			return pos;
@@ -272,20 +272,20 @@ Shader "Custom/Water/UnityWaterWithWave"
 		{
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 
-			//Need the vertex position in global space (to make the waves seamless) and to move the water mesh indepentent of the texture
+			// Need the vertex position in global space (to make the waves seamless) and to move the water mesh indepentent of the texture
 			float3 vertexWorldPos = mul(unity_ObjectToWorld, i.vertex).xyz;
 
 			//
 			// Noise waves
 			//
-			//Scroll bump waves so the are always seamless
+			// Scroll bump waves so the are always seamless
 			//_Time[0] = t / 20, which is how time was defined in the script, so just use _Time[0]
 			float t = _Time[0];
 
-			//Not really needed to * _WaveScale???
+			// Not really needed to * _WaveScale???
 			float4 offset4 = _NoiseWaveSpeed * (t * _NoiseWaveScale);
 
-			//Between 0 and 1.0f
+			// Between 0 and 1.0f
 			float4 offsetClamped = float4(
 				getRepeatedValue(offset4.x, 1.0f),
 				getRepeatedValue(offset4.y, 1.0f),
@@ -293,40 +293,40 @@ Shader "Custom/Water/UnityWaterWithWave"
 				getRepeatedValue(offset4.w, 1.0f));
 
 
-			//But is moved to the shader and renamed to offsetClamped()
+			// But is moved to the shader and renamed to offsetClamped()
 			float4 temp = vertexWorldPos.xzxz * _NoiseWaveScale + offsetClamped;
 
 			//o.bumpuv1 = temp.xy * float2(.4, .45);
-			//By not multiplying we avoid getting a strange jump in the texture that happens for some reason???
-			//The same jump is happening if using Unitys water prefab. If you need it then you should multiply it like this:
+			// By not multiplying we avoid getting a strange jump in the texture that happens for some reason???
+			// The same jump is happening if using Unitys water prefab. If you need it then you should multiply it like this:
 			//o.bumpuv.xy = vertexWorldPos.xz * _WaveScale * float2(.4, .45) + offsetClamped;
 			o.bumpuv1 = temp.xy;
-			//Doesnt make a visible differenze to swap w and z?
+			// Doesnt make a visible differenze to swap w and z?
 			o.bumpuv2 = temp.wz;
 
 
 			//
 			// Waves
 			//
-			//Update the vertex pos with wave height, which updates the y coordinate
+			// Update the vertex pos with wave height, which updates the y coordinate
 			//vertexWorldPos = updateVertexWithWave(vertexWorldPos);
-			//Manipulate the position
+			// Manipulate the position
 			vertexWorldPos = getWavePos(vertexWorldPos.xyz);
 
-			//Add a little noise
+			// Add a little noise
 			//vertexWorldPos.y += getHeightFromNoise(i.texcoord.xy);
 
-			//Save the new position of the vertex in object space
+			// Save the new position of the vertex in object space
 			//i.vertex = mul(unity_WorldToObject, float4(vertexWorldPos, 1));
 
 
 			//
-			//Update the normal
+			// Update the normal
 			//
-			//Calculate the bitangent (sometimes called binormal) from the cross product of the normal and the tangent
+			// Calculate the bitangent (sometimes called binormal) from the cross product of the normal and the tangent
 			float4 biTangent = float4(cross(i.normal, i.tangent), 0);
 
-			//How far we want to offset our vert position to calculate the new normal
+			// How far we want to offset our vert position to calculate the new normal
 			float vertOffset = 0.01;
 
 			float4 newTangentPos = i.vertex + i.tangent * vertOffset;
@@ -335,17 +335,17 @@ Shader "Custom/Water/UnityWaterWithWave"
 			float4 newBiTangentPos = i.vertex + biTangent * vertOffset;
 			float4 positionAlongBiTangent = float4(getWavePos(newBiTangentPos.xyz), newBiTangentPos.w);
 
-			//Now we can create new tangents and bitangents based on the deformed positions
+			// Now we can create new tangents and bitangents based on the deformed positions
 			float4 vertPosition = float4(getWavePos(i.vertex.xyz), i.vertex.w);
 
 			float4 newTangent = normalize(positionAlongTangent - vertPosition);
 			float4 newBitangent = normalize(positionAlongBiTangent - vertPosition);
 
-			//Recalculate the normal based on the new tangent and bitangent
+			// Recalculate the normal based on the new tangent and bitangent
 			i.normal = cross(newTangent, newBitangent);
 
 
-			//Save the new position of the vertex in object space
+			// Save the new position of the vertex in object space
 			i.vertex = mul(unity_WorldToObject, float4(vertexWorldPos, 1));
 		}
 
@@ -356,38 +356,38 @@ Shader "Custom/Water/UnityWaterWithWave"
 			//
 			// Noise waves
 			//
-			//Combine the waves
+			// Combine the waves
 			float3 bump1 = UnpackNormal(tex2D(_BumpMap, IN.bumpuv1)).rgb;
 			float3 bump2 = UnpackNormal(tex2D(_BumpMap, IN.bumpuv2)).rgb;
-			//Combine the bump into one
+			// Combine the bump into one
 			float3 bump = (bump1 + bump2) * 0.5;
 
-			//A texture with alpha channel controlling the Fresnel effect - how much reflection vs. refraction is visible, 
-			//based on viewing angle. If you are looking at water from the top, you can see that it's transparent, but if
-			//you are looking at water from the side, you can see that the sky is reflecting in it.  
-			//So you can use the dot product to determine the amount of reflection vs. refraction
+			// A texture with alpha channel controlling the Fresnel effect - how much reflection vs. refraction is visible, 
+			// based on viewing angle. If you are looking at water from the top, you can see that it's transparent, but if
+			// you are looking at water from the side, you can see that the sky is reflecting in it.  
+			// So you can use the dot product to determine the amount of reflection vs. refraction
 
-			//The view dir in tangent space
+			// The view dir in tangent space
 			float3 worldViewDir = IN.viewDir.xzy;
 
 			float fresnel = dot(worldViewDir, bump);
 
-			//Unitys original script had float2(fresnel, fresnel), but the last is not needed because gradient
+			// Unitys original script had float2(fresnel, fresnel), but the last is not needed because gradient
 			float4 waterColor = tex2D(_ColorControl, float2(fresnel, 0.5));
 
-			//Add horizon so the distant reflections are not white but the horizon color
+			// Add horizon so the distant reflections are not white but the horizon color
 			waterColor = float4(lerp(waterColor.rgb, _HorizonColor.rgb, waterColor.a), _HorizonColor.a);
 
 
-			//Add color so we can change time of day by making the water darker/lighter
+			// Add color so we can change time of day by making the water darker/lighter
 			//waterColor.rgb *= _TimeColor.rgb;
 
 
 			//
-			//Foam
+			// Foam
 			//
-			//https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter18.html
-			//saturate() returns a number between 0 and 1
+			// https://developer.nvidia.com/gpugems/GPUGems2/gpugems2_chapter18.html
+			// saturate() returns a number between 0 and 1
 
 			////Our wave eq: sin((t * _WaveSpeed + waveType) / _WaveDistance) * _WaveScale;
 			////sin(x) goes from -1 -> 1, so 
@@ -420,7 +420,7 @@ Shader "Custom/Water/UnityWaterWithWave"
 
 
 
-			//Output
+			// Output
 			o.Albedo = waterColor.rgb;
 			o.Alpha = waterColor.a;
 		}

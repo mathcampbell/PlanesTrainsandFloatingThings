@@ -11,7 +11,7 @@ public class LightBlock : ActiveBlock
 	public Material lightMatOriginal;
 	private Material lightMat;
 	private float powerAvailable;
-    
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -31,13 +31,13 @@ public class LightBlock : ActiveBlock
 	// Update is called once per frame
 	void Update()
 	{
-		
+
 	}
 
 	private void FixedUpdate() {
 		if (IOInputLightSwitch.inputIO)
 		{
-            GetComponentInChildren<GenericConsumer>().requested = 0.1f;
+			GetComponentInChildren<GenericConsumer>().requested = 0.1f;
 			powerAvailable = GetComponentInChildren<GenericConsumer>().recieved;
 			TurnLightOn();
 			lightOn = true;
@@ -57,7 +57,7 @@ public class LightBlock : ActiveBlock
 
 		LightObject.intensity = (0.2f * powerAvailable);
 		lightMat.EnableKeyword("_EMISSION");
-		
+
 
 
 

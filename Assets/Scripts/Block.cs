@@ -11,15 +11,15 @@ public class Block : MonoBehaviour
 	public string blockName;
 	public string description;
 	public float mass;
-	
+
 	public float sidelength;
 	public float volume;
 
 	public Material[] matArray;
 
 	public Animator BlockAnim;
-   
-	
+
+
 	void Awake()
 	{
 		Collider = GetComponent<BoxCollider>();
@@ -31,13 +31,13 @@ public class Block : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		
+
 	}
 
 	public virtual void Init()
@@ -49,14 +49,14 @@ public class Block : MonoBehaviour
 	{
 		this.GetComponentInChildren<Renderer>().material = mat;
 	}
-	
+
 	public void SetAllMaterials(Material[] newMats)
 	{
-		// Material[] matArray = GetComponentInChildren<Renderer>().materials;
-		//  for (int i = 0; i<matArray.Length; i++)
-		//  {
-		//       matArray[i] = newMats[i];
-		//   }
+		//Material[] matArray = GetComponentInChildren<Renderer>().materials;
+		//	for (int i = 0; i<matArray.Length; i++)
+		//	{
+		//		matArray[i] = newMats[i];
+		//	}
 
 		this.GetComponentInChildren<Renderer>().materials = newMats;
 	}
@@ -68,7 +68,7 @@ public class Block : MonoBehaviour
 
 	public Material[] GetAllMaterials()
 	{
-		Material[] currentMats = this.GetComponentInChildren<Renderer>().materials;    
+		Material[] currentMats = this.GetComponentInChildren<Renderer>().materials;
 		return currentMats;
 		/*List<Material> matArray = new List<Material>();
 		this.GetComponentInChildren<Renderer>().GetMaterials(matArray);
@@ -76,13 +76,13 @@ public class Block : MonoBehaviour
 		*/
 	}
 
-    public virtual void SetGhost()
-    {
+	public virtual void SetGhost()
+	{
 		BlockAnim.SetBool("BlockGhost", true);
-    }
+	}
 
-    public virtual void SetSolid()
-    {
+	public virtual void SetSolid()
+	{
 		BlockAnim.SetBool("BlockGhost", false);
-    }
+	}
 }

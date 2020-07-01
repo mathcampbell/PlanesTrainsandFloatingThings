@@ -113,7 +113,7 @@ public class PowerNetworkManager : MonoBehaviour
 
 			foreach(var storage in storages)
 			{
-				//TODO: Equally distribute
+				// TODO: Equally distribute
 			}
 
 			foreach (var consumer in consumers)
@@ -137,8 +137,8 @@ public class PowerNetworkManager : MonoBehaviour
 
 				foreach (var storage in storages)
 				{
-					//TODO: Equally distribute
-                    
+					// TODO: Equally distribute
+
 				}
 
 
@@ -183,7 +183,7 @@ public class PowerNetworkManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+
 	}
 
 	// Update is called once per frame

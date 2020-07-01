@@ -41,7 +41,7 @@ public class Thruster : KeybindableComponent {
 			SetParticles(true);
 
 		}
-		else 
+		else
 		{
 			// Not thrusting!
 			SetParticles(false);
@@ -54,9 +54,9 @@ public class Thruster : KeybindableComponent {
 		ParticleSystem.EmissionModule em = GetComponentInChildren<ParticleSystem>().emission;
 		em.enabled = enabled;
 	}
-	
+
 	// Update is called once per VISUAL frame
 	void Update () {
-	
+
 	}
 }

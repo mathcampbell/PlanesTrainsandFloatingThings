@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Move the trail positions to the wave positions
-public class WaterWakesTR : MonoBehaviour 
+public class WaterWakesTR : MonoBehaviour
 {
-    TrailRenderer trailRenderer;
-	
+	TrailRenderer trailRenderer;
 
 
-	void Start() 
+
+	void Start()
 	{
-        trailRenderer = GetComponent<TrailRenderer>();	
+		trailRenderer = GetComponent<TrailRenderer>();
 	}
-	
-	
-	void Update() 
+
+
+	void Update()
 	{
-        //Vector3[] positions = trailRenderer.GetPositions();
-        //trailRenderer.getp
-    }
+		//Vector3[] positions = trailRenderer.GetPositions();
+		//trailRenderer.getp
+	}
 }

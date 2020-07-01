@@ -4,86 +4,86 @@ using UnityEngine;
 
 //Will calculate the mass of a mesh
 //Assumes the center of mass is inside the object and the object is convex
-public class CalculateObjectMass : MonoBehaviour 
+public class CalculateObjectMass : MonoBehaviour
 {
-    public GameObject meshObj;
-	
+	public GameObject meshObj;
 
 
-	void Start() 
+
+	void Start()
 	{
-		//The mesh is attached to this gameobject
-        if (meshObj == null)
-        {
-            meshObj = gameObject;
-        }
+		// The mesh is attached to this gameobject
+		if (meshObj == null)
+		{
+			meshObj = gameObject;
+		}
 
-        CalculateMass();
-    }
-	
-	
-
-	void Update() 
-	{
-		
+		CalculateMass();
 	}
 
 
 
-    void CalculateMass()
-    {
-        //Doesnt take into account the scale
-        //Mesh mesh = meshObj.GetComponent<MeshFilter>().mesh;
+	void Update()
+	{
 
-        //float volume = mesh.bounds.size.x * mesh.bounds.size.y * mesh.bounds.size.z;
+	}
 
-        Renderer renderer = meshObj.GetComponent<Renderer>();
 
-        float volume = renderer.bounds.size.x * renderer.bounds.size.y * renderer.bounds.size.z;
 
-        //print(volume);
+	void CalculateMass()
+	{
+		// Doesnt take into account the scale
+		//Mesh mesh = meshObj.GetComponent<MeshFilter>().mesh;
 
-        float rhoWater = 1027f;
+		//float volume = mesh.bounds.size.x * mesh.bounds.size.y * mesh.bounds.size.z;
 
-        float densityIce = rhoWater * 0.70f;
+		Renderer renderer = meshObj.GetComponent<Renderer>();
 
-        float mass = densityIce * volume;
+		float volume = renderer.bounds.size.x * renderer.bounds.size.y * renderer.bounds.size.z;
 
-        //Always gameobject and not meshobject
-        gameObject.GetComponent<Rigidbody>().mass = mass;
+		//print(volume);
 
-        //print(volume);
+		float rhoWater = 1027f;
 
-        //Calculate the volume
-        //int[] triangles = meshObj.GetComponent<MeshFilter>().mesh.triangles;
+		float densityIce = rhoWater * 0.70f;
 
-        //Vector3[] vertices = meshObj.GetComponent<MeshFilter>().mesh.vertices;
+		float mass = densityIce * volume;
 
-        //Vector3 centerOfMass = meshObj.GetComponent<Rigidbody>().centerOfMass;
+		// Always gameobject and not meshobject
+		gameObject.GetComponent<Rigidbody>().mass = mass;
 
-        //float volume = 0f;
+		//print(volume);
 
-        //int i = 0;
-        //while (i < triangles.Length)
-        //{
-        //    Vector3 p1 = vertices[triangles[i]];
+		// Calculate the volume
+		//int[] triangles = meshObj.GetComponent<MeshFilter>().mesh.triangles;
 
-        //    i++;
+		//Vector3[] vertices = meshObj.GetComponent<MeshFilter>().mesh.vertices;
 
-        //    Vector3 p2 = vertices[triangles[i]];
+		//Vector3 centerOfMass = meshObj.GetComponent<Rigidbody>().centerOfMass;
 
-        //    i++;
+		//float volume = 0f;
 
-        //    Vector3 p3 = vertices[triangles[i]];
+		//int i = 0;
+		//while (i < triangles.Length)
+		//{
+		//    Vector3 p1 = vertices[triangles[i]];
 
-        //    i++;
+		//    i++;
 
-        //    //Area of the triangle
-        //    float a = Vector3.Distance(p1, p2);
+		//    Vector3 p2 = vertices[triangles[i]];
 
-        //    float c = Vector3.Distance(p3, p1);
+		//    i++;
 
-        //    float area = (a * c * Mathf.Sin(Vector3.Angle(p2 - p1, p3 - p1) * Mathf.Deg2Rad)) / 2f;
-        //}
-    }
+		//    Vector3 p3 = vertices[triangles[i]];
+
+		//    i++;
+
+		//    //Area of the triangle
+		//    float a = Vector3.Distance(p1, p2);
+
+		//    float c = Vector3.Distance(p3, p1);
+
+		//    float area = (a * c * Mathf.Sin(Vector3.Angle(p2 - p1, p3 - p1) * Mathf.Deg2Rad)) / 2f;
+		//}
+	}
 }
