@@ -30,7 +30,8 @@ public class SuperNetwork : MonoBehaviour
 
 
 	// uInt becasue it wraps around
-	uint        currentOrientation                             = 0;
+	uint currentOrientation = 0;
+
 	const float rotationPerDeltaTimeToOrientationIntegerFactor = uint.MaxValue;
 
 
@@ -88,10 +89,10 @@ public class SuperNetwork : MonoBehaviour
 		ResolveTorques();
 
 		// Convert to appropriate values, we start with rotations per minute.
-		//                                / rotations per Second
-		//                                |    / rotations per FixedUpdate
-		//                                |    |                     / conversion to integer domain
-		currentOrientation += (uint)(rpm * 60 * Time.fixedDeltaTime * rotationPerDeltaTimeToOrientationIntegerFactor);
+		//                                                             / rotations per Second
+		//                                                             |    / rotations per FixedUpdate
+		//                                                             |    |                     / conversion to integer domain
+		currentOrientation += (uint)Math.Min((float)uint.MaxValue, rpm * 60 * Time.fixedDeltaTime * rotationPerDeltaTimeToOrientationIntegerFactor);
 	}
 
 	#region ShaftUpdate
@@ -164,6 +165,7 @@ public class SuperNetwork : MonoBehaviour
 		{
 			componentUpdatePendingTorque = 0;
 			componentUpdatePendingFrictionTorque = 0;
+			componentUpdateTotalAbsTorque = 0;
 
 			HashSet<EdgeComponent> processedComponents = new HashSet<EdgeComponent>();
 
