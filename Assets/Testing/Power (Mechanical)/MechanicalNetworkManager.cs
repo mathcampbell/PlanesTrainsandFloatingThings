@@ -6,7 +6,7 @@ using System.Linq;
 
 
 /// <summary>
-/// Manager for a single power network.
+/// Manager for a single mechanical power network.
 /// </summary>
 public class MechanicalNetworkManager : MonoBehaviour
 {
@@ -83,10 +83,10 @@ public class MechanicalNetworkManager : MonoBehaviour
          * This list is effectively the ordered map of what items exist between teh producer and the consumer;
          * at the startt of every FixedUpdate, each producer's RPM should be checked (it will have been set in the last update), then it's producer method ran to determine the correct torque to be produced.
          * every FixedUpdate, the Manager should then run every consumer's consume method - this should get the produced torque from each producer, using the List to determine what modification should be made to it (e.g gears doubling the torque or a splitter halving it etc)
-         * the consumer should then use the torque (turning the torque into generated power or turning a wheel or a prop etc)
-         * at the end of this, the consumer should then produce an RPM based on that; this RPM should be modified using the List again.
-         * when it's been modified, the consumer should then return that value to the manager for each producer;
-         * the Manager should wait until all consumers have ran, then evaluate the returned RPMs and take teh lowest and assign that to the relevent producers.
+         * then consumer's should be told how much avaialble torque there is, and their methods ran...this will give an RPM (from WheelColliders) as we can't get the net toqrue used;
+         * But, we can take that RPM from every consumer, average it out, then use that to discover what torque from the engine *should* be based on that; then use that torque figure, times the engine inertia to disocer the acceleration; use that to set the new RPM.
+         *
+         * Not 100% sure on this math yet...
          */
 
 		float consumerDemand = 0;

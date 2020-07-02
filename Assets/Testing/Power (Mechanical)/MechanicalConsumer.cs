@@ -7,6 +7,7 @@ public abstract class MechanicalConsumer : MechanicalNetworkItem
 	public readonly float maxConsumption = 1;
 	public float requested;
 	public float recieved;
+    public List<MechanicalNetworkItem> driveTrainList;
 
 	// Start is called before the first frame update
 	void Start()
@@ -30,6 +31,7 @@ public abstract class MechanicalConsumer : MechanicalNetworkItem
 		manager.consumers.Remove(this);
 	}
 
+	
 
 	/// <summary>
 	/// Find the amount of power that could be consumed this tick
