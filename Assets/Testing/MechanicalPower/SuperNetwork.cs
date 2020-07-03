@@ -47,11 +47,16 @@ public class SuperNetwork
 
 	public float getRPMInNetwork(Network network)
 	{
-		if (network == primaryNetwork)
-			return rpm;
-		else
+			if (network == primaryNetwork)
+				return rpm;
+			else
 			// TODO: Find the conversion factor between the Primary and given network and apply it.
-			throw new NotImplementedException();
+			{
+				var (currentRPMFactor, currentTorqueFactor, currentOrientationFactor) = ComputeConversionFactors(network);
+				rpm *= currentRPMFactor;
+				return rpm;
+				
+			}
 	}
 
 	public uint getCurrentOrientationInNetwork(Network network)
