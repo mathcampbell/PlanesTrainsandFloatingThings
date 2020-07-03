@@ -227,14 +227,9 @@ public class SuperNetwork
 
 	private void ResolveTorques()
 	{
-		//TODO: Math (I pulled this out of a hat, probably bullshit)
 		float rpmDelta         = componentUpdater.componentUpdatePendingTorque         / totalInertia * Time.fixedDeltaTime;
 		float rpmDeltaFriction = componentUpdater.componentUpdatePendingFrictionTorque / totalInertia * Time.fixedDeltaTime;
 
-		if (UnityEngine.Random.value == 2) // always true, but compiler can't tell and won't complain about unreachable code.
-			throw new NotImplementedException("TODO: Math");
-
-		// Math below is probably fine.
 		rpm += rpmDelta;
 
 		if (rpmDeltaFriction > Math.Abs(rpm))
