@@ -6,41 +6,41 @@ using UnityEngine;
 namespace Assets.Testing.MechanicalPower
 {
 /// <summary>
-/// A <see cref="Network"/> is a collection of directly connected <see cref="Component"/>s.
+/// A <see cref="ShaftNetwork"/> is a collection of directly connected <see cref="ShaftComponent"/>s.
 /// </summary>
-public class Network
+public class ShaftNetwork
 {
 	/// <summary>
-	/// The <see cref="SuperNetwork"/> that this <see cref="Network"/> is part of.
+	/// The <see cref="ShaftNetworkGroup"/> that this <see cref="ShaftNetwork"/> is part of.
 	/// </summary>
-	public SuperNetwork superNetwork;
+	public ShaftNetworkGroup superNetwork;
 
 
 
 	/// <summary>
-	/// All <see cref="Component"/>s in this network.
+	/// All <see cref="ShaftComponent"/>s in this network.
 	/// </summary>
-	public List<Component> components;
+	public List<ShaftComponent> components;
 
 	/// <summary>
-	/// The <see cref="Component"/>s in this network that are not <see cref="EdgeComponent"/>
+	/// The <see cref="ShaftComponent"/>s in this network that are not <see cref="ShaftEdgeComponent"/>
 	/// </summary>
-	public List<Component> nonEdgeComponents;
+	public List<ShaftComponent> nonEdgeComponents;
 
 	/// <summary>
-	/// The <see cref="Component"/>s in this network that are also <see cref="EdgeComponent"/>
+	/// The <see cref="ShaftComponent"/>s in this network that are also <see cref="ShaftEdgeComponent"/>
 	/// </summary>
-	public List<EdgeComponent> edgeComponents;
-
-
-	/// <summary>
-	/// <see cref="Network"/>s that we could form a <see cref="SuperNetwork"/> with.
-	/// </summary>
-	public List<Network> potentialNeighbours;
+	public List<ShaftEdgeComponent> edgeComponents;
 
 
 	/// <summary>
-	/// The inertia of this <see cref="Network"/>.
+	/// <see cref="ShaftNetwork"/>s that we could form a <see cref="ShaftNetworkGroup"/> with.
+	/// </summary>
+	public List<ShaftNetwork> potentialNeighbours;
+
+
+	/// <summary>
+	/// The inertia of this <see cref="ShaftNetwork"/>.
 	/// </summary>
 	public float inertia { get; set; }
 
@@ -48,7 +48,7 @@ public class Network
 	internal bool needsReconfiguration = false;
 
 	/// <summary>
-	/// Signal to this network that it needs to reconfigure the <see cref="SuperNetwork"/> topography.
+	/// Signal to this network that it needs to reconfigure the <see cref="ShaftNetworkGroup"/> topography.
 	/// (This will NOT happen immediately)
 	/// </summary>
 	public void SignalNeedReconfiguration()
