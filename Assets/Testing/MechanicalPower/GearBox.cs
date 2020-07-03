@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace Assets.Testing.MechanicalPower
 {
 /// <summary>
-/// A <see cref="Component"/> that links two <see cref="Network"/>s with a selectable ratio between them
+/// A <see cref="ShaftComponent"/> that links two <see cref="ShaftNetwork"/>s with a selectable ratio between them
 /// </summary>
-public class GearBox : EdgeComponent
+public class GearBox : ShaftEdgeComponent
 {
-	protected Network network2;
+	protected ShaftNetwork network2;
 
 	int selectedRatioIndex;
 	List<float> ratios;
@@ -19,12 +19,12 @@ public class GearBox : EdgeComponent
 
 
 
-	public override List<Network> CurrentlyConnectedNetworks(SuperNetwork activeNetwork)
+	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 	{
 		throw new NotImplementedException();
 	}
 
-	public override void ShaftUpdate(SuperNetwork activeNetwork)
+	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
 		throw new NotImplementedException();
 	}

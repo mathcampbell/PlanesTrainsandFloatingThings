@@ -7,20 +7,20 @@ namespace Assets.Testing.MechanicalPower
 {
 /// <summary>
 /// Collection of connected <see cref="UnityEngine.Network"/>s
-/// The <see cref="SuperNetwork"/> is responsible for the logic.
-/// A <see cref="UnityEngine.Network"/> is always part of a <see cref="SuperNetwork"/>, even if there is only one <see cref="UnityEngine.Network"/>.
+/// The <see cref="ShaftNetworkGroup"/> is responsible for the logic.
+/// A <see cref="UnityEngine.Network"/> is always part of a <see cref="ShaftNetworkGroup"/>, even if there is only one <see cref="UnityEngine.Network"/>.
 /// </summary>
-public class SuperNetwork
+public class ShaftNetworkGroup
 {
 	/// <summary>
-	/// <see cref="UnityEngine.Network"/>s that for this <see cref="SuperNetwork"/>
+	/// <see cref="UnityEngine.Network"/>s that for this <see cref="ShaftNetworkGroup"/>
 	/// </summary>
-	List<Network> networks;
+	List<ShaftNetwork> networks;
 
 	/// <summary>
 	/// The <see cref="UnityEngine.Network"/> used as the perspective for calculations.
 	/// </summary>
-	Network primaryNetwork;
+	ShaftNetwork primaryNetwork;
 
 
 
@@ -36,7 +36,7 @@ public class SuperNetwork
 
 
 
-	public SuperNetwork()
+	public ShaftNetworkGroup()
 	{
 		componentUpdater = new ComponentUpdater(this);
 	}
@@ -45,7 +45,7 @@ public class SuperNetwork
 
 
 
-	public float getRPMInNetwork(Network network)
+	public float getRPMInNetwork(ShaftNetwork network)
 	{
 		if (network == primaryNetwork)
 			return rpm;
@@ -54,7 +54,7 @@ public class SuperNetwork
 			throw new NotImplementedException();
 	}
 
-	public uint getCurrentOrientationInNetwork(Network network)
+	public uint getCurrentOrientationInNetwork(ShaftNetwork network)
 	{
 		if (network == primaryNetwork)
 			return currentOrientation;
@@ -63,7 +63,7 @@ public class SuperNetwork
 			throw new NotImplementedException();
 	}
 
-	public (float rpmFactor, float torqueFactor, float orientationFactor) ComputeConversionFactors(Network network)
+	public (float rpmFactor, float torqueFactor, float orientationFactor) ComputeConversionFactors(ShaftNetwork network)
 	{
 		if (network == primaryNetwork)
 			return (1, 1, 1);
@@ -100,7 +100,7 @@ public class SuperNetwork
 	private readonly ComponentUpdater componentUpdater;
 
 	/// <summary>
-	/// <see cref="ComponentUpdater"/> provides access to the state of the <see cref="SuperNetwork"/> taking into account the <see cref="UnityEngine.Network"/> that is currently being updated,
+	/// <see cref="ComponentUpdater"/> provides access to the state of the <see cref="ShaftNetworkGroup"/> taking into account the <see cref="UnityEngine.Network"/> that is currently being updated,
 	/// and applying the proper conversions for rps, torque etc.
 	/// It is only valid during <see cref="ComponentUpdate"/>, will throw <see cref="InvalidOperationException"/> when used outside of that context.
 	/// </summary>
@@ -122,9 +122,9 @@ public class SuperNetwork
 	/// </summary>
 	public class ComponentUpdater
 	{
-		public SuperNetwork SuperNetwork { get; }
+		public ShaftNetworkGroup SuperNetwork { get; }
 
-		internal ComponentUpdater(SuperNetwork myNetwork)
+		internal ComponentUpdater(ShaftNetworkGroup myNetwork)
 		{
 			this.SuperNetwork = myNetwork;
 		}
@@ -146,7 +146,7 @@ public class SuperNetwork
 		/// </summary>
 		internal float componentUpdateTotalAbsTorque;
 
-		internal Network componentUpdateActiveNetwork;
+		internal ShaftNetwork componentUpdateActiveNetwork;
 		internal float   componentUpdateRPMFactor = 1;
 		internal float   componentUpdateTorqueFactor = 1;
 		internal float   componentUpdateOrientationFactor = 1;
@@ -157,7 +157,7 @@ public class SuperNetwork
 			componentUpdatePendingFrictionTorque = 0;
 			componentUpdateTotalAbsTorque = 0;
 
-			var processedComponents = new HashSet<EdgeComponent>();
+			var processedComponents = new HashSet<ShaftEdgeComponent>();
 
 			foreach (var activeNetwork in SuperNetwork.networks)
 			{
@@ -249,11 +249,11 @@ public class SuperNetwork
 	#region ContainerFunctions
 
 	/// <summary>
-	/// Test if this <see cref="SuperNetwork"/> contains <paramref name="network"/>.
+	/// Test if this <see cref="ShaftNetworkGroup"/> contains <paramref name="network"/>.
 	/// </summary>
 	/// <param name="network"></param>
 	/// <returns></returns>
-	public bool Contains(Network network)
+	public bool Contains(ShaftNetwork network)
 	{
 		return networks.Contains(network);
 	}

@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Testing.MechanicalPower
 {
-public class Wheel : Component
+public class Wheel : ShaftComponent
 {
 	private WheelCollider collider;
 

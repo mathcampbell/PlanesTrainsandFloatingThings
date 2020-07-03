@@ -26,16 +26,16 @@ namespace Assets.Testing.MechanicalPower
 
 
 /// <summary>
-/// Class responsible for managing the (Super)<see cref="Network"/>s of a vehicle.
+/// Class responsible for managing the (Super)<see cref="ShaftNetwork"/>s of a vehicle.
 /// TODO: Docked vehicles.
 /// </summary>
-public class NetworkManager : MonoBehaviour
+public class ShaftNetworkManager : MonoBehaviour
 {
 	private GameObject myVehicle;
 
-	private List<Network> networks;
+	private List<ShaftNetwork> networks;
 
-	private List<SuperNetwork> superNetworks;
+	private List<ShaftNetworkGroup> superNetworks;
 
 
 	private void FixedUpdate()

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace Assets.Testing.MechanicalPower
 {
 /// <summary>
-/// A <see cref="Component"/> that can connect or disconnect two <see cref="Network"/>s.
+/// A <see cref="ShaftComponent"/> that can connect or disconnect two <see cref="ShaftNetwork"/>s.
 /// </summary>
-public class Clutch : EdgeComponent
+public class Clutch : ShaftEdgeComponent
 {
-	protected Network network2;
+	protected ShaftNetwork network2;
 
 	/// <summary>
 	/// 0 disconnected, 1 fully connected.
@@ -25,7 +25,7 @@ public class Clutch : EdgeComponent
 	float torqueCapacity;
 
 	/// <summary>
-	/// Are the networks on both sides rotating at the same speed, allowing a <see cref="SuperNetwork"/> to span both sides?
+	/// Are the networks on both sides rotating at the same speed, allowing a <see cref="ShaftNetworkGroup"/> to span both sides?
 	/// </summary>
 	bool isEqualized;
 
@@ -36,9 +36,9 @@ public class Clutch : EdgeComponent
 
 
 
-	public override List<Network> CurrentlyConnectedNetworks(SuperNetwork activeNetwork)
+	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 	{
-		var result = new List<Network>();
+		var result = new List<ShaftNetwork>();
 		if (isEqualized)
 		{
 			if (activeNetwork.Contains(network))
@@ -49,7 +49,7 @@ public class Clutch : EdgeComponent
 		return result;
 	}
 
-	public override void ShaftUpdate(SuperNetwork activeNetwork)
+	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
 		var active = activeNetwork.CU; // Shortcut.
 

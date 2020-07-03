@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Testing.MechanicalPower
 {
-	public class Motor : Component
+	public class Motor : ShaftComponent
 	{
 		/// <summary>
 		/// Throttle, [-1..1]

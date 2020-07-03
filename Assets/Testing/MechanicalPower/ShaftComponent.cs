@@ -4,14 +4,14 @@ using UnityEngine;
 namespace Assets.Testing.MechanicalPower
 {
 /// <summary>
-/// A <see cref="Component"/> repressents any object in a Shaft network that has functionality.
+/// A <see cref="ShaftComponent"/> repressents any object in a Shaft network that has functionality.
 /// </summary>
-public abstract class Component : MonoBehaviour
+public abstract class ShaftComponent : MonoBehaviour
 {
 	/// <summary>
-	/// The network this <see cref="Component"/> is a part of.
+	/// The network this <see cref="ShaftComponent"/> is a part of.
 	/// </summary>
-	protected Network network;
+	protected ShaftNetwork network;
 
 
 	/// <summary>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Testing.MechanicalPower
 {
-	public class Propeller : Component
+	public class Propeller : ShaftComponent
 	{
 		/// <summary>
 		/// The radius of the propeller.
