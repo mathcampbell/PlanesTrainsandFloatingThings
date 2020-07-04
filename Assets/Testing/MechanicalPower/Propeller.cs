@@ -21,8 +21,15 @@ namespace Assets.Testing.MechanicalPower
 		//TODO: Other performance parameters of the propeller.
 		//TODO? ideally water and air propellers just vary in these parameters and we don't have seperate classes. Is this feasable?
 
+		//TODO: Answer from Math - Yes, possibly; though rather than physically simulate actual pressure equations for the output of the blade,
+		//TODO: we can just use "set parameters" calculated elsehwere; this would mean that prop would need a float telling it the right "movement force" (how much force is added to the vehicle in the direction of the prop) above and below water.
+		//TODO: likewise, the ReactionTorque below will obviously be different if it's in or out of water - but this will also need a blade-stress float; if torque exceeds blade-stress, it will break and produce NO force, only add a small amount of torque
+		//TODO: back into the system, but also maybe an event? or something that tells the physical model to do a break animation etc.
+        //TODO: This bladeStress can be modified by the preFab of the prop it's in, so we can set it much lower for aircraft props (which wil break in water), or even expose it to the Player for custom props (with higher-stress tolerance = larger mass)
 
-
+		public float bladeStress;
+		public float altitude; // Rather than trying to pass the rigidbody down via the ShaftNetworkManager to the ShaftNetworkGroup to the Network to the item; we'll just update the altitude from the prop Block object which will need linked to each Propellor script anyway.
+                               // Prop Blocks will pull in location information which for large vehicles prop may  be some way away from the rigidbody's location. We can get the exact centrepoint of the prop.
 
 
 		/// <inheritdoc />
@@ -33,8 +40,18 @@ namespace Assets.Testing.MechanicalPower
 			float rpm = cu.RPM;
 
 			float forwardAirSpeed = 1; //TODO get airspeed at the position of the propeller (because vehicle/subgrid rotation etc).
-			float pressure = 1;       //TODO compute from altitude (vehicle's altitude will be close enough for the math).
+			float pressure = 1;       
 
+			if (altitude > 0)
+			{
+				pressure = PressureLookup.AirPressure(altitude);
+			}
+			else
+            {
+				altitude = Math.Abs(altitude);
+				pressure = PressureLookup.WaterPressure(altitude);
+			}
+				 
 			//TODO: Water? -> In water more frition/pressure etc.
 
 			float torque = forwardAirSpeed * pressure * rpm * radius * bladeCount; //TODO: Math

@@ -37,6 +37,8 @@ public class ShaftNetworkManager : MonoBehaviour
 
 	private List<ShaftNetworkGroup> superNetworks;
 
+	public Rigidbody vehicleRigidBody;
+
 
 	private void FixedUpdate()
 	{

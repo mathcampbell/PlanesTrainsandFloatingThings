@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Testing.MechanicalPower
 {
-	public class CombustionEngine : Component
+	public class CombustionEngine : ShaftComponent
 	{
 		/// <summary>
 		/// Throttle, [-1..1]
@@ -34,7 +34,7 @@ namespace Assets.Testing.MechanicalPower
 
 		public override void ShaftUpdate()
 		{
-			var cu = network.superNetwork.CU;
+			var cu = ShaftNetwork.superNetwork.CU;
 
 			cu.AddFriction(cu.RPM * frictionLoss);
 			
