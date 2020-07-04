@@ -7,13 +7,14 @@ using UnityEngine;
 
 namespace Assets.Testing.MechanicalPower
 {
-	public class Motor : Component
+	public class Motor : ShaftComponent
 	{
 		/// <summary>
 		/// Throttle, [-1..1]
 		/// </summary>
 		public float throttle;
 
+		//TODO: Convert to torque curve.
 		/// <summary>
 		/// The RPM at which torque starts to decrease.
 		/// </summary>
@@ -36,7 +37,7 @@ namespace Assets.Testing.MechanicalPower
 			var cu = network.superNetwork.CU;
 
 			cu.AddFriction(cu.RPM * frictionLoss);
-			
+
 			float absRPM = Math.Abs(cu.RPM);
 
 			float torque = 0;
@@ -61,6 +62,8 @@ namespace Assets.Testing.MechanicalPower
 
 			// https://www.quora.com/What-is-the-formula-to-calculate-the-power-consumed-by-an-electric-motor
 			float powerDrawWatt = 2 * Mathf.PI * absRPM * torque / 60;
+			//TODO: Draw the electrical power from somewhere.
+			// Note draw in WATT (units / second), adjust consumption from battery with Time.fixedDeltaTime
 		}
 	}
 }

@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 namespace Assets.Testing.MechanicalPower
 {
 /// <summary>
-/// A <see cref="Component"/> that links two <see cref="Network"/>s with a fixed ratio between them.
+/// A <see cref="ShaftComponent"/> that links two <see cref="ShaftNetwork"/>s with a fixed ratio between them.
 /// </summary>
-public class RatioGear : EdgeComponent
+public class RatioGear : ShaftEdgeComponent
 {
-	protected Network network2;
+	protected ShaftNetwork network2;
 
 	public float gearRatio;
 
 
 
 
-	public override List<Network> CurrentlyConnectedNetworks(SuperNetwork activeNetwork)
+	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 	{
-		var result = new List<Network>();
+		var result = new List<ShaftNetwork>();
 		if (activeNetwork.Contains(network))
 			result.Add(network2);
 		else
@@ -28,7 +28,7 @@ public class RatioGear : EdgeComponent
 		return result;
 	}
 
-	public override void ShaftUpdate(SuperNetwork activeNetwork)
+	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
 		activeNetwork.CU.AddFriction(activeNetwork.CU.RPM * frictionLoss);
 	}

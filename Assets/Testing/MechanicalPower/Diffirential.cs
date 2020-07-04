@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 namespace Assets.Testing.MechanicalPower
 {
 /// <summary>
-/// A <see cref="Component"/> that represents a diffirential.
+/// A <see cref="ShaftComponent"/> that represents a diffirential.
 /// </summary>
-public class Diffirential : EdgeComponent
+public class Diffirential : ShaftEdgeComponent
 {
-	Network outputLeft;
-	Network outputRight;
+	ShaftNetwork outputLeft;
+	ShaftNetwork outputRight;
 
 	// Diffirentials commonly also have a fixed gear ratio between input and output side.
 	float gearRatio;
 
 
 
-	public override List<Network> CurrentlyConnectedNetworks(SuperNetwork activeNetwork)
+	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 	{
 		throw new NotImplementedException();
 	}
 
-	public override void ShaftUpdate(SuperNetwork activeNetwork)
+	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
 		throw new NotImplementedException();
 	}
