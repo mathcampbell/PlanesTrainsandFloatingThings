@@ -758,14 +758,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 64955038, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
-      propertyPath: m_RequiresDepthTextureOption
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 64955038, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
-      propertyPath: m_RenderPostProcessing
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 2048425531, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
+      propertyPath: CurrentWaterController
+      value: 
+      objectReference: {fileID: 1829391820}
+    - target: {fileID: 2048425531, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
+      propertyPath: TheSun
+      value: 
+      objectReference: {fileID: 1846067617}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
 --- !u!1 &1352301489
@@ -1169,26 +1169,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1177033645}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2048425531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2048425523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05ffe4e057c7c482388094046d26ad9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  underwaterFogColorShallow: {r: 0.2028302, g: 0.79303086, b: 1, a: 1}
-  underwaterFogColorDeep: {r: 0, g: 0.2612482, b: 0.3773585, a: 1}
-  underwaterLightColor: {r: 0.6179246, g: 0.9385357, b: 1, a: 1}
-  underwaterDeepLightColor: {r: 0.018022425, g: 0.27469054, b: 0.764151, a: 1}
-  daylightColor: {r: 1, g: 0.9890779, b: 0.8066038, a: 1}
-  CurrentWaterController: {fileID: 1829391820}
-  TheSun: {fileID: 1846067617}
-  BlitPass: {fileID: 4526548512380105909, guid: 8b2107d5dc9124172b6e7c0396e91e93,
-    type: 2}
-  theSkybox: {fileID: 0}
-  SkyboxMat: {fileID: 0}
