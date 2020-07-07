@@ -13,7 +13,7 @@ public class ShaftNetwork
 	/// <summary>
 	/// The <see cref="ShaftNetworkGroup"/> that this <see cref="ShaftNetwork"/> is part of.
 	/// </summary>
-	public ShaftNetworkGroup superNetwork;
+	public ShaftNetworkGroup networkGroup;
 
 
 
@@ -37,6 +37,8 @@ public class ShaftNetwork
 	/// <see cref="ShaftNetwork"/>s that we could form a <see cref="ShaftNetworkGroup"/> with.
 	/// </summary>
 	public List<ShaftNetwork> potentialNeighbours;
+
+	public List<ShaftNetwork> currentNeighbours;
 
 
 	/// <summary>

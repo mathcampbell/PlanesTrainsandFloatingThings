@@ -35,9 +35,8 @@ public class ShaftNetworkManager : MonoBehaviour
 
 	private List<ShaftNetwork> networks;
 
-	private List<ShaftNetworkGroup> superNetworks;
+	private List<ShaftNetworkGroup> networkGroups;
 
-	public Rigidbody vehicleRigidBody;
 
 
 	private void FixedUpdate()
@@ -52,14 +51,28 @@ public class ShaftNetworkManager : MonoBehaviour
 		}
 
 
-		foreach (var super in superNetworks)
-			super.ShaftUpdate();
+		foreach (var networkGroup in networkGroups)
+			networkGroup.ShaftUpdate();
 	}
 
 	private void ReconfigureTopology()
 	{
+		var toReconfigure = new HashSet<ShaftNetworkGroup>();
+
+		// Discover networks that need to be reconfigured.
 		foreach (var network in networks)
-			network.needsReconfiguration = false;
+		{
+			if (network.needsReconfiguration)
+			{
+				toReconfigure.Add(network.networkGroup);
+				network.needsReconfiguration = false;
+			}
+		}
+
+		foreach (var networkGroup in toReconfigure)
+		{
+			ReconfigureTopology();
+		}
 
 		throw new NotImplementedException();
 	}
