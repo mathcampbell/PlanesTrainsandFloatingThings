@@ -34,11 +34,7 @@ namespace Assets.Testing.MechanicalPower
 
 		public override void ShaftUpdate()
 		{
-<<<<<<< HEAD
-			var cu = network.superNetwork.Cu;
-=======
 			var cu = network.networkGroup.CU;
->>>>>>> 61c77ff81fb13677a623385ef937fd015461042c
 
 			cu.AddFriction(cu.RPM * frictionLoss);
 

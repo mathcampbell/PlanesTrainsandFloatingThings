@@ -20,11 +20,7 @@ public class Wheel : ShaftComponent
 	/// <inheritdoc />
 	public override void ShaftUpdate()
 	{
-<<<<<<< HEAD
-		var active = network.superNetwork.Cu; // Shortcut.
-=======
 		var active = network.networkGroup.CU; // Shortcut.
->>>>>>> 61c77ff81fb13677a623385ef937fd015461042c
 
 		float rpmDelta = wheelCollider.rpm - active.RPM;
 

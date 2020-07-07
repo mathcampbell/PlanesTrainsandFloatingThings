@@ -45,7 +45,7 @@ public class RatioGear : ShaftEdgeComponent2
 	/// <inheritdoc />
 	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
-		activeNetwork.Cu.AddFriction(activeNetwork.Cu.RPM * frictionLoss);
+		activeNetwork.CU.AddFriction(activeNetwork.CU.RPM * frictionLoss);
 	}
 }
 }

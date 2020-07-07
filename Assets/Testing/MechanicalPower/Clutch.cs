@@ -64,7 +64,7 @@ public class Clutch : ShaftEdgeComponent2
 	/// <inheritdoc />
 	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
-		var active = activeNetwork.Cu; // Shortcut.
+		var active = activeNetwork.CU; // Shortcut.
 
 		active.AddFriction(frictionLoss * active.RPM);
 
@@ -80,15 +80,9 @@ public class Clutch : ShaftEdgeComponent2
 
 		if (false == isEqualized)
 		{
-<<<<<<< HEAD
-			var other = network.superNetwork.Cu;
-			if (activeNetwork.Contains(network))
-				other = network2.superNetwork.Cu; // Shortcut.
-=======
 			var other = network.networkGroup.CU;
 			if (activeNetwork.Contains(network))
 				other = network2.networkGroup.CU; // Shortcut.
->>>>>>> 61c77ff81fb13677a623385ef937fd015461042c
 
 			float rpmDelta = active.RPM - other.RPM;
 			// TODO? Allow merger at application < 1 ?

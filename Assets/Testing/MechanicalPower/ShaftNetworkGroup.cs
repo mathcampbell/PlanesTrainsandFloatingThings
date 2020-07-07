@@ -108,7 +108,7 @@ public class ShaftNetworkGroup
 	/// It is only valid during <see cref="ComponentUpdate"/>, will throw <see cref="InvalidOperationException"/> when used outside of that context.
 	/// </summary>
 	/// <exception cref="InvalidOperationException">Thrown when accessed outside of <see cref="ComponentUpdate"/></exception>
-	public ComponentUpdater Cu
+	public ComponentUpdater CU
 	{
 		get
 		{

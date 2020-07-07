@@ -35,11 +35,7 @@ namespace Assets.Testing.MechanicalPower
 		/// <inheritdoc />
 		public override void ShaftUpdate()
 		{
-<<<<<<< HEAD
-			var cu = network.superNetwork.Cu;
-=======
 			var cu = network.networkGroup.CU;
->>>>>>> 61c77ff81fb13677a623385ef937fd015461042c
 
 			float rpm = cu.RPM;
 
