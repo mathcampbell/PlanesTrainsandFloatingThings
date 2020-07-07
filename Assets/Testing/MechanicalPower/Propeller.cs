@@ -53,9 +53,9 @@ namespace Assets.Testing.MechanicalPower
 			}
 			//TODO: Water? -> In water more frition/pressure etc.
 
-			float torque = forwardAirSpeed * pressure * rpm * radius * bladeCount; //TODO: Math
+			float torque = forwardAirSpeed * pressure * rpm * radius * bladeCount; //TODO: equation
 
-			float forwardForce = pressure * rpm * radius * bladeCount; //TODO: Math
+			float forwardForce = pressure * rpm * radius * bladeCount; //TODO: equation
 
 			cu.AddTorque(torque);
 

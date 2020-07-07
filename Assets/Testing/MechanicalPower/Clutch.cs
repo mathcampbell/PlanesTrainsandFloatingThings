@@ -96,7 +96,7 @@ public class Clutch : ShaftEdgeComponent2
 				// Reconfiguration will NOT happen immediately.
 			}
 
-			// TODO: Math pulled out of hat.
+			// TODO: equation pulled out of hat.
 			float torque = rpmDelta * torqueCapacity * application;
 
 			active.AddTorque(torque);
