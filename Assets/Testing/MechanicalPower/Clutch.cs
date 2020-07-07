@@ -35,7 +35,7 @@ public class Clutch : ShaftEdgeComponent
 	const float rpmDeltaThreshold = 0.001f;
 
 
-
+	/// <inheritdoc />
 	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 	{
 		var result = new List<ShaftNetwork>();

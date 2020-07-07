@@ -246,7 +246,7 @@ public class ShaftNetworkGroup
         #endregion
 
 
-        #region ContainerFunctions
+	#region ContainerFunctions
 
 	/// <summary>
 	/// Test if this <see cref="ShaftNetworkGroup"/> contains <paramref name="network"/>.
@@ -259,6 +259,6 @@ public class ShaftNetworkGroup
 	}
 
 
-        #endregion
-    }
+	#endregion
+	}
 }
