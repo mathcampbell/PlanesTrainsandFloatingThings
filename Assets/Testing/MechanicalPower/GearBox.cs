@@ -19,6 +19,7 @@ public class GearBox : ShaftEdgeComponent2
 	public bool isEngaged => throw new NotImplementedException();
 
 
+	/// <inheritdoc />
 	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 	{
 		var result = new List<ShaftNetwork>();
@@ -47,6 +48,7 @@ public class GearBox : ShaftEdgeComponent2
 		}
 	}
 
+	/// <inheritdoc />
 	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
 		throw new NotImplementedException();
