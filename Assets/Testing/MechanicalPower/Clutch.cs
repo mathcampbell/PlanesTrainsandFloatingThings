@@ -10,10 +10,8 @@ namespace Assets.Testing.MechanicalPower
 /// <summary>
 /// A <see cref="ShaftComponent"/> that can connect or disconnect two <see cref="ShaftNetwork"/>s.
 /// </summary>
-public class Clutch : ShaftEdgeComponent
+public class Clutch : ShaftEdgeComponent2
 {
-	protected ShaftNetwork network2;
-
 	/// <summary>
 	/// 0 disconnected, 1 fully connected.
 	/// </summary>

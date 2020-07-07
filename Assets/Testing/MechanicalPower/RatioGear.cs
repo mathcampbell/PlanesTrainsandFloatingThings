@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +9,14 @@ namespace Assets.Testing.MechanicalPower
 /// <summary>
 /// A <see cref="ShaftComponent"/> that links two <see cref="ShaftNetwork"/>s with a fixed ratio between them.
 /// </summary>
-public class RatioGear : ShaftEdgeComponent
+public class RatioGear : ShaftEdgeComponent2
 {
-	protected ShaftNetwork network2;
 
 	public float gearRatio;
 
 
 
-
+/// <inheritdoc />
 	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 	{
 		var result = new List<ShaftNetwork>();

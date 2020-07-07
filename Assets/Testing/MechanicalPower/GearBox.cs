@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +9,8 @@ namespace Assets.Testing.MechanicalPower
 /// <summary>
 /// A <see cref="ShaftComponent"/> that links two <see cref="ShaftNetwork"/>s with a selectable ratio between them
 /// </summary>
-public class GearBox : ShaftEdgeComponent
+public class GearBox : ShaftEdgeComponent2
 {
-	protected ShaftNetwork network2;
-
 	int selectedRatioIndex;
 	List<float> ratios;
 
