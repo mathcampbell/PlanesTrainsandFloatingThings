@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
+using Assets.Scripts;
 
 using UnityEngine;
 
@@ -15,7 +18,7 @@ public class ShaftNetworkGroup
 	/// <summary>
 	/// <see cref="ShaftNetwork"/>s that for this <see cref="ShaftNetworkGroup"/>
 	/// </summary>
-	List<ShaftNetwork> networks;
+	internal List<ShaftNetwork> networks;
 
 	/// <summary>
 	/// The <see cref="ShaftNetwork"/> used as the perspective for calculations.
@@ -243,7 +246,52 @@ public class ShaftNetworkGroup
 		}
 	}
 
-        #endregion
+
+
+	internal void ReConfigureTopology()
+	{
+		var seenComponents = new HashSet<ShaftEdgeComponent>();
+
+		// First layer FROM --> <dictionary of: TO --> ConversionInfo>
+		var conversionDicts = new Dictionary<ValueTuple<ShaftNetwork, ShaftNetwork>, ConversionInfo>();
+
+		var pendingNetworks = new Queue<ShaftNetwork>();
+		var seenNetworks    = new HashSet<ShaftNetwork>();
+
+		seenNetworks.Add(primaryNetwork);
+		pendingNetworks.Enqueue(primaryNetwork);
+
+		while (pendingNetworks.TryDequeue(out ShaftNetwork fromNetwork))
+		{
+			foreach (var edgeComponent in fromNetwork.edgeComponents)
+			{
+				if (! seenComponents.Add(edgeComponent)) continue; // not added -> existed already -> skip this element.
+
+				// TODO: This will malfunction because of the networks we still contain. -> We ned to clear the network list at some point.
+				var list = edgeComponent.CurrentlyConnectedNetworks(this);
+
+				foreach (var toNetwork in list)
+				{
+					if (seenNetworks.Add(toNetwork)) // true if it was new (added); false if existed already (not added).
+						pendingNetworks.Enqueue(toNetwork);
+
+					void DoStuff(ShaftNetwork a, ShaftNetwork b)
+					{
+						var conversionFactors = edgeComponent.GetConversionFactors(a, b);
+						ValueTuple<ShaftNetwork, ShaftNetwork> key = (a, b);
+						conversionDicts[key] = conversionFactors;
+					}
+
+					DoStuff(fromNetwork, toNetwork);
+					DoStuff(toNetwork, fromNetwork);
+				}
+			}
+		}
+
+		// TODO: Jump across multiple networks. Above code only creates conversions for adjacent networks.
+	}
+
+	#endregion
 
 
 	#region ContainerFunctions

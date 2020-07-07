@@ -38,6 +38,8 @@ public class ShaftNetwork
 	/// </summary>
 	public List<ShaftNetwork> potentialNeighbours;
 
+	public List<ShaftNetwork> currentNeighbours;
+
 
 	/// <summary>
 	/// The inertia of this <see cref="ShaftNetwork"/>.
