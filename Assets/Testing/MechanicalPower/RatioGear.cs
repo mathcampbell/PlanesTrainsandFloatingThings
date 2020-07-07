@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +27,22 @@ public class RatioGear : ShaftEdgeComponent2
 		return result;
 	}
 
+	/// <inheritdoc />
+	public override ConversionInfo GetConversionFactors(ShaftNetwork @from, ShaftNetwork to)
+	{
+		ConversionFactorsSanityCheck(from, to);
+		if (from == network)
+		{
+			return new ConversionInfo(gearRatio, gearRatio, gearRatio);
+		}
+		else
+		{
+			float oneOverGearRatio = 1 / gearRatio;
+			return new ConversionInfo(oneOverGearRatio, oneOverGearRatio, oneOverGearRatio);
+		}
+	}
+
+	/// <inheritdoc />
 	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
 		activeNetwork.CU.AddFriction(activeNetwork.CU.RPM * frictionLoss);

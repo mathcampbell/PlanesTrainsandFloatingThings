@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -47,6 +47,21 @@ public class Clutch : ShaftEdgeComponent2
 		return result;
 	}
 
+	/// <inheritdoc />
+	public override ConversionInfo GetConversionFactors(ShaftNetwork @from, ShaftNetwork to)
+	{
+		ConversionFactorsSanityCheck(from, to);
+		if (isEqualized)
+		{
+			return new ConversionInfo(1, 1, 1);
+		}
+		else
+		{
+			throw new InvalidOperationException("Clutch is not equalized, no conversion factors exist at this time.");
+		}
+	}
+
+	/// <inheritdoc />
 	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
 		var active = activeNetwork.CU; // Shortcut.

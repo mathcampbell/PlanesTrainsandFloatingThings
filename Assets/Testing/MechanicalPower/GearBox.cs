@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +14,37 @@ public class GearBox : ShaftEdgeComponent2
 	int selectedRatioIndex;
 	List<float> ratios;
 
+	public float gearRatio => ratios[selectedRatioIndex]; // TODO neutral / not engaged state.
 
+	public bool isEngaged => throw new NotImplementedException();
 
 
 	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 	{
-		throw new NotImplementedException();
+		var result = new List<ShaftNetwork>();
+		if (isEngaged)
+		{
+			if (activeNetwork.Contains(network))
+				result.Add(network2);
+			else
+				result.Add(network);
+		}
+		return result;
+	}
+
+	/// <inheritdoc />
+	public override ConversionInfo GetConversionFactors(ShaftNetwork @from, ShaftNetwork to)
+	{
+		ConversionFactorsSanityCheck(from, to);
+		if (from == network)
+		{
+			return new ConversionInfo(gearRatio, gearRatio, gearRatio);
+		}
+		else
+		{
+			float oneOverGearRatio = 1 / gearRatio;
+			return new ConversionInfo(oneOverGearRatio, oneOverGearRatio, oneOverGearRatio);
+		}
 	}
 
 	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
