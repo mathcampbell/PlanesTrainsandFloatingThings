@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8200000}
   - component: {fileID: 923575981}
   - component: {fileID: 923575980}
+  - component: {fileID: 2048425531}
   m_Layer: 0
   m_Name: FPSController
   m_TagString: Untagged
@@ -176,6 +177,9 @@ MonoBehaviour:
   m_StepInterval: 5
   m_FootstepSounds:
   - {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}
+  - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
+  - {fileID: 8300000, guid: 5a9383dda6cabc047b7a297602e93eb4, type: 3}
+  - {fileID: 8300000, guid: e9714160ce34f2b4ab63ff8c27bd68e1, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
 --- !u!54 &5400000
@@ -312,6 +316,29 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2048425531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ffe4e057c7c482388094046d26ad9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  underwaterFogColorShallow: {r: 0.2028302, g: 0.79303086, b: 1, a: 1}
+  underwaterFogColorDeep: {r: 0, g: 0.2612482, b: 0.3773585, a: 1}
+  underwaterLightColor: {r: 0.6179246, g: 0.9385357, b: 1, a: 1}
+  underwaterDeepLightColor: {r: 0.018022425, g: 0.27469054, b: 0.764151, a: 1}
+  daylightColor: {r: 1, g: 0.9890779, b: 0.8066038, a: 1}
+  CurrentWaterController: {fileID: 0}
+  TheSun: {fileID: 0}
+  BlitPass: {fileID: 4526548512380105909, guid: 8b2107d5dc9124172b6e7c0396e91e93,
+    type: 2}
+  theSkybox: {fileID: 0}
+  SkyboxMat: {fileID: 0}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

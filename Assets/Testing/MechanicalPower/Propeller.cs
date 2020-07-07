@@ -35,21 +35,23 @@ namespace Assets.Testing.MechanicalPower
 		/// <inheritdoc />
 		public override void ShaftUpdate()
 		{
-			var cu = network.superNetwork.CU;
+			var cu = network.superNetwork.Cu;
 
 			float rpm = cu.RPM;
 
 			float forwardAirSpeed = 1; //TODO get airspeed at the position of the propeller (because vehicle/subgrid rotation etc).
 			float pressure = 1;       
 
+            //TODO: We really should check if the altitude is actually above or below water since sealevel is 0 but waves might be higher or lower; right now we just say <0 = underwater, >0 = in the air.
+            //TODO: We do have a way to check that, but it requires a lookup on teh watercontroller; this will mean a reference to the watercontroller object will be needed; might be easier to do this once on every VehicleController (which each vehicle has one of).
 			if (altitude > 0)
 			{
-				pressure = PressureLookup.AirPressure(altitude);
+				pressure = PressureValues.AirPressure(altitude);
 			}
 			else
             {
 				altitude = Math.Abs(altitude);
-				pressure = PressureLookup.WaterPressure(altitude);
+				pressure = PressureValues.WaterPressure(altitude);
 			}
 				 
 			//TODO: Water? -> In water more frition/pressure etc.
