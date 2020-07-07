@@ -10,7 +10,7 @@ namespace Assets.Testing.MechanicalPower
 {
 public class Wheel : ShaftComponent
 {
-	private WheelCollider collider;
+	private WheelCollider wheelCollider;
 
 	/// <summary>
 	/// Variable that defines how much torque is generated from the RPM diffirence between the wheel and the shaft.
@@ -20,9 +20,13 @@ public class Wheel : ShaftComponent
 	/// <inheritdoc />
 	public override void ShaftUpdate()
 	{
+<<<<<<< HEAD
 		var active = network.superNetwork.Cu; // Shortcut.
+=======
+		var active = network.networkGroup.CU; // Shortcut.
+>>>>>>> 61c77ff81fb13677a623385ef937fd015461042c
 
-		float rpmDelta = collider.rpm - active.RPM;
+		float rpmDelta = wheelCollider.rpm - active.RPM;
 
 		float torque = rpmDelta * magicVariable;
 		// Options to replace magicVariable:
@@ -32,7 +36,7 @@ public class Wheel : ShaftComponent
 
 		//TODO: Directions of the torque could be wrong.
 		active.AddTorque(torque);
-		collider.motorTorque = torque;
+		wheelCollider.motorTorque = torque;
 	}
 }
 }

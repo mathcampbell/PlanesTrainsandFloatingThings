@@ -10,10 +10,8 @@ namespace Assets.Testing.MechanicalPower
 /// <summary>
 /// A <see cref="ShaftComponent"/> that can connect or disconnect two <see cref="ShaftNetwork"/>s.
 /// </summary>
-public class Clutch : ShaftEdgeComponent
+public class Clutch : ShaftEdgeComponent2
 {
-	protected ShaftNetwork network2;
-
 	/// <summary>
 	/// 0 disconnected, 1 fully connected.
 	/// </summary>
@@ -35,7 +33,7 @@ public class Clutch : ShaftEdgeComponent
 	const float rpmDeltaThreshold = 0.001f;
 
 
-
+	/// <inheritdoc />
 	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 	{
 		var result = new List<ShaftNetwork>();
@@ -49,6 +47,21 @@ public class Clutch : ShaftEdgeComponent
 		return result;
 	}
 
+	/// <inheritdoc />
+	public override ConversionInfo GetConversionFactors(ShaftNetwork @from, ShaftNetwork to)
+	{
+		ConversionFactorsSanityCheck(from, to);
+		if (isEqualized)
+		{
+			return new ConversionInfo(1, 1, 1);
+		}
+		else
+		{
+			throw new InvalidOperationException("Clutch is not equalized, no conversion factors exist at this time.");
+		}
+	}
+
+	/// <inheritdoc />
 	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 	{
 		var active = activeNetwork.Cu; // Shortcut.
@@ -67,9 +80,15 @@ public class Clutch : ShaftEdgeComponent
 
 		if (false == isEqualized)
 		{
+<<<<<<< HEAD
 			var other = network.superNetwork.Cu;
 			if (activeNetwork.Contains(network))
 				other = network2.superNetwork.Cu; // Shortcut.
+=======
+			var other = network.networkGroup.CU;
+			if (activeNetwork.Contains(network))
+				other = network2.networkGroup.CU; // Shortcut.
+>>>>>>> 61c77ff81fb13677a623385ef937fd015461042c
 
 			float rpmDelta = active.RPM - other.RPM;
 			// TODO? Allow merger at application < 1 ?
@@ -83,7 +102,7 @@ public class Clutch : ShaftEdgeComponent
 				// Reconfiguration will NOT happen immediately.
 			}
 
-			// TODO: Math pulled out of hat.
+			// TODO: equation pulled out of hat.
 			float torque = rpmDelta * torqueCapacity * application;
 
 			active.AddTorque(torque);
