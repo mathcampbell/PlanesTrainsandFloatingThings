@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +20,7 @@ public class Wheel : ShaftComponent
 	/// <inheritdoc />
 	public override void ShaftUpdate()
 	{
-		var active = network.superNetwork.CU; // Shortcut.
+		var active = network.networkGroup.CU; // Shortcut.
 
 		float rpmDelta = collider.rpm - active.RPM;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Assets.Testing.MechanicalPower
 {
 /// <summary>
-/// A <see cref="ShaftComponent"/> repressents any object in a Shaft network that has functionality.
+/// A <see cref="ShaftComponent"/> represents any object in a Shaft network that has functionality.
 /// </summary>
 public abstract class ShaftComponent : MonoBehaviour
 {

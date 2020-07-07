@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -67,9 +67,9 @@ public class Clutch : ShaftEdgeComponent
 
 		if (false == isEqualized)
 		{
-			var other = network.superNetwork.CU;
+			var other = network.networkGroup.CU;
 			if (activeNetwork.Contains(network))
-				other = network2.superNetwork.CU; // Shortcut.
+				other = network2.networkGroup.CU; // Shortcut.
 
 			float rpmDelta = active.RPM - other.RPM;
 			// TODO? Allow merger at application < 1 ?

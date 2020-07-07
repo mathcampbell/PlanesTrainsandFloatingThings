@@ -34,10 +34,10 @@ namespace Assets.Testing.MechanicalPower
 
 		public override void ShaftUpdate()
 		{
-			var cu = ShaftNetwork.superNetwork.CU;
+			var cu = network.networkGroup.CU;
 
 			cu.AddFriction(cu.RPM * frictionLoss);
-			
+
 			float absRPM = Math.Abs(cu.RPM);
 
 			float torque = 0;
@@ -46,9 +46,8 @@ namespace Assets.Testing.MechanicalPower
 			{
 				torque = throttle * torqueCurve.Evaluate(absRPM);
 			}
-            else
+			else
 			{
-				
 				// else torque = 0
 			}
 

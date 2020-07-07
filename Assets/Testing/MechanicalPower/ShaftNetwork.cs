@@ -13,7 +13,7 @@ public class ShaftNetwork
 	/// <summary>
 	/// The <see cref="ShaftNetworkGroup"/> that this <see cref="ShaftNetwork"/> is part of.
 	/// </summary>
-	public ShaftNetworkGroup superNetwork;
+	public ShaftNetworkGroup networkGroup;
 
 
 

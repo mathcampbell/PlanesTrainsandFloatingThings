@@ -35,23 +35,22 @@ namespace Assets.Testing.MechanicalPower
 		/// <inheritdoc />
 		public override void ShaftUpdate()
 		{
-			var cu = network.superNetwork.CU;
+			var cu = network.networkGroup.CU;
 
 			float rpm = cu.RPM;
 
 			float forwardAirSpeed = 1; //TODO get airspeed at the position of the propeller (because vehicle/subgrid rotation etc).
-			float pressure = 1;       
+			float pressure = 1;
 
 			if (altitude > 0)
 			{
 				pressure = PressureLookup.AirPressure(altitude);
 			}
 			else
-            {
+			{
 				altitude = Math.Abs(altitude);
 				pressure = PressureLookup.WaterPressure(altitude);
 			}
-				 
 			//TODO: Water? -> In water more frition/pressure etc.
 
 			float torque = forwardAirSpeed * pressure * rpm * radius * bladeCount; //TODO: Math
