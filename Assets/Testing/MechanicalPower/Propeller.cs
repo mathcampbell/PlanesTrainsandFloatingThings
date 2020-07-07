@@ -25,7 +25,7 @@ namespace Assets.Testing.MechanicalPower
 		//TODO: we can just use "set parameters" calculated elsehwere; this would mean that prop would need a float telling it the right "movement force" (how much force is added to the vehicle in the direction of the prop) above and below water.
 		//TODO: likewise, the ReactionTorque below will obviously be different if it's in or out of water - but this will also need a blade-stress float; if torque exceeds blade-stress, it will break and produce NO force, only add a small amount of torque
 		//TODO: back into the system, but also maybe an event? or something that tells the physical model to do a break animation etc.
-        //TODO: This bladeStress can be modified by the preFab of the prop it's in, so we can set it much lower for aircraft props (which wil break in water), or even expose it to the Player for custom props (with higher-stress tolerance = larger mass)
+		//TODO: This bladeStress can be modified by the preFab of the prop it's in, so we can set it much lower for aircraft props (which wil break in water), or even expose it to the Player for custom props (with higher-stress tolerance = larger mass)
 
 		public float bladeStress;
 		public float altitude; // Rather than trying to pass the rigidbody down via the ShaftNetworkManager to the ShaftNetworkGroup to the Network to the item; we'll just update the altitude from the prop Block object which will need linked to each Propellor script anyway.
@@ -42,8 +42,8 @@ namespace Assets.Testing.MechanicalPower
 			float forwardAirSpeed = 1; //TODO get airspeed at the position of the propeller (because vehicle/subgrid rotation etc).
 			float pressure = 1;
 
-            //TODO: We really should check if the altitude is actually above or below water since sealevel is 0 but waves might be higher or lower; right now we just say <0 = underwater, >0 = in the air.
-            //TODO: We do have a way to check that, but it requires a lookup on teh watercontroller; this will mean a reference to the watercontroller object will be needed; might be easier to do this once on every VehicleController (which each vehicle has one of).
+			//TODO: We really should check if the altitude is actually above or below water since sealevel is 0 but waves might be higher or lower; right now we just say <0 = underwater, >0 = in the air.
+			//TODO: We do have a way to check that, but it requires a lookup on teh watercontroller; this will mean a reference to the watercontroller object will be needed; might be easier to do this once on every VehicleController (which each vehicle has one of).
 			if (altitude > 0)
 			{
 				pressure = PressureValues.AirPressure(altitude);
