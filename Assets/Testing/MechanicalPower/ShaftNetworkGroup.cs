@@ -63,10 +63,10 @@ public class ShaftNetworkGroup
 			throw new NotImplementedException();
 	}
 
-	public (float rpmFactor, float torqueFactor, float orientationFactor) ComputeConversionFactors(ShaftNetwork network)
+	public ConversionInfo ComputeConversionFactors(ShaftNetwork network)
 	{
 		if (network == primaryNetwork)
-			return (1, 1, 1);
+			return new ConversionInfo(1, 1, 1);
 		else
 			// TODO: Find the conversion factors between the Primary and given network.
 			throw new NotImplementedException();
