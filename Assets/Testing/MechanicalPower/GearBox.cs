@@ -6,52 +6,52 @@ using System.Threading.Tasks;
 
 namespace Assets.Testing.MechanicalPower
 {
-/// <summary>
-/// A <see cref="ShaftComponent"/> that links two <see cref="ShaftNetwork"/>s with a selectable ratio between them
-/// </summary>
-public class GearBox : ShaftEdgeComponent2
-{
-	int selectedRatioIndex;
-	List<float> ratios;
-
-	public float gearRatio => ratios[selectedRatioIndex]; // TODO neutral / not engaged state.
-
-	public bool isEngaged => throw new NotImplementedException();
-
-
-	/// <inheritdoc />
-	public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
+	/// <summary>
+	/// A <see cref="ShaftComponent"/> that links two <see cref="ShaftNetwork"/>s with a selectable ratio between them
+	/// </summary>
+	public class GearBox : ShaftEdgeComponent2
 	{
-		var result = new List<ShaftNetwork>();
-		if (isEngaged)
+		int selectedRatioIndex;
+		List<float> ratios;
+
+		public float gearRatio => ratios[selectedRatioIndex]; // TODO neutral / not engaged state.
+
+		public bool isEngaged => throw new NotImplementedException();
+
+
+		/// <inheritdoc />
+		public override List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork)
 		{
-			if (activeNetwork.Contains(network))
-				result.Add(network2);
+			var result = new List<ShaftNetwork>();
+			if (isEngaged)
+			{
+				if (activeNetwork.Contains(network))
+					result.Add(network2);
+				else
+					result.Add(network);
+			}
+			return result;
+		}
+
+		/// <inheritdoc />
+		public override ConversionInfo GetConversionFactors(ShaftNetwork @from, ShaftNetwork to)
+		{
+			ConversionFactorsSanityCheck(from, to);
+			if (from == network)
+			{
+				return new ConversionInfo(gearRatio, gearRatio, gearRatio);
+			}
 			else
-				result.Add(network);
+			{
+				float oneOverGearRatio = 1 / gearRatio;
+				return new ConversionInfo(oneOverGearRatio, oneOverGearRatio, oneOverGearRatio);
+			}
 		}
-		return result;
-	}
 
-	/// <inheritdoc />
-	public override ConversionInfo GetConversionFactors(ShaftNetwork @from, ShaftNetwork to)
-	{
-		ConversionFactorsSanityCheck(from, to);
-		if (from == network)
+		/// <inheritdoc />
+		public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
 		{
-			return new ConversionInfo(gearRatio, gearRatio, gearRatio);
-		}
-		else
-		{
-			float oneOverGearRatio = 1 / gearRatio;
-			return new ConversionInfo(oneOverGearRatio, oneOverGearRatio, oneOverGearRatio);
+			throw new NotImplementedException();
 		}
 	}
-
-	/// <inheritdoc />
-	public override void ShaftUpdate(ShaftNetworkGroup activeNetwork)
-	{
-		throw new NotImplementedException();
-	}
-}
 }

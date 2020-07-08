@@ -25,56 +25,56 @@ namespace Assets.Testing.MechanicalPower
 
 
 
-/// <summary>
-/// Class responsible for managing the (Super)<see cref="ShaftNetwork"/>s of a vehicle.
-/// TODO: Docked vehicles.
-/// </summary>
-public class ShaftNetworkManager : MonoBehaviour
-{
-	private GameObject myVehicle;
-
-	private List<ShaftNetwork> networks;
-
-	private List<ShaftNetworkGroup> networkGroups;
-
-
-
-	private void FixedUpdate()
+	/// <summary>
+	/// Class responsible for managing the (Super)<see cref="ShaftNetwork"/>s of a vehicle.
+	/// TODO: Docked vehicles.
+	/// </summary>
+	public class ShaftNetworkManager : MonoBehaviour
 	{
-		foreach (var network in networks)
+		private GameObject myVehicle;
+
+		private List<ShaftNetwork> networks;
+
+		private List<ShaftNetworkGroup> networkGroups;
+
+
+
+		private void FixedUpdate()
 		{
-			if (network.needsReconfiguration)
+			foreach (var network in networks)
+			{
+				if (network.needsReconfiguration)
+				{
+					ReconfigureTopology();
+					break;
+				}
+			}
+
+
+			foreach (var networkGroup in networkGroups)
+				networkGroup.ShaftUpdate();
+		}
+
+		private void ReconfigureTopology()
+		{
+			var toReconfigure = new HashSet<ShaftNetworkGroup>();
+
+			// Discover networks that need to be reconfigured.
+			foreach (var network in networks)
+			{
+				if (network.needsReconfiguration)
+				{
+					toReconfigure.Add(network.networkGroup);
+					network.needsReconfiguration = false;
+				}
+			}
+
+			foreach (var networkGroup in toReconfigure)
 			{
 				ReconfigureTopology();
-				break;
 			}
+
+			throw new NotImplementedException();
 		}
-
-
-		foreach (var networkGroup in networkGroups)
-			networkGroup.ShaftUpdate();
 	}
-
-	private void ReconfigureTopology()
-	{
-		var toReconfigure = new HashSet<ShaftNetworkGroup>();
-
-		// Discover networks that need to be reconfigured.
-		foreach (var network in networks)
-		{
-			if (network.needsReconfiguration)
-			{
-				toReconfigure.Add(network.networkGroup);
-				network.needsReconfiguration = false;
-			}
-		}
-
-		foreach (var networkGroup in toReconfigure)
-		{
-			ReconfigureTopology();
-		}
-
-		throw new NotImplementedException();
-	}
-}
 }
