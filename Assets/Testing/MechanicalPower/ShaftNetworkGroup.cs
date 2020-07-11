@@ -250,24 +250,33 @@ namespace Assets.Testing.MechanicalPower
 
 		internal void ReConfigureTopology()
 		{
-			var seenComponents = new HashSet<ShaftEdgeComponent>();
+			networks.Clear(); // clear the list of networks, because that list has side effects.
 
-			// First layer FROM --> <dictionary of: TO --> ConversionInfo>
+
 			var conversionDicts = new Dictionary<ValueTuple<ShaftNetwork, ShaftNetwork>, ConversionInfo>();
 
+			// The idea was to use the fancy new PathFinder class, but because there are two classes involved here
+			// (ShaftNetwork and EdgeComponent) we can't actually use it in this case :(
+
+			// It turned out to be WAY simpler in the end anyway lol.
+
+
+
+			var seenNetworks = new HashSet<ShaftNetwork>();
+			var seenComponents = new HashSet<ShaftEdgeComponent>();
+
 			var pendingNetworks = new Queue<ShaftNetwork>();
-			var seenNetworks    = new HashSet<ShaftNetwork>();
 
 			seenNetworks.Add(primaryNetwork);
 			pendingNetworks.Enqueue(primaryNetwork);
 
+			// For each EdgeComponent: compute the conversionFactor between the networks it connects.
 			while (pendingNetworks.TryDequeue(out ShaftNetwork fromNetwork))
 			{
 				foreach (var edgeComponent in fromNetwork.edgeComponents)
 				{
 					if (! seenComponents.Add(edgeComponent)) continue; // not added -> existed already -> skip this element.
 
-					// TODO: This will malfunction because of the networks we still contain. -> We ned to clear the network list at some point.
 					var list = edgeComponent.CurrentlyConnectedNetworks(this);
 
 					foreach (var toNetwork in list)
@@ -284,15 +293,29 @@ namespace Assets.Testing.MechanicalPower
 
 						DoStuff(fromNetwork, toNetwork);
 						DoStuff(toNetwork, fromNetwork);
+
+						if (toNetwork != primaryNetwork)
+						{ 
+							// Compute direct to primaryNetwork:
+							var conversionBetweenFromAndTo = conversionDicts[(fromNetwork, toNetwork)];
+							var conversionBetweenToAndFrom = conversionDicts[(toNetwork, fromNetwork)];
+							var conversionBetweenPrimaryAndFrom = conversionDicts[(primaryNetwork, fromNetwork)];
+
+
+							conversionDicts.Add((primaryNetwork, toNetwork), conversionBetweenPrimaryAndFrom * conversionBetweenFromAndTo);
+							conversionDicts.Add((toNetwork, primaryNetwork), conversionBetweenToAndFrom * conversionBetweenPrimaryAndFrom); // TODO: correct?
+						}
 					}
 				}
 			}
 
-			// TODO: Jump across multiple networks. Above code only creates conversions for adjacent networks.
+
+			networks.AddRange(seenNetworks); // Re-Instate the list of connected networks.
+
+			//TODO: Finalize & save the data somewhere.
 		}
 
 		#endregion
-
 
 		#region ContainerFunctions
 
@@ -305,7 +328,6 @@ namespace Assets.Testing.MechanicalPower
 		{
 			return networks.Contains(network);
 		}
-
 
 		#endregion
 	}
