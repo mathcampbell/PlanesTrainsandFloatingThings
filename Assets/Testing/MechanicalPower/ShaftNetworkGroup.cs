@@ -39,6 +39,10 @@ namespace Assets.Testing.MechanicalPower
 
 
 
+		protected Dictionary<ValueTuple<ShaftNetwork, ShaftNetwork>, ConversionInfo>  conversionDicts = new Dictionary<ValueTuple<ShaftNetwork, ShaftNetwork>, ConversionInfo>();
+
+
+
 		public ShaftNetworkGroup()
 		{
 			componentUpdater = new ComponentUpdater(this);
@@ -53,8 +57,7 @@ namespace Assets.Testing.MechanicalPower
 			if (network == primaryNetwork)
 				return rpm;
 			else
-				// TODO: Find the conversion factor between the Primary and given network and apply it.
-				throw new NotImplementedException();
+				return rpm * conversionDicts[(primaryNetwork, network)].RPM;
 		}
 
 		public uint getCurrentOrientationInNetwork(ShaftNetwork network)
@@ -62,8 +65,7 @@ namespace Assets.Testing.MechanicalPower
 			if (network == primaryNetwork)
 				return currentOrientation;
 			else
-				// TODO: Find the conversion factor between the Primary and given network and apply it.
-				throw new NotImplementedException();
+				return (uint)(currentOrientation * conversionDicts[(primaryNetwork, network)].Orientation);
 		}
 
 		public ConversionInfo ComputeConversionFactors(ShaftNetwork network)
@@ -71,8 +73,7 @@ namespace Assets.Testing.MechanicalPower
 			if (network == primaryNetwork)
 				return new ConversionInfo(1, 1, 1);
 			else
-				// TODO: Find the conversion factors between the Primary and given network.
-				throw new NotImplementedException();
+				return conversionDicts[(primaryNetwork, network)];
 		}
 
 		internal void ShaftUpdate()
@@ -251,9 +252,7 @@ namespace Assets.Testing.MechanicalPower
 		internal void ReConfigureTopology()
 		{
 			networks.Clear(); // clear the list of networks, because that list has side effects.
-
-
-			var conversionDicts = new Dictionary<ValueTuple<ShaftNetwork, ShaftNetwork>, ConversionInfo>();
+			conversionDicts.Clear(); // clear the conversion dict, because the info is outdated.
 
 			// The idea was to use the fancy new PathFinder class, but because there are two classes involved here
 			// (ShaftNetwork and EdgeComponent) we can't actually use it in this case :(
@@ -297,22 +296,24 @@ namespace Assets.Testing.MechanicalPower
 						if (toNetwork != primaryNetwork)
 						{ 
 							// Compute direct to primaryNetwork:
-							var conversionBetweenFromAndTo = conversionDicts[(fromNetwork, toNetwork)];
-							var conversionBetweenToAndFrom = conversionDicts[(toNetwork, fromNetwork)];
-							var conversionBetweenPrimaryAndFrom = conversionDicts[(primaryNetwork, fromNetwork)];
 
-
-							conversionDicts.Add((primaryNetwork, toNetwork), conversionBetweenPrimaryAndFrom * conversionBetweenFromAndTo);
-							conversionDicts.Add((toNetwork, primaryNetwork), conversionBetweenToAndFrom * conversionBetweenPrimaryAndFrom); // TODO: correct?
+							conversionDicts.Add((primaryNetwork, toNetwork), conversionDicts[(primaryNetwork, fromNetwork)] * conversionDicts[(fromNetwork, toNetwork)]);
+							conversionDicts.Add((toNetwork, primaryNetwork), conversionDicts[(toNetwork, fromNetwork)] * conversionDicts[(fromNetwork, primaryNetwork)]);
 						}
 					}
 				}
 			}
 
+			// Sanity check: remove when it works.
+			foreach (var key in conversionDicts.Keys)
+			{
+				var (left, right) = key;
+
+				if(left == right)
+					Debug.LogWarning("Conversion factor between identical network instances");
+			}
 
 			networks.AddRange(seenNetworks); // Re-Instate the list of connected networks.
-
-			//TODO: Finalize & save the data somewhere.
 		}
 
 		#endregion
