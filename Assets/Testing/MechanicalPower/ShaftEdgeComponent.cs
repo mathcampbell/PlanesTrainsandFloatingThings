@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using JetBrains.Annotations;
+
 namespace Assets.Testing.MechanicalPower
 {
 	/// <summary>
@@ -22,11 +24,11 @@ namespace Assets.Testing.MechanicalPower
 
 		/// <summary>
 		/// For the perspective of <paramref name="activeNetwork"/>, get the Networks that are currently connected.
-		/// This list contains only networks that are not part of <paramref name="activeNetwork"/>.
+		/// This list contains only networks that are not part of <paramref name="activeNetwork"/>, which may be <see cref="null"/>.
 		/// </summary>
 		/// <param name="activeNetwork"></param>
 		/// <returns></returns>
-		public abstract List<ShaftNetwork> CurrentlyConnectedNetworks(ShaftNetworkGroup activeNetwork);
+		public abstract List<ShaftNetwork> CurrentlyConnectedNetworks([CanBeNull]ShaftNetworkGroup activeNetwork);
 
 
 		/// <summary>
