@@ -366,6 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collider: {fileID: 0}
   blockName: 1x1 Block
+  blockID: 1
   description: A basic building block with low-mass and high strength. This will
     float on water.
   mass: 10

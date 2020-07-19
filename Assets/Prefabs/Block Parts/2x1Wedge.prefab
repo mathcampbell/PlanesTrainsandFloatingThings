@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collider: {fileID: 0}
   blockName: 
+  blockID: 5
   description: 
   mass: 10
   sidelength: 0.25

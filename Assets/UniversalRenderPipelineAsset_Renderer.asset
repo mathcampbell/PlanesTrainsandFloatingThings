@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928c0576293b9447d8ed6469ecb05641, type: 3}
   m_Name: WaterScattering
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     Event: 500
     isEnabled: 1

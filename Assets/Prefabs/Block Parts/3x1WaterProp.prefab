@@ -206,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collider: {fileID: 0}
   blockName: Small Water Propellor
+  blockID: 6
   description: This propellor will create moderate thrust in water for your vessels.
   mass: 30
   sidelength: 1
@@ -224,3 +225,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff78dfc687f044349ca3746e509b168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Collider: {fileID: 0}
+  blockName: 
+  blockID: 0
+  description: 
+  mass: 0
+  sidelength: 0
+  volume: 0
+  matArray: []
+  BlockAnim: {fileID: 0}
+  Consumer: {fileID: 0}

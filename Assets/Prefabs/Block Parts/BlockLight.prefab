@@ -595,6 +595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collider: {fileID: 0}
   blockName: Light Block
+  blockID: 7
   description: This block emits a small light upon recieving an on-signal
   mass: 15
   sidelength: 1

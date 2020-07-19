@@ -31,6 +31,17 @@ namespace Assets.Testing.MechanicalPower
 		/// </summary>
 		public float torqueOutput;
 
+        /// <summary>
+        /// The current RPM of the engine, evaluated on ShaftUpdate().
+        /// </summary>
+		public float currentRPM = 0;
+
+        /// <summary>
+        /// Is the Engine running? Set by Engine block componnent.
+        /// </summary>
+        public bool engineRunning;
+
+
 
 		public override void ShaftUpdate()
 		{
@@ -38,13 +49,13 @@ namespace Assets.Testing.MechanicalPower
 
 			cu.AddFriction(cu.RPM * frictionLoss);
 
-			float absRPM = Math.Abs(cu.RPM);
+			currentRPM = Math.Abs(cu.RPM);
 
 			float torque = 0;
 
-			if(absRPM < maxRPM)
+			if(currentRPM < maxRPM && engineRunning)
 			{
-				torque = throttle * torqueCurve.Evaluate(absRPM);
+				torque = throttle * torqueCurve.Evaluate(currentRPM);
 			}
 			else
 			{
@@ -53,8 +64,7 @@ namespace Assets.Testing.MechanicalPower
 
 			cu.AddTorque(torque);
 
-			// https://www.quora.com/What-is-the-formula-to-calculate-the-power-consumed-by-an-electric-motor
-			float powerDrawWatt = 2 * Mathf.PI * absRPM * torque / 60;
+			
 		}
 	}
 }

@@ -9,6 +9,7 @@ public class Block : MonoBehaviour
 	public BoxCollider Collider;
 
 	public string blockName;
+	public int blockID;
 	public string description;
 	public float mass;
 	

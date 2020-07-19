@@ -636,6 +636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collider: {fileID: 0}
   blockName: Lithium Battery
+  blockID: 10
   description: A small lithium battery, this will power a draw of around 20 watts
     for 1 hour.
   mass: 30

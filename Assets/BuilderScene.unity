@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 0.66
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 1e099ff3f35de4eaabaff44f7557affa, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.222
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 618977285}
-  m_IndirectSpecularColor: {r: 0.0919333, g: 0.12016394, b: 0.13598615, a: 0.222}
+  m_IndirectSpecularColor: {r: 0.039136518, g: 0.04898178, b: 0.06725653, a: 0.222}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -593,7 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 424d072cf34e81448a5c349c179603a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TheCamera: {fileID: 0}
+  TheCamera: {fileID: 254137545}
   OrbitSensitivity: 5
   HoldToOrbit: 0
   ZoomMultiplier: 1
@@ -1935,22 +1935,22 @@ MonoBehaviour:
   BuilderClick: {fileID: 919505059}
   LayerMaskIONode:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   LayerMaskNumericNode:
     serializedVersion: 2
     m_Bits: 1024
   LayerMaskCompNode:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   LayerMaskElectricNode:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   TransparentMat: {fileID: 2100000, guid: d20d14a1a51b54cada402534b4f0c120, type: 2}
   BlockMat: {fileID: 2100000, guid: f88ac31da91454bcaadf160a239df84b, type: 2}
   DataMat: {fileID: 2100000, guid: 3f59a2eef6bdf469588173ff6d7fc89e, type: 2}
   NewManager: {fileID: 275153917320496413, guid: c56dd581c08a04b78a7abb1502b84cc2,
     type: 3}
-  GameMode: 0
+  GameMode: 3
 --- !u!4 &919505058
 Transform:
   m_ObjectHideFlags: 0
@@ -2239,6 +2239,7 @@ MonoBehaviour:
   - {fileID: 1617037118858483378, guid: d1bbe86b3745b4f3198b38221f5356c8, type: 3}
   - {fileID: 1681808279, guid: 0423c3927a95246bd899645a5cd737ba, type: 3}
   - {fileID: 3924156761524063702, guid: 2554d0dbb7fa7486f88ff249f6c536ef, type: 3}
+  - {fileID: 8128389140555253069, guid: cc4aa2718b9dd450488962f732d2adc6, type: 3}
 --- !u!1 &1645208323
 GameObject:
   m_ObjectHideFlags: 0

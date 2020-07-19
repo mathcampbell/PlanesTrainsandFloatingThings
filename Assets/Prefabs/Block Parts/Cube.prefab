@@ -409,8 +409,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Collider: {fileID: 0}
   blockName: 
+  blockID: 8
   description: 
   mass: 10
   sidelength: 0.25
   volume: 0
   matArray: []
+  BlockAnim: {fileID: 0}
