@@ -90,7 +90,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Triplanar_179AC416_Texture_1:
-        m_Texture: {fileID: 2800000, guid: 2b43547c5363b481eab52f6ae9177886, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Triplanar_F5315D79_Texture_1:
@@ -98,6 +98,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Boolean_7DF66F5D: 1
     - Vector1_92510679: 0.9899
     - _AlphaClip: 0
     - _Angle: 179
