@@ -7,7 +7,7 @@ public static class ExtensionsHandy
 // Choose any convenient name for the wrapper class.
 {
 
-	public static bool HasComponent <T>(this GameObject obj) where T:Component
+	public static bool HasComponent <T>(this GameObject obj) where T : Component
 	{
 		return obj.GetComponent<T>() != null;
 	}
@@ -16,7 +16,7 @@ public static class ExtensionsHandy
 	{
 		float difference = ff-target;
 		difference = Mathf.Abs(difference);
-		if ( difference < 20f ) return true;
+		if ( difference < 20f ) return true; // What? we arbitrarily decide < 20f is "near"?
 		else return false;
 	}
 
