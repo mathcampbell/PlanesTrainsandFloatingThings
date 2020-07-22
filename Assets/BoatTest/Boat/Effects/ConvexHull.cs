@@ -84,15 +84,18 @@ public class ConvexHull
         //    }
         //}
 
+        if (unSortedList.Any()) 
+        {
+	        //Reverse because it's faster to remove vertices from the end
+	        unSortedList.Reverse();
 
-        //Reverse because it's faster to remove vertices from the end
-        unSortedList.Reverse();
+	        //The vertice with the smallest angle is also on the convex hull so add it
+	        sortedList.Add(unSortedList[unSortedList.Count - 1]);
+	        // TODO: This was throwing Exceptions because unSortedList was empty, so I added this check to stop the spamming fo the console
+            // !!!!! I did not fix whatever was actually wrong!!!!!
 
-        //The vertice with the smallest angle is also on the convex hull so add it
-        sortedList.Add(unSortedList[unSortedList.Count - 1]);
-
-        unSortedList.RemoveAt(unSortedList.Count - 1);
-
+            unSortedList.RemoveAt(unSortedList.Count - 1);
+        }
 
         //
         //Main algorithm
