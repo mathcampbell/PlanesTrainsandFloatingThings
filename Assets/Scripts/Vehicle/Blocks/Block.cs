@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
+using Assets.Scripts.Vehicle.Blocks;
+
 using UnityEngine;
 
 public class Block : MonoBehaviour
@@ -8,13 +11,18 @@ public class Block : MonoBehaviour
 	[HideInInspector]
 	public BoxCollider Collider;
 
-	public string blockName;
-	public int blockID;
-	public string description;
-	public float mass;
+	private BlockDefinition myBlockDefinition;
+
+	public string blockName => myBlockDefinition.Name;
+	public uint blockID => myBlockDefinition.BlockID;
+	public string description => myBlockDefinition.Description;
+	public float mass => myBlockDefinition.Mass;
 	
 	public float sidelength;
 	public float volume;
+
+	protected MeshFilter meshFilter;
+	protected Renderer renderer;
 
 	public Material[] matArray;
 
@@ -23,6 +31,8 @@ public class Block : MonoBehaviour
 	
 	void Awake()
 	{
+		meshFilter = this.GetComponentInChildren<MeshFilter>();
+		renderer = this.GetComponentInChildren<Renderer>();
 		Collider = GetComponent<BoxCollider>();
 		matArray = this.GetComponentInChildren<Renderer>().materials;
 		BlockAnim = GetComponent<Animator>();
@@ -48,7 +58,7 @@ public class Block : MonoBehaviour
 
 	public void SetMaterial(Material mat)
 	{
-		this.GetComponentInChildren<Renderer>().material = mat;
+		renderer.material = mat;
 	}
 	
 	public void SetAllMaterials(Material[] newMats)
@@ -59,17 +69,17 @@ public class Block : MonoBehaviour
 		//       matArray[i] = newMats[i];
 		//   }
 
-		this.GetComponentInChildren<Renderer>().materials = newMats;
+		renderer.materials = newMats;
 	}
 
 	public void ResetMaterials()
 	{
-		this.GetComponentInChildren<Renderer>().materials = matArray;
+		renderer.materials = matArray;
 	}
 
 	public Material[] GetAllMaterials()
 	{
-		Material[] currentMats = this.GetComponentInChildren<Renderer>().materials;    
+		Material[] currentMats = renderer.materials;
 		return currentMats;
 		/*List<Material> matArray = new List<Material>();
 		this.GetComponentInChildren<Renderer>().GetMaterials(matArray);

@@ -1,9 +1,14 @@
-﻿using System.Collections;
+﻿#define ShortBlockRecordID
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+
+using Assets.Scripts.Vehicle.Blocks;
 
 [DataContract]
 public class VehicleController : MonoBehaviour
@@ -16,32 +21,82 @@ public class VehicleController : MonoBehaviour
 
 	#region NestedTypes
 	[DataContract]
-	struct Orientation
+	public struct Orientation
 	{
 		// Placeholder
 		// We can probably get away with an int or enum, but I didn't feel like figuring that out right now.
 	}
 
+	public struct BlockIDType
+	{
+		// We could use just a plain UInt16, but if we ever want to change it it'd be a pain to go and do that everywhere it's used
+
+		public UInt16 ID;
+		// 65536 block types. And in case that is not enough, just change it!
+
+		private BlockIDType(byte b)
+		{
+			ID = b;
+		}
+
+		/// <summary>
+		/// Convert from byte
+		/// </summary>
+		/// <param name="b"></param>
+		public static implicit operator BlockIDType(byte b) => new BlockIDType(b);
+
+		/// <summary>
+		/// Convert to UInt16
+		/// </summary>
+		/// <param name="id"></param>
+		public static explicit operator UInt16(BlockIDType id) => id.ID;
+
+
+		/// <summary>
+		/// Convert to byte. This could fail if the resulting number does not fit!
+		/// </summary>
+		/// <param name="id"></param>
+		public static explicit operator byte(BlockIDType id) => (byte)id.ID;
+	}
+
+
 	/// <summary>
 	/// BlockRecords are for simple blocks that don't need to store additional information.
 	/// </summary>
 	[DataContract]
-	struct BlockRecord
+	public struct BlockRecord
 	{
+		// TODO: Keeping the size of this struct as small as possible will help performance.
+		// There will be MANY instances of this.
+
+
+		// TODO: Int16 should suffice, maybe just: Int16 x, Int16 y, Int16 z? (Vector3Int16 does not exist)
 		[DataMember]
-		Vector3Int position;
+		public Vector3Int Position;
 		[DataMember]
-		Orientation orientation;
+		public Orientation Orientation;
+
 		[DataMember]
-		int blockID;
+#if ShortBlockRecordID
+		public byte BlockID; // We can probably get away with this, since BlockRecord will only hold Trivial blocks.
+#else
+		public BlockIDType BlockID;
+#endif
+
+		/// <summary>
+		/// Fetch the <see cref="BlockDefinition"/> for this block.
+		/// </summary>
+		public BlockDefinition Definition => BlockDefinition.Definitions[BlockID];
 	}
 	#endregion NestedTypes
 
 
 	[DataMember]
 	List<BlockRecord> simpleBlocks = new List<BlockRecord>();
+
+
 	[DataMember]
-	List<Block> complexBlocks = new List<Block>();
+	List<ActiveBlock> complexBlocks = new List<ActiveBlock>();
 
 	public void Test()
 	{
