@@ -8,7 +8,7 @@ public class ToolbarBuildButtons : MonoBehaviour {
 	void Start () {
 
 		MouseManager mouseManager = GameObject.FindObjectOfType<MouseManager>();
-	
+
 		// Populate our button list
 
 		for (int i = 0; i < VehiclePartPrefabs.Length; i++)
@@ -32,7 +32,7 @@ public class ToolbarBuildButtons : MonoBehaviour {
 
 	public GameObject BuildButtonPrefab;
 	public Block[] VehiclePartPrefabs;
-	
+
 	// Update is called once per frame
 	void Update () {
 	

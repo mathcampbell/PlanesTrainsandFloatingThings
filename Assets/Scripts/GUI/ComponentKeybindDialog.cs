@@ -14,18 +14,16 @@ public class ComponentKeybindDialog : MonoBehaviour {
 
 		transform.Find("Keybind").GetComponent<Text>().text = keybindableComponent.keyCode.ToString();
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
-	
+	void Update ()
+	{
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
 			gameObject.SetActive(false);
 		}
 
 		// While this window is open, listen for a key press.
-
-
 
 
 		//if( Input.anyKeyDown )
@@ -42,8 +40,6 @@ public class ComponentKeybindDialog : MonoBehaviour {
 					return;
 				}
 			}
-
 		//}
-
 	}
 }
