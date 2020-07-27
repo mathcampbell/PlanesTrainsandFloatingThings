@@ -1,40 +1,44 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
-public class ToolbarBuildButtons : MonoBehaviour {
+using Vehicle.Blocks;
 
-	// Use this for initialization
-	void Start () {
+namespace VehicleEditor
+{
+	public class ToolbarBuildButtons : MonoBehaviour {
 
-		MouseManager mouseManager = GameObject.FindObjectOfType<MouseManager>();
+		// Use this for initialization
+		void Start () {
 
-		// Populate our button list
+			MouseManager mouseManager = GameObject.FindObjectOfType<MouseManager>();
 
-		for (int i = 0; i < VehiclePartPrefabs.Length; i++)
-		{
-			Block vehiclePart = VehiclePartPrefabs[i];
+			// Populate our button list
 
-			GameObject buttonGameObject = (GameObject)Instantiate(BuildButtonPrefab, this.transform);
-			Text buttonLabel = buttonGameObject.GetComponentInChildren<Text>();
-			buttonLabel.text = vehiclePart.name;
+			for (int i = 0; i < VehiclePartPrefabs.Length; i++)
+			{
+				Block vehiclePart = VehiclePartPrefabs[i];
 
-			Button theButton = buttonGameObject.GetComponent<Button>();
+				GameObject buttonGameObject = (GameObject)Instantiate(BuildButtonPrefab, this.transform);
+				Text buttonLabel = buttonGameObject.GetComponentInChildren<Text>();
+				buttonLabel.text = vehiclePart.name;
+
+				Button theButton = buttonGameObject.GetComponent<Button>();
 
 
-			theButton.onClick.AddListener( () => { 
-				mouseManager.PrefabBlock = vehiclePart;
-				mouseManager.SetNextBlock();
-			 } );
+				theButton.onClick.AddListener( () => { 
+					mouseManager.PrefabBlock = vehiclePart;
+					mouseManager.SetNextBlock();
+				} );
+			}
+
 		}
 
-	}
+		public GameObject BuildButtonPrefab;
+		public Block[] VehiclePartPrefabs;
 
-	public GameObject BuildButtonPrefab;
-	public Block[] VehiclePartPrefabs;
-
-	// Update is called once per frame
-	void Update () {
+		// Update is called once per frame
+		void Update () {
 	
+		}
 	}
 }

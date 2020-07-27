@@ -14,7 +14,6 @@ using Vehicle.Blocks;
 
 namespace Vehicle
 {
-
 	[DataContract]
 	public class VehicleController : MonoBehaviour
 	{
