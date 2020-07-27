@@ -1,24 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-using Assets.Scripts.Vehicle.Blocks;
-
 using UnityEngine;
 
-public class BlockDefinitionBehaviour : MonoBehaviour
+using BlockDefinitions;
+
+namespace Testing.Serialization
 {
-	public BlockDefinition myDefinition;
 
-
-	// Start is called before the first frame update
-	void Start()
+	public class BlockDefinitionBehaviour : MonoBehaviour
 	{
-		BlockDefinition.LoadAllDefinitions();
-	}
+		public BlockDefinition myDefinition;
 
-	// Update is called once per frame
-	void Update()
-	{
-		
+
+		// Start is called before the first frame update
+		void Start()
+		{
+			BlockDefinition.LoadAllDefinitions();
+		}
+
+		// Update is called once per frame
+		void Update() { }
 	}
 }
