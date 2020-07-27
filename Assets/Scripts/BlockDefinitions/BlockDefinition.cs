@@ -14,9 +14,6 @@ using UnityEngine.PlayerLoop;
 
 namespace BlockDefinitions
 {
-	
-
-
 	/// <summary>
 	/// The <see cref="BlockDefinition"/> contains all the information of a block that is constant.
 	/// This class only holds information for trivial blocks (basic shapes, at most a single voxel).
