@@ -27,14 +27,21 @@ public class VehicleController : MonoBehaviour
 		// We can probably get away with an int or enum, but I didn't feel like figuring that out right now.
 	}
 
+	[DataContract]
 	public struct BlockIDType
 	{
 		// We could use just a plain UInt16, but if we ever want to change it it'd be a pain to go and do that everywhere it's used
 
+		[DataMember]
 		public UInt16 ID;
 		// 65536 block types. And in case that is not enough, just change it!
 
 		private BlockIDType(byte b)
+		{
+			ID = b;
+		}
+
+		private BlockIDType(UInt16 b)
 		{
 			ID = b;
 		}
@@ -59,7 +66,7 @@ public class VehicleController : MonoBehaviour
 		public static explicit operator byte(BlockIDType id) => (byte)id.ID;
 	}
 
-
+	#region BlockRecord Optimalization (Can be ignored for now)
 	/// <summary>
 	/// BlockRecords are for simple blocks that don't need to store additional information.
 	/// </summary>
@@ -88,12 +95,16 @@ public class VehicleController : MonoBehaviour
 		/// </summary>
 		public BlockDefinition Definition => BlockDefinition.Definitions[BlockID];
 	}
+	#endregion BlockRecord Optimalization (Can be ignored for now)
 	#endregion NestedTypes
 
-
+	// Not implemented, but if commented out would break with renames and other refactorings.
 	[DataMember]
 	List<BlockRecord> simpleBlocks = new List<BlockRecord>();
 
+
+	[DataMember]
+	List<Block> blocks = new List<Block>();
 
 	[DataMember]
 	List<ActiveBlock> complexBlocks = new List<ActiveBlock>();

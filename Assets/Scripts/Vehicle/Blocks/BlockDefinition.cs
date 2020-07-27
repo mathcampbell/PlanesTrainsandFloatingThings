@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -12,7 +13,9 @@ using BlockIDType = VehicleController.BlockIDType;
 
 namespace Assets.Scripts.Vehicle.Blocks
 {
-
+	/// <summary>
+	/// An Flags Enum to define sides of a single block.
+	/// </summary>
 	[Flags]
 	public enum BlockSides : UInt16
 	{
@@ -30,7 +33,7 @@ namespace Assets.Scripts.Vehicle.Blocks
 
 	/// <summary>
 	/// The <see cref="BlockDefinition"/> contains all the information of a block that is constant.
-	/// This class only holds information for trivial blocks (basic shapes, at most a single cube).
+	/// This class only holds information for trivial blocks (basic shapes, at most a single voxel).
 	/// Derived classes may hold data for mor complicated block types.
 	/// </summary>
 	public class BlockDefinition
@@ -46,7 +49,7 @@ namespace Assets.Scripts.Vehicle.Blocks
 		/// <summary>
 		/// Does this block consist of a single Cube?
 		/// </summary>
-		public readonly bool IsSingleCubeBlock = false;
+		public readonly bool IsSingleCubeBlock = true;
 
 		/// <summary>
 		/// Does this block consist of multiple Cubes?
@@ -61,11 +64,13 @@ namespace Assets.Scripts.Vehicle.Blocks
 
 		/// <summary>
 		/// The sides of the block that are sealed (are water and pressure tight).
+		/// Only valid for <see cref="IsSingleCubeBlock"/>
 		/// </summary>
 		public readonly BlockSides SealedSides;
 
 		/// <summary>
 		/// The sides of the block that other blocks can be attached to.
+		/// Only valid for <see cref="IsSingleCubeBlock"/>
 		/// </summary>
 		/// <remarks>
 		/// In most cases this will contain the same sides as <see cref="SealedSides"/>, but for non-sealed blocks this is needed.
@@ -89,15 +94,19 @@ namespace Assets.Scripts.Vehicle.Blocks
 
 		/// <summary>
 		/// The <see cref="Mesh"/> of the block.
+		/// Typically <see cref="null"/> for <see cref="IsSingleCubeBlock"/>s because they will auto-generate a mesh shared with other nearby blocks.
 		/// </summary>
 		public readonly Mesh Mesh;
 
 
 		#endregion Instance Data
-		#region Static Data
+		#region Static
 
 		// TODO: Fill me with data!
 		// TODO: Ensure that IsSingleCubeBlock blocks have the lowest BlockIDs so that we can use a byte to index them and save space.
+		// How to get list of resources: https://answers.unity.com/questions/610777/find-all-objects-in-resource-folder-at-runtime-wit.html
+		// Note: We want to load any file in the folder, given that mods could add files.
+		// Also: not having to recompile after adding a definition would be nice.
 		private static readonly Dictionary<BlockIDType, BlockDefinition> definitions = new Dictionary<BlockIDType, BlockDefinition>();
 
 		// The ReadOnlyDictionary is a wrapper for the real dictionary.
@@ -113,6 +122,37 @@ namespace Assets.Scripts.Vehicle.Blocks
 
 
 
-		#endregion Static Data
+		const string DefinitionsPath = "GameData/BlockDefinitions";
+		public static void LoadAllDefinitions()
+		{
+			// Requires .Net (Standard) 2.0 (see: project settings -> player -> Other Settings -> API Compatibility Level)
+			var folder = Path.Combine(Application.dataPath, DefinitionsPath);
+
+			var filePaths = Directory.GetFiles(folder);
+
+			if (false == filePaths.Any())
+			{
+				Debug.LogError("No BlockDefinition files found!");
+			}
+
+			foreach (string filePath in filePaths)
+			{
+				var text = File.ReadAllText(filePath);
+
+				Debug.Log(text);
+			}
+		}
+
+
+
+		#region Parsing
+
+
+
+
+		#endregion Parsing
+
+
+		#endregion Static
 	}
 }
