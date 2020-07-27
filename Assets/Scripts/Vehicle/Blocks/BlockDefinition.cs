@@ -6,8 +6,10 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 using BlockIDType = VehicleController.BlockIDType;
 
@@ -57,7 +59,7 @@ namespace Assets.Scripts.Vehicle.Blocks
 		public bool IsMultiCubeBlock => ! IsSingleCubeBlock;
 
 		/// <summary>
-		/// Does this block have an <see cref="MonoBehaviour.Update()"/> method?
+		/// Does this block have an <see cref="Update"/> method?
 		/// </summary>
 		public readonly bool IsActiveBlock = false;
 
@@ -147,6 +149,15 @@ namespace Assets.Scripts.Vehicle.Blocks
 
 		#region Parsing
 
+		private static readonly DataContractSerializer definitionSerializer = new DataContractSerializer(typeof(BlockDefinition));
+
+		private static BlockDefinition ReadFromFile_XML(string filePath)
+		{
+			using (var reader = XmlDictionaryReader.Create(filePath))
+			{
+				return (BlockDefinition) definitionSerializer.ReadObject(reader);
+			}
+		}
 
 
 
