@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace Assets.Testing.MechanicalPower
+namespace Vehicle.MechanicalPower
 {
 	/// <summary>
 	/// A <see cref="ShaftComponent"/> represents any object in a Shaft network that has functionality.

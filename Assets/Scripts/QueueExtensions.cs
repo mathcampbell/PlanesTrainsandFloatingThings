@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts
-{
+
 	public static class QueueExtensions
 	{
 		/// <summary>
@@ -41,4 +40,4 @@ namespace Assets.Scripts
 			}
 		}
 	}
-}
+

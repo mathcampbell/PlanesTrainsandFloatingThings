@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using JetBrains.Annotations;
 
-namespace Assets.Testing.MechanicalPower
+namespace Vehicle.MechanicalPower
 {
 	/// <summary>
 	/// A <see cref="ShaftComponent"/> that can is connected to more than one <see cref="ShaftNetwork"/>(s).

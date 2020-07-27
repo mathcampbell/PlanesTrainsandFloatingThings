@@ -11,9 +11,8 @@ using System.Xml;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-using BlockIDType = VehicleController.BlockIDType;
 
-namespace Assets.Scripts.Vehicle.Blocks
+namespace BlockDefinitions
 {
 	/// <summary>
 	/// An Flags Enum to define sides of a single block.
@@ -38,14 +37,14 @@ namespace Assets.Scripts.Vehicle.Blocks
 	/// This class only holds information for trivial blocks (basic shapes, at most a single voxel).
 	/// Derived classes may hold data for mor complicated block types.
 	/// </summary>
-	public class BlockDefinition
+	public class BlockDefinition : IDeserializationCallback
 	{
 		// See static data below
 		#region Instance data
 		/// <summary>
 		/// The ID of this type of block.
 		/// </summary>
-		public readonly UInt32 BlockID;
+		public readonly BlockIDType BlockID;
 
 
 		/// <summary>
@@ -102,6 +101,21 @@ namespace Assets.Scripts.Vehicle.Blocks
 
 
 		#endregion Instance Data
+
+
+
+
+		/// <summary>
+		/// This is called when the entire object Graph is Deserialized, by the serializer.
+		/// We will use this to register ourselves to the static Dictionary
+		/// </summary>
+		/// <param name="sender"></param>
+		public void OnDeserialization(object sender)
+		{
+			definitions[this.BlockID] = this;
+		}
+
+
 		#region Static
 
 		// TODO: Fill me with data!

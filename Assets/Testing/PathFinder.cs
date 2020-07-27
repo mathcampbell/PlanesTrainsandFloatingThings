@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Assets.Scripts;
 
 using JetBrains.Annotations;
 
-namespace Assets.Testing
+namespace Testing
 {
 
 	public class PathFinder<TData> where TData : class
