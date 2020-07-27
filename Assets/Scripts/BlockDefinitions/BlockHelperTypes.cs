@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 using UnityEngine;
 
-namespace BlockDefinitions
+namespace BlockDefinitions // This file contains multiple items !!
 {
 	[DataContract]
 	public struct Orientation
@@ -14,6 +14,9 @@ namespace BlockDefinitions
 		// We can probably get away with an int or enum, but I didn't feel like figuring that out right now.
 	}
 
+	/// <summary>
+	/// The type used to hold the BlockID. We may decide to change it later, in which case we should only need to do it here rather than everywhere it's actually used.
+	/// </summary>
 	[DataContract]
 	public struct BlockIDType
 	{
