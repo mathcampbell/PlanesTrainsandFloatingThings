@@ -37,7 +37,7 @@ public class BlockDefinitionInspector : Editor
 			HardcodedDefinitions();
 		}
 
-		EditorGUILayout.IntField("Number of definitions (readonly)", BlockDefinition.Definitions.Count);
+		EditorGUILayout.IntField("Number of definitions read from file(s)", BlockDefinition.Definitions.Count);
 	}
 
 
