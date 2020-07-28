@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,34 +10,60 @@ using UnityEngine;
 namespace Vehicle.Blocks
 {
 
-	public class Block : MonoBehaviour
+	public class Block : MonoBehaviour // Todo: Should not be MonoBehaviour. But there should be a representaiton for the block with monobehaviour so ...
 	{
-		public BlockID blockID;
+		[NonSerialized]
+		protected BlockDefinition myBlockDefinition;
 
+		[SerializeField]
+		public readonly BlockID blockID;
+
+		public bool IsSingleCubeBlock => myBlockDefinition.IsSingleCubeBlock;
+
+		public bool IsMultiCubeBlock => myBlockDefinition.IsMultiCubeBlock;
+
+		public bool IsActiveBlock => myBlockDefinition.IsActiveBlock;
+
+		public float Mass => myBlockDefinition.Mass;
+
+		public string Name => myBlockDefinition.Name;
+
+		public string Description => myBlockDefinition.Description;
+
+
+
+		[NonSerialized]
 		[HideInInspector]
 		public BoxCollider Collider;
 
-		private BlockDefinition myBlockDefinition;
-
-		public string blockName => myBlockDefinition.Name;
 
 
-		public string description => myBlockDefinition.Description;
-		public float mass => myBlockDefinition.Mass;
+		[NonSerialized]
+		public float sidelength; // Todo: @Math should this be moved to BlockDefinition? What is it used for? (since not all blocks will be square)
 
-		public float sidelength;
-		public float volume;
+		[NonSerialized]
+		public float volume; // Todo: @Math idk if buoyancy will be as simple as just this.
 
+		#region Rendering
+
+		[NonSerialized]
 		protected MeshFilter meshFilter;
+
+		[NonSerialized]
 		protected Renderer renderer;
 
+		[NonSerialized]
 		public Material[] matArray;
 
-		public Animator BlockAnim;
+		[NonSerialized]
+		public Animator BlockAnim; // todo: @Math is this VehicleEditor only ?
 
+		#endregion Rendering
 
 		void Awake()
 		{
+			myBlockDefinition = BlockDefinition.Definitions[blockID];
+
 			meshFilter = this.GetComponentInChildren<MeshFilter>();
 			renderer = this.GetComponentInChildren<Renderer>();
 			Collider = GetComponent<BoxCollider>();

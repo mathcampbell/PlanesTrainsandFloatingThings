@@ -252,7 +252,7 @@ namespace VehicleEditor
 
 						// Adding our block's mass to the Root
 						Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
-						CurrentBlock.GetComponentInParent<Rigidbody>().mass += CurrentBlock.mass;
+						CurrentBlock.GetComponentInParent<Rigidbody>().mass += CurrentBlock.Mass;
 						Debug.Log("Vehicle mass is now:");
 						Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
 						BuilderClick.Play();
@@ -850,7 +850,7 @@ namespace VehicleEditor
 				var block = hitInfo.collider.GetComponent<Block>();
 				if (block != null && block != ShipRoot)
 				{
-					block.GetComponentInParent<Rigidbody>().mass -= block.mass;
+					block.GetComponentInParent<Rigidbody>().mass -= block.Mass;
 					GameObject.DestroyImmediate(block.gameObject);
 				}
 			}
@@ -1135,9 +1135,9 @@ namespace VehicleEditor
 				{
 					m = VehicleBlock.GetComponent<Block>();
 
-					newCenterOfMass += (transform.localPosition * m.mass);
+					newCenterOfMass += (transform.localPosition * m.Mass);
 
-					sumOfMass += m.mass;
+					sumOfMass += m.Mass;
 				}
 			}
 
@@ -1170,11 +1170,11 @@ namespace VehicleEditor
 
 					if (VehicleBlock == ShipRoot)
 					{
-						newInertiaVector += (Vector3.one * m.mass * m.sidelength / 6.0f);
+						newInertiaVector += (Vector3.one * m.Mass * m.sidelength / 6.0f);
 					}
 					else
 					{
-						newInertiaVector += ((Vector3.one * m.mass * m.sidelength / 6.0f) + m.mass * distance);
+						newInertiaVector += ((Vector3.one * m.Mass * m.sidelength / 6.0f) + m.Mass * distance);
 						// if your parent object is in the list: detect it and use this line for this module:
 						//newInertiaVector += (Vector3.one * m.mass *m.sidelength/ 6.0f);
 					}
