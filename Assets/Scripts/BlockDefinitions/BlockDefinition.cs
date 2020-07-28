@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 
 
+
 namespace BlockDefinitions
 {
 	/// <summary>
@@ -19,6 +20,7 @@ namespace BlockDefinitions
 	/// This class only holds information for trivial blocks (basic shapes, at most a single voxel).
 	/// Derived classes may hold data for mor complicated block types.
 	/// </summary>
+	[DataContract]
 	public class BlockDefinition : IDeserializationCallback
 	{
 		// See static data below
@@ -26,12 +28,14 @@ namespace BlockDefinitions
 		/// <summary>
 		/// The ID of this type of block.
 		/// </summary>
+		[DataMember]
 		public readonly BlockIDType BlockID;
 
 
 		/// <summary>
 		/// Does this block consist of a single Cube?
 		/// </summary>
+		[DataMember]
 		public readonly bool IsSingleCubeBlock = true;
 
 		/// <summary>
@@ -42,6 +46,7 @@ namespace BlockDefinitions
 		/// <summary>
 		/// Does this block have an <see cref="Update"/> method?
 		/// </summary>
+		[DataMember]
 		public readonly bool IsActiveBlock = false;
 
 
@@ -49,6 +54,7 @@ namespace BlockDefinitions
 		/// The sides of the block that are sealed (are water and pressure tight).
 		/// Only valid for <see cref="IsSingleCubeBlock"/>
 		/// </summary>
+		[DataMember]
 		public readonly BlockSides SealedSides;
 
 		/// <summary>
@@ -58,31 +64,45 @@ namespace BlockDefinitions
 		/// <remarks>
 		/// In most cases this will contain the same sides as <see cref="SealedSides"/>, but for non-sealed blocks this is needed.
 		/// </remarks>
+		[DataMember]
 		public readonly BlockSides ConnectableSides;
 
 		/// <summary>
 		/// The mass of the block.
 		/// </summary>
+		[DataMember]
 		public readonly float Mass;
 
 		/// <summary>
 		/// The name of the block.
 		/// </summary>
+		[DataMember]
 		public readonly string Name;
 
 		/// <summary>
 		/// The Description of the block.
 		/// </summary>
+		[DataMember]
 		public readonly string Description;
 
 		/// <summary>
 		/// The <see cref="Mesh"/> of the block.
 		/// Typically <see cref="null"/> for <see cref="IsSingleCubeBlock"/>s because they will auto-generate a mesh shared with other nearby blocks.
 		/// </summary>
-		public readonly Mesh Mesh;
+		public readonly Mesh Mesh = null; // TODO: convert to something serializable
 
 
 		#endregion Instance Data
+
+
+		public BlockDefinition(BlockIDType blockID, float mass, string name, string description)
+		{
+			BlockID = blockID;
+			Mass = mass;
+			Name = name ?? throw new ArgumentNullException(nameof(name));
+			Description = description ?? throw new ArgumentNullException(nameof(description));
+		}
+
 
 
 
@@ -95,8 +115,10 @@ namespace BlockDefinitions
 		public void OnDeserialization(object sender)
 		{
 			definitions[this.BlockID] = this;
-		}
+			// TODO: We may only want to do this conditionally
 
+			Debug.Log(Name);
+		}
 
 		#region Static
 
@@ -126,7 +148,7 @@ namespace BlockDefinitions
 			// Requires .Net (Standard) 2.0 (see: project settings -> player -> Other Settings -> API Compatibility Level)
 			var folder = Path.Combine(Application.dataPath, DefinitionsPath);
 
-			var filePaths = Directory.GetFiles(folder);
+			var filePaths = Directory.GetFiles(folder, "*.xml");
 
 			if (false == filePaths.Any())
 			{
@@ -135,9 +157,7 @@ namespace BlockDefinitions
 
 			foreach (string filePath in filePaths)
 			{
-				var text = File.ReadAllText(filePath);
-
-				Debug.Log(text);
+				ReadFromFile_XML(filePath);
 			}
 		}
 

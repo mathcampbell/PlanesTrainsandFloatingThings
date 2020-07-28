@@ -48,7 +48,7 @@ namespace BlockDefinitions // This file contains multiple items !!
 			ID = b;
 		}
 
-		private BlockIDType(UInt16 b)
+		public BlockIDType(UInt16 b)
 		{
 			ID = b;
 		}
