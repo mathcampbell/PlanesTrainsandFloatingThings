@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -172,6 +172,50 @@ namespace BlockDefinitions
 			using (var reader = XmlDictionaryReader.Create(filePath))
 			{
 				return (BlockDefinition) definitionSerializer.ReadObject(reader);
+			}
+		}
+
+		private static void WriteToFileCommon(BlockDefinition d, ref string filePath, bool allowOverWrite, string extension)
+		{
+			if (null == d) throw new ArgumentNullException(nameof(d));
+
+			if (string.IsNullOrWhiteSpace(filePath))
+			{
+				filePath = Path.Combine(Application.dataPath, DefinitionsPath, d.BlockID.ID + "_" + d.Name + extension);
+			}
+
+			if (false == allowOverWrite && File.Exists(filePath))
+			{
+				throw new InvalidOperationException("File already exists. Specify " + nameof(allowOverWrite) + " to overwrite.");
+			}
+		}
+
+		private static void WriteToFile_XML(BlockDefinition d, string filePath = null, bool allowOverWrite = false, bool niceFormat = false)
+		{
+			WriteToFileCommon(d, ref filePath, allowOverWrite, ".xml");
+
+			var settings = new XmlWriterSettings();
+			if (niceFormat)
+			{
+				settings.Indent = true;
+				settings.IndentChars = "\t";
+				settings.NewLineChars = Environment.NewLine;
+			}
+
+			using (var writer = XmlDictionaryWriter.Create(filePath, settings))
+			{
+				definitionSerializer.WriteObject(writer, d);
+			}
+		}
+
+		private static void WriteToFile_Binary(BlockDefinition d, string filePath = null, bool allowOverWrite = false)
+		{
+			WriteToFileCommon(d, ref filePath, allowOverWrite, ".bin");
+
+			using (var stream = File.OpenWrite(filePath))
+			using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream))
+			{
+				definitionSerializer.WriteObject(writer, d);
 			}
 		}
 
