@@ -29,7 +29,7 @@ namespace BlockDefinitions
 		/// The ID of this type of block.
 		/// </summary>
 		[DataMember]
-		public readonly BlockIDType BlockID;
+		public readonly BlockID BlockID;
 
 
 		/// <summary>
@@ -95,7 +95,7 @@ namespace BlockDefinitions
 		#endregion Instance Data
 
 
-		public BlockDefinition(BlockIDType blockID, float mass, string name, string description)
+		public BlockDefinition(BlockID blockID, float mass, string name, string description)
 		{
 			BlockID = blockID;
 			Mass = mass;
@@ -127,17 +127,17 @@ namespace BlockDefinitions
 		// How to get list of resources: https://answers.unity.com/questions/610777/find-all-objects-in-resource-folder-at-runtime-wit.html
 		// Note: We want to load any file in the folder, given that mods could add files.
 		// Also: not having to recompile after adding a definition would be nice.
-		private static readonly Dictionary<BlockIDType, BlockDefinition> definitions = new Dictionary<BlockIDType, BlockDefinition>();
+		private static readonly Dictionary<BlockID, BlockDefinition> definitions = new Dictionary<BlockID, BlockDefinition>();
 
 		// The ReadOnlyDictionary is a wrapper for the real dictionary.
 		// It does not allow making changes to it, but updates to the real dictionary will appear in it.
 		// We create it only once for performance.
-		private static readonly ReadOnlyDictionary<BlockIDType, BlockDefinition> readonlyDefinitions = new ReadOnlyDictionary<BlockIDType, BlockDefinition>(definitions);
+		private static readonly ReadOnlyDictionary<BlockID, BlockDefinition> readonlyDefinitions = new ReadOnlyDictionary<BlockID, BlockDefinition>(definitions);
 
 		/// <summary>
-		/// A Map from <see cref="BlockIDType"/> to <see cref="BlockDefinition"/>.
+		/// A Map from <see cref="BlockDefinitions.BlockID"/> to <see cref="BlockDefinition"/>.
 		/// </summary>
-		public static IReadOnlyDictionary<BlockIDType, BlockDefinition> Definitions => readonlyDefinitions;
+		public static IReadOnlyDictionary<BlockID, BlockDefinition> Definitions => readonlyDefinitions;
 
 
 

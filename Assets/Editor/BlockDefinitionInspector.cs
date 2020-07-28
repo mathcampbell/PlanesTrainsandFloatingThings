@@ -42,7 +42,7 @@ public class BlockDefinitionInspector : Editor
 		};
 
 		{ // Sanity check
-			var usedIds = new Dictionary<BlockIDType, BlockDefinition>();
+			var usedIds = new Dictionary<BlockID, BlockDefinition>();
 			foreach (var definition in list)
 			{
 				if (false == usedIds.TryAdd(definition.BlockID, definition))

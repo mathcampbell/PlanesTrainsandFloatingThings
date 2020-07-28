@@ -48,7 +48,7 @@ namespace Vehicle
 #if ShortBlockRecordID
 		public byte BlockID; // We can probably get away with this, since BlockRecord will only hold Trivial blocks.
 #else
-			public BlockIDType BlockID;
+			public BlockID BlockID;
 #endif
 
 			/// <summary>

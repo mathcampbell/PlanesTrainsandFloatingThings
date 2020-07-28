@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 
 
@@ -11,6 +11,7 @@ namespace Vehicle.Blocks
 
 	public class Block : MonoBehaviour
 	{
+		public BlockID blockID;
 
 		[HideInInspector]
 		public BoxCollider Collider;
@@ -18,7 +19,8 @@ namespace Vehicle.Blocks
 		private BlockDefinition myBlockDefinition;
 
 		public string blockName => myBlockDefinition.Name;
-		public BlockIDType blockID => myBlockDefinition.BlockID; // TODO: should be other way around, because serialization will not preserve the Definition.
+
+
 		public string description => myBlockDefinition.Description;
 		public float mass => myBlockDefinition.Mass;
 
