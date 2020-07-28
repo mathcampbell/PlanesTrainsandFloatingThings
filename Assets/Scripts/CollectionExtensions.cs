@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-	public static class QueueExtensions
+	public static class CollectionExtensions
 	{
 		/// <summary>
 		/// Attempts to remove and return the object at the beginning of the <see cref="Queue{T}"/>.
@@ -38,6 +38,23 @@ using System.Threading.Tasks;
 				result = default(T);
 				return false;
 			}
+		}
+
+	/// <summary>
+	/// Attempts to add the specified key and value to the dictionary, but only if the key was not already present.
+	/// </summary>
+	/// <typeparam name="TKey">Type of the Key</typeparam>
+	/// <typeparam name="TValue">Type of the Value</typeparam>
+	/// <param name="instance">Dictionary instance to work with</param>
+	/// <param name="key">Key to add</param>
+	/// <param name="value">Value to add</param>
+	/// <returns>true if added, false if existed already</returns>
+	public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> instance, TKey key, TValue value)
+		{
+			if (instance.ContainsKey(key)) return false;
+			// todo: race condition
+			instance.Add(key, value);
+			return true;
 		}
 	}
 

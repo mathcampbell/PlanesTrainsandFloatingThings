@@ -7,19 +7,11 @@ using BlockDefinitions;
 
 namespace Testing.Serialization
 {
-
+	/// <summary>
+	/// This class does nothing. It exists only so that Assets/Editor/BlockDefinitionInspector.cs has a target.
+	/// </summary>
 	public class BlockDefinitionBehaviour : MonoBehaviour
 	{
-		public BlockDefinition myDefinition;
 
-
-		// Start is called before the first frame update
-		void Start()
-		{
-			BlockDefinition.LoadAllDefinitions();
-		}
-
-		// Update is called once per frame
-		void Update() { }
 	}
 }
