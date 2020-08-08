@@ -49,10 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928c0576293b9447d8ed6469ecb05641, type: 3}
   m_Name: WaterScattering
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     Event: 500
-    isEnabled: 1
+    isEnabled: 0
     blitMaterial: {fileID: 2100000, guid: 5fa3973e6af8e4d5baf8b153a7785558, type: 2}
     blitMaterialPassIndex: 0
     destination: 0
