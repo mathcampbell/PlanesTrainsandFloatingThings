@@ -42,6 +42,7 @@ public class BlockDefinitionInspector : Editor
 		{
 			WriteTo_XML(definition);
 		}
+		Debug.Log($"Written {list.Count} definitions to files.");
 	}
 
 	#region Haxx
