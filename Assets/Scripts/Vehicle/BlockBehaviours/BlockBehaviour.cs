@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.IO;
 
 using BlockDefinitions;
 
@@ -13,6 +14,14 @@ namespace Vehicle.BlockBehaviours
 	/// </summary>
 	public class BlockBehaviour : MonoBehaviour, ISerializationCallbackReceiver
 	{
+		/// <summary>
+		/// Used to serialize things Unity can't.
+		/// </summary>
+		[SerializeField]
+		private byte[] unitySerializationData;
+
+
+		[NonSerialized] // Unity can't serialize this.
 		public Block blockDesign;
 
 		public BlockID blockID => blockDesign.blockID;
@@ -106,10 +115,38 @@ namespace Vehicle.BlockBehaviours
 		#endregion more visual stuff
 
 
-			blockDefinition = BlockDefinition.Definitions[blockID];
+
+		/// <inheritdoc />
+		public void OnBeforeSerialize()
+		{
+			// Unity: before serialization -> serialize fields unity can't to byteArray.
+			using (var stream = new MemoryStream())
+			{
+				Block.WriteToStreamBinary(stream, blockDesign);
+
+				// other fields
+
+				unitySerializationData = stream.ToArray();
+			}
 		}
 
+		/// <inheritdoc />
+		public void OnAfterDeserialize()
+		{
+			// Unity: after deserialization -> deserialize fields unity can't from byteArray.
+			if (null == unitySerializationData)
+			{
+				Debug.LogError($"{nameof(unitySerializationData)} was null: no data was loaded.");
+				return;
+			}
+			using (var stream = new MemoryStream(unitySerializationData))
+			{
+				unitySerializationData = null; // The data has bean read into the stream, free up the space.
 
-		#endregion Visual Representation
+				blockDesign = Block.ReadFromStreamBinary(stream);
+
+				// other fields
+			}
+		}
 	}
 }
