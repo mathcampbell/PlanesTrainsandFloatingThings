@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -123,13 +123,11 @@ namespace BlockDefinitions
 
 		/// <summary>
 		/// This is called when the entire object Graph is Deserialized, by the serializer.
-		/// We will use this to register ourselves to the static Dictionary
 		/// </summary>
 		/// <param name="sender"></param>
 		public void OnDeserialization(object sender)
 		{
-			definitions[this.BlockID] = this;
-			// TODO: We may only want to do this conditionally
+			// Maybe validate the data?
 
 			Debug.Log(Name);
 		}
@@ -155,8 +153,10 @@ namespace BlockDefinitions
 
 
 
-
-		const string DefinitionsPath = "GameData/BlockDefinitions";
+		/// <summary>
+		/// Use <see cref="Path.Combine"/> with <see cref="Application.dataPath"/> to get the final path.
+		/// </summary>
+		public const string DefinitionsPath = "GameData/BlockDefinitions";
 		public static void LoadAllDefinitions()
 		{
 			// Requires .Net (Standard) 2.0 (see: project settings -> player -> Other Settings -> API Compatibility Level)
@@ -181,15 +181,16 @@ namespace BlockDefinitions
 
 
 
-		#region Parsing
+		#region Serialization
 
-		private static readonly DataContractSerializer definitionSerializer = new DataContractSerializer(typeof(BlockDefinition));
+		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(BlockDefinition));
+		private static readonly XmlDictionary SerializerDictionary = new XmlDictionary();
 
 		private static BlockDefinition ReadFromFile_XML(string filePath)
 		{
 			using (var reader = XmlDictionaryReader.Create(filePath))
 			{
-				return (BlockDefinition) definitionSerializer.ReadObject(reader);
+				return (BlockDefinition) Serializer.ReadObject(reader);
 			}
 		}
 
@@ -229,7 +230,7 @@ namespace BlockDefinitions
 
 			using (var writer = XmlDictionaryWriter.Create(filePath, settings))
 			{
-				definitionSerializer.WriteObject(writer, d);
+				Serializer.WriteObject(writer, d);
 			}
 		}
 
@@ -240,13 +241,13 @@ namespace BlockDefinitions
 			using (var stream = File.OpenWrite(filePath))
 			using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream))
 			{
-				definitionSerializer.WriteObject(writer, d);
+				Serializer.WriteObject(writer, d);
 			}
 		}
 
 
 
-		#endregion Parsing
+		#endregion Serialization
 
 
 		#endregion Static
