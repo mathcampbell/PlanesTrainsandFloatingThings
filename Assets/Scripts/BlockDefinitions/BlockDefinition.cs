@@ -122,6 +122,14 @@ namespace BlockDefinitions
 		[FetchDefinitionData(nameof(meshFileName))]
 		public Mesh Mesh { get; private set; }
 
+
+
+
+		/// <summary>
+		/// Is external data loaded (such as Meshes, Sounds etc.)
+		/// </summary>
+		protected bool DataLoaded = false;
+
 		#endregion Instance Data
 
 
@@ -157,6 +165,9 @@ namespace BlockDefinitions
 		/// </summary>
 		public void LoadResources()
 		{
+			if (DataLoaded) return;
+			DataLoaded = true;
+
 			Type myMaybeDerivedType = GetType(); // the Type, since BlockDefinition will be derived by others, we need to get the Runtime type.
 
 			// Reflection is expensive, so save the list of members and attributes for each Type and re-use them.
@@ -215,13 +226,15 @@ namespace BlockDefinitions
 
 
 #if UNITY_EDITOR
+				// Resources.Load does not work atm because the resources need to be in a specific folder.
+				// So for now we'll use AssetDatabase, which is Editor only, but works for all paths.
 				var result = AssetDatabase.LoadAssetAtPath(fullPath, dataType);
 #else
 				var result = Resources.Load(fullPath, dataType);
 #endif
 				if (null == result)
 				{
-					Debug.LogWarning($"Getting data for {fullDataFieldName} failed because no resource was returned for the path in {fullPathFieldName}.");
+					Debug.LogWarning($"Getting data for {fullDataFieldName} failed because no resource was returned for the path in {fullPathFieldName}. ({fullPath}).");
 				}
 				dataMemberInfo.SetValue(this, result);
 			}
@@ -283,7 +296,7 @@ namespace BlockDefinitions
 		public static void EnsureInitialized()
 		{
 			if (Initialized) return;
-			
+
 			Initialized = true;
 			LoadAllDefinitions();
 			if (definitions.Count == 0)
