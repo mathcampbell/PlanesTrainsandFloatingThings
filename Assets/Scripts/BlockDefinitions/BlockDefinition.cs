@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
+using Tools;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -115,6 +119,7 @@ namespace BlockDefinitions
 		/// Typically <see cref="null"/> for <see cref="IsSingleCubeBlock"/>s because
 		/// they will auto-generate a mesh shared with other nearby blocks.
 		/// </summary>
+		[FetchDefinitionData(nameof(meshFileName))]
 		public Mesh Mesh { get; private set; }
 
 		#endregion Instance Data
@@ -148,21 +153,85 @@ namespace BlockDefinitions
 
 		/// <summary>
 		/// This method is used to load any data that is not stored in the definition file itself, like Meshes, Sounds etc.
-		/// When overridden MUST call base.LoadResources() !!
+		/// This data should be marked with <see cref="FetchDefinitionDataAttribute"/>, it's presence will cause the data to be loaded automatically.
 		/// </summary>
-		public virtual void LoadResources()
+		public void LoadResources()
 		{
-			// TODO: Forced calling base.LoadResources() is bad (because inevitably will forget at some point.
-			// Use reflection and attributes instead?
-			if (null != meshFileName)
+			Type myMaybeDerivedType = GetType(); // the Type, since BlockDefinition will be derived by others, we need to get the Runtime type.
+
+			// Reflection is expensive, so save the list of members and attributes for each Type and re-use them.
+			if (! foo.TryGetValue(myMaybeDerivedType, out var memberList))
 			{
-				var fullPath = Path.Combine(Application.dataPath, MeshFolder, meshFileName);
-				Mesh = AssetDatabase.LoadAssetAtPath<Mesh>(fullPath);
-				if (null == Mesh) throw new FileNotFoundException("Mesh asset was not found!", fileName: fullPath);
+				memberList = new List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>();
+				foreach (var member in myMaybeDerivedType.GetMembers
+					(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+				{
+					var theFetchAttribute = member.GetCustomAttribute<FetchDefinitionDataAttribute>(inherit: true);
+					if (null != theFetchAttribute)
+						memberList.Add((theFetchAttribute, new GetSetMemberInfo(member)));
+				}
+
+				foo[myMaybeDerivedType] = memberList;
+			}
+
+
+			foreach (var tuple in memberList)
+			{
+				var fetchAttribute = tuple.Item1;
+				var dataMemberInfo = tuple.Item2;
+
+				string pathFieldName = fetchAttribute.nameOfFieldWithResourcePath;
+
+				// Strings to be used in error messages.
+				string fullPathFieldName = $"{myMaybeDerivedType.Name}.{pathFieldName}";
+				string fullDataFieldName = $"{myMaybeDerivedType.Name}.{dataMemberInfo.Name}";
+
+
+				GetSetMemberInfo pathFieldInfo;
+				{
+					var _pathFieldInfo = myMaybeDerivedType.GetField(pathFieldName);
+					if (null == _pathFieldInfo)
+					{
+						throw new Exception
+						(
+							$"The field {fullPathFieldName} was not found, It must exist in order to use {nameof(FetchDefinitionDataAttribute)} to fetch data for {fullDataFieldName}."
+						);
+					}
+
+					pathFieldInfo = new GetSetMemberInfo(_pathFieldInfo);
+				}
+
+
+				if (pathFieldInfo.MemberDataType != typeof(string))
+				{
+					throw new Exception($"The type of {fullPathFieldName} was not string. To use the {nameof(FetchDefinitionDataAttribute)} to fetch data for {fullDataFieldName} it must be of type string.");
+				}
+
+				string pathValue = pathFieldInfo.GetValue<string>(this);
+
+				string fullPath = Path.Combine(Application.dataPath, pathValue);
+
+				Type dataType = dataMemberInfo.MemberDataType;
+
+
+#if UNITY_EDITOR
+				var result = AssetDatabase.LoadAssetAtPath(fullPath, dataType);
+#else
+				var result = Resources.Load(fullPath, dataType);
+#endif
+				if (null == result)
+				{
+					Debug.LogWarning($"Getting data for {fullDataFieldName} failed because no resource was returned for the path in {fullPathFieldName}.");
+				}
+				dataMemberInfo.SetValue(this, result);
 			}
 		}
 
-		#region Static
+#region Static
+
+
+		private static readonly Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>> foo =
+			                new Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>>();
 
 		// TODO: Fill me with data!
 		// TODO: Ensure that IsSingleCubeBlock blocks have the lowest BlockIDs so that we can use a byte to index them and save space.
@@ -230,7 +299,7 @@ namespace BlockDefinitions
 
 
 
-		#region Serialization
+#region Serialization
 
 		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(BlockDefinition));
 		private static readonly XmlDictionary SerializerDictionary = new XmlDictionary();
@@ -296,9 +365,9 @@ namespace BlockDefinitions
 
 
 
-		#endregion Serialization
+#endregion Serialization
 
 
-		#endregion Static
+#endregion Static
 	}
 }
