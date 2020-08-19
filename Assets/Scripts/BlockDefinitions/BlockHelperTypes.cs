@@ -23,6 +23,7 @@ namespace BlockDefinitions // This file contains multiple items !!
 	/// An Flags Enum to define sides of a single block.
 	/// </summary>
 	[Flags]
+	[DataContract]
 	public enum BlockSides : UInt16
 	{
 		// We need to set the values explicitly, because it defaults to just counting upwards.
