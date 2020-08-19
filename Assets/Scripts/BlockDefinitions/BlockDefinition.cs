@@ -189,6 +189,13 @@ namespace BlockDefinitions
 			}
 		}
 
+		/// <summary>
+		/// Sorts out common stuff for writing to files, such as ensuring the path is correct, and overwriting an existing file is intended.
+		/// </summary>
+		/// <param name="d"></param>
+		/// <param name="filePath">if null or empty, will be set to a path derived from the definition</param>
+		/// <param name="allowOverWrite"></param>
+		/// <param name="extension"></param>
 		private static void WriteToFileCommon(BlockDefinition d, ref string filePath, bool allowOverWrite, string extension)
 		{
 			if (null == d) throw new ArgumentNullException(nameof(d));
