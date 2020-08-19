@@ -171,7 +171,11 @@ namespace BlockDefinitions
 
 			foreach (string filePath in filePaths)
 			{
-				ReadFromFile_XML(filePath);
+				var def = ReadFromFile_XML(filePath);
+				if (! definitions.AddOrUpdate(def.BlockID, def))
+				{
+					Debug.LogWarning("Re-Definition of ID#" + def.BlockID);
+				}
 			}
 		}
 
