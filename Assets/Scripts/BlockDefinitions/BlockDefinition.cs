@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -7,6 +7,8 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+
+using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -99,12 +101,21 @@ namespace BlockDefinitions
 		[DataMember]
 		public readonly string Description;
 
+
+		/// <summary>
+		/// The filePath, relative to the Assets/Meshes folder from which the <see cref="Mesh"/> should be loaded.
+		/// Note: this can be <see cref="null"/>, for example for blocks that create a mesh shared with neighbors on the fly.
+		/// </summary>
+		[DataMember]
+		public readonly string meshFileName;
+
+
 		/// <summary>
 		/// The <see cref="Mesh"/> of the block.
-		/// Typically <see cref="null"/> for <see cref="IsSingleCubeBlock"/>s because they will auto-generate a mesh shared with other nearby blocks.
+		/// Typically <see cref="null"/> for <see cref="IsSingleCubeBlock"/>s because
+		/// they will auto-generate a mesh shared with other nearby blocks.
 		/// </summary>
-		public readonly Mesh Mesh = null; // TODO: convert to something serializable
-
+		public Mesh Mesh { get; private set; }
 
 		#endregion Instance Data
 
@@ -119,7 +130,10 @@ namespace BlockDefinitions
 
 
 
-
+		/// <summary>
+		/// Use <see cref="Path.Combine"/> with <see cref="Application.dataPath"/> and this to get the final path.
+		/// </summary>
+		public const string MeshFolder = "Models";
 
 		/// <summary>
 		/// This is called when the entire object Graph is Deserialized, by the serializer.
@@ -129,7 +143,23 @@ namespace BlockDefinitions
 		{
 			// Maybe validate the data?
 
-			Debug.Log(Name);
+			LoadResources();
+		}
+
+		/// <summary>
+		/// This method is used to load any data that is not stored in the definition file itself, like Meshes, Sounds etc.
+		/// When overridden MUST call base.LoadResources() !!
+		/// </summary>
+		public virtual void LoadResources()
+		{
+			// TODO: Forced calling base.LoadResources() is bad (because inevitably will forget at some point.
+			// Use reflection and attributes instead?
+			if (null != meshFileName)
+			{
+				var fullPath = Path.Combine(Application.dataPath, MeshFolder, meshFileName);
+				Mesh = AssetDatabase.LoadAssetAtPath<Mesh>(fullPath);
+				if (null == Mesh) throw new FileNotFoundException("Mesh asset was not found!", fileName: fullPath);
+			}
 		}
 
 		#region Static
