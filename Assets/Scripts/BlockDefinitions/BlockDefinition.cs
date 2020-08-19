@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -74,10 +74,24 @@ namespace BlockDefinitions
 		public readonly float Mass;
 
 		/// <summary>
+		/// The volume of the block.
+		/// </summary>
+		[DataMember]
+		public readonly float Volume;
+
+		/// <summary>
 		/// The name of the block.
 		/// </summary>
 		[DataMember]
 		public readonly string Name;
+
+		//[DataMember]
+		public float sidelength  = 0.25f; // @Math should this be moved to BlockDefinition? What is it used for? (since not all blocks will be square)
+		// @Leopard: this was a poor attempt at a simplified centre of gravity & mass solution that isn't quite implemented yet;
+		// since we can't get the CoG using Unity's physics cos we aren't making every block a Rigidbody
+		// we will need to manually calculate it, which therefore required knowing how big each block it,
+		// it's relative position in the vehicle and it's mass, to accurate get the CoG and CoM.
+		// todo: @Math what would we need this for exactly? surely mass, combined with the position is enough to get COM. What do we need this length for?
 
 		/// <summary>
 		/// The Description of the block.

@@ -27,7 +27,7 @@ namespace Vehicle.BlockBehaviours
 
 		// todo: Only for existing code compatibility
 		public GameObject gameObject;
-		public float sidelength = 0.25f;
+		public float sidelength => myBlockDefinition.sidelength;
 
 
 		#region Visual Representation
