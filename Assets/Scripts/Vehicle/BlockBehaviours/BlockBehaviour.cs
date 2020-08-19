@@ -6,9 +6,12 @@ using UnityEngine;
 
 using Vehicle.Blocks;
 
-namespace BlockBehaviours
+namespace Vehicle.BlockBehaviours
 {
-	public class BlockBehaviour : MonoBehaviour
+	/// <summary>
+	/// The Runtime-Simulation state of a block
+	/// </summary>
+	public class BlockBehaviour : MonoBehaviour, ISerializationCallbackReceiver
 	{
 		public Block blockDesign;
 

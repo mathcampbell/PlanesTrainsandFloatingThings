@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-namespace Vehicle.Blocks
+﻿namespace Vehicle.BlockBehaviours
 {
-	public class ActiveBlock : Block
+	public class ActiveBlockBehaviour : BlockBehaviour
 	{
 		// Start is called before the first frame update
 		void Start() { }
