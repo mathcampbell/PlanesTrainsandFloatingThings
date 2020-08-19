@@ -8,6 +8,10 @@ namespace VehicleEditor
 {
 	public class ToolbarBuildButtons : MonoBehaviour {
 
+
+		public GameObject BuildButtonPrefab;
+		public BlockBehaviour[] VehiclePartPrefabs;
+
 		// Use this for initialization
 		void Start () {
 
@@ -33,9 +37,6 @@ namespace VehicleEditor
 			}
 
 		}
-
-		public GameObject BuildButtonPrefab;
-		public BlockBehaviour[] VehiclePartPrefabs;
 
 		// Update is called once per frame
 		void Update () {
