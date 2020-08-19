@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -152,15 +152,17 @@ namespace BlockDefinitions
 		public static IReadOnlyDictionary<BlockID, BlockDefinition> Definitions => readonlyDefinitions;
 
 
+		private static bool Initialized = false;
+
 
 		/// <summary>
-		/// Use <see cref="Path.Combine"/> with <see cref="Application.dataPath"/> to get the final path.
+		/// Use <see cref="Path.Combine"/> with <see cref="Application.dataPath"/> and this to get the final path.
 		/// </summary>
-		public const string DefinitionsPath = "GameData/BlockDefinitions";
+		public const string DefinitionsFolder = "GameData/BlockDefinitions";
 		public static void LoadAllDefinitions()
 		{
 			// Requires .Net (Standard) 2.0 (see: project settings -> player -> Other Settings -> API Compatibility Level)
-			var folder = Path.Combine(Application.dataPath, DefinitionsPath);
+			var folder = Path.Combine(Application.dataPath, DefinitionsFolder);
 
 			var filePaths = Directory.GetFiles(folder, "*.xml");
 
@@ -175,6 +177,23 @@ namespace BlockDefinitions
 				if (! definitions.AddOrUpdate(def.BlockID, def))
 				{
 					Debug.LogWarning("Re-Definition of ID#" + def.BlockID);
+				}
+			}
+		}
+
+		public static void EnsureInitialized()
+		{
+			if (Initialized) return;
+			
+			Initialized = true;
+			LoadAllDefinitions();
+			if (definitions.Count == 0)
+			{
+				Debug.Log("No definitions loaded from file, will now load C# HardCode instead.");
+				var list = ZHardcodeBlockDefinitions.MainDefinitions();
+				foreach (var definition in list)
+				{
+					definitions.Add(definition.BlockID, definition);
 				}
 			}
 		}
@@ -207,7 +226,7 @@ namespace BlockDefinitions
 
 			if (string.IsNullOrWhiteSpace(filePath))
 			{
-				filePath = Path.Combine(Application.dataPath, DefinitionsPath, d.BlockID.ID + "_" + d.Name + extension);
+				filePath = Path.Combine(Application.dataPath, DefinitionsFolder, d.BlockID.ID + "_" + d.Name + extension);
 			}
 
 			if (false == allowOverWrite && File.Exists(filePath))
