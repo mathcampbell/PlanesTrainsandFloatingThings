@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using Vehicle.BlockBehaviours;
 using Vehicle.Blocks;
 
 namespace VehicleEditor
@@ -16,7 +17,7 @@ namespace VehicleEditor
 
 			for (int i = 0; i < VehiclePartPrefabs.Length; i++)
 			{
-				Block vehiclePart = VehiclePartPrefabs[i];
+				BlockBehaviour vehiclePart = VehiclePartPrefabs[i];
 
 				GameObject buttonGameObject = (GameObject)Instantiate(BuildButtonPrefab, this.transform);
 				Text buttonLabel = buttonGameObject.GetComponentInChildren<Text>();
@@ -34,7 +35,7 @@ namespace VehicleEditor
 		}
 
 		public GameObject BuildButtonPrefab;
-		public Block[] VehiclePartPrefabs;
+		public BlockBehaviour[] VehiclePartPrefabs;
 
 		// Update is called once per frame
 		void Update () {

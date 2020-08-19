@@ -3,13 +3,14 @@ using System.Linq;
 
 using UnityEngine;
 
+using Vehicle.BlockBehaviours;
 using Vehicle.Blocks;
 
 namespace VehicleEditor
 {
 	public class MouseManager : MonoBehaviour
 	{
-		public Block PrefabBlock;
+		public BlockBehaviour PrefabBlock;
 		public GameObject BlockPlacementSprite;
 		public GameObject CurrentPlacementSprite;
 
@@ -17,7 +18,7 @@ namespace VehicleEditor
 
 		public ComponentKeybindDialog ComponentKeybindDialog;
 
-		public Block ShipRoot;
+		public BlockBehaviour ShipRoot;
 
 		public GameObject DataLine;
 		public GameObject IOLine;
@@ -41,7 +42,7 @@ namespace VehicleEditor
 		protected Material[] BlockMats;
 
 		//Stuff for Nodes
-		protected Block CurrentBlock;
+		protected BlockBehaviour CurrentBlock;
 		protected Quaternion CurrentBlockRot;
 		protected NumericOutput CurrentNode;
 		protected OnOffOutput CurrentOnOffNode;
@@ -248,7 +249,6 @@ namespace VehicleEditor
 
 						//CurrentBlock.SetAllMaterials(BlockMats);
 						CurrentBlock.SetSolid();
-						CurrentBlock.Init();
 
 						// Adding our block's mass to the Root
 						Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
@@ -847,7 +847,7 @@ namespace VehicleEditor
 			// Delete Block
 			if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, BlockLogic.LayerMaskBlock))
 			{
-				var block = hitInfo.collider.GetComponent<Block>();
+				var block = hitInfo.collider.GetComponent<BlockBehaviour>();
 				if (block != null && block != ShipRoot)
 				{
 					block.GetComponentInParent<Rigidbody>().mass -= block.Mass;
@@ -870,7 +870,7 @@ namespace VehicleEditor
 
 			// Getting all the Block objects & hidin any that aren't Active Blocks
 
-			Block[] allBlocks = ShipRoot.GetComponentsInChildren<Block>();
+			BlockBehaviour[] allBlocks = ShipRoot.GetComponentsInChildren<BlockBehaviour>();
 
 			for (int i = 0; i < allBlocks.Length; i++)
 			{
@@ -882,7 +882,7 @@ namespace VehicleEditor
 						GameObject.Destroy(numericNodeLines[j].gameObject);
 					}
 				}
-				if (allBlocks[i] is ActiveBlock)
+				if (allBlocks[i] is ActiveBlockBehaviour)
 				{ }
 				else
 				{
@@ -903,7 +903,7 @@ namespace VehicleEditor
 			theCamera.cullingMask |= LayerMaskElectricNode;
 
 
-			Block[] allBlocks = ShipRoot.GetComponentsInChildren<Block>();
+			BlockBehaviour[] allBlocks = ShipRoot.GetComponentsInChildren<BlockBehaviour>();
 
 			for (int i = 0; i < allBlocks.Length; i++)
 			{
@@ -912,7 +912,7 @@ namespace VehicleEditor
 				// // {
 				// //     electricMats[j] = DataMat;
 				// // }
-				if (allBlocks[i] is ActiveBlock)
+				if (allBlocks[i] is ActiveBlockBehaviour)
 				{ }
 				else
 				{
@@ -932,7 +932,7 @@ namespace VehicleEditor
 			theCamera.cullingMask &= (1 << LayerMaskNumericNode);
 			theCamera.cullingMask |= LayerMaskIONode;
 
-			Block[] allBlocks = ShipRoot.GetComponentsInChildren<Block>();
+			BlockBehaviour[] allBlocks = ShipRoot.GetComponentsInChildren<BlockBehaviour>();
 
 			for (int i = 0; i < allBlocks.Length; i++)
 			{
@@ -944,7 +944,7 @@ namespace VehicleEditor
 						GameObject.Destroy(iONodeLines[j].gameObject);
 					}
 				}
-				if (allBlocks[i] is ActiveBlock)
+				if (allBlocks[i] is ActiveBlockBehaviour)
 				{ }
 				else
 					//allBlocks[i].SetAllMaterials(IOMats);
@@ -970,7 +970,7 @@ namespace VehicleEditor
 		*/
 			// Setting all the blocks to visible again
 			ShipRoot.GetComponent<Rigidbody>().isKinematic = true;
-			Block[] allBlocks = ShipRoot.GetComponentsInChildren<Block>();
+			BlockBehaviour[] allBlocks = ShipRoot.GetComponentsInChildren<BlockBehaviour>();
 			for (int i = 0; i < allBlocks.Length; i++)
 			{
 				/*
@@ -1095,13 +1095,13 @@ namespace VehicleEditor
 			}
 		}
 
-		public void RecalculateMassAndInertia(Block RootBlock)
+		public void RecalculateMassAndInertia(BlockBehaviour RootBlock)
 		{
 			// Finding CoM
 			Vector3 newCenterOfMass = Vector3.zero;
 			Vector3 newInertiaVector = Vector3.zero;
 			Vector3 distance = Vector3.zero;
-			Block m;
+			BlockBehaviour m;
 			float sumOfMass = 0f;
 			GameObject[] connectedBlocks;
 			GameObject rootObject = RootBlock.gameObject;
@@ -1133,7 +1133,7 @@ namespace VehicleEditor
 			{
 				if (VehicleBlock.activeSelf)
 				{
-					m = VehicleBlock.GetComponent<Block>();
+					m = VehicleBlock.GetComponent<BlockBehaviour>();
 
 					newCenterOfMass += (transform.localPosition * m.Mass);
 
@@ -1165,7 +1165,7 @@ namespace VehicleEditor
 			{
 				if (VehicleBlock.gameObject.activeSelf)
 				{
-					m = VehicleBlock.GetComponent<Block>();
+					m = VehicleBlock.GetComponent<BlockBehaviour>();
 					distance = new Vector3(Mathf.Pow(transform.localPosition.y - newCenterOfMass.y, 2.0f) + Mathf.Pow(transform.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow(transform.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow(transform.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow(transform.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow(transform.localPosition.y - newCenterOfMass.y, 2.0f));
 
 					if (VehicleBlock == ShipRoot)
