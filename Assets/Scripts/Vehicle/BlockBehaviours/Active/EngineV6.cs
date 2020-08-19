@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Vehicle.Blocks.Active
+namespace Vehicle.BlockBehaviours.Active
 {
-	public class EngineV6 : ActiveBlock
+	public class EngineV6 : ActiveBlockBehaviour
 	{
 		// Resources & Gameplay vars
 		public float fuelRequired = 0;

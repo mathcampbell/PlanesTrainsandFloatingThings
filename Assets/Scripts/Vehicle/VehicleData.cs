@@ -8,25 +8,30 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-
 using BlockDefinitions;
+
+using Vehicle.BlockBehaviours;
 using Vehicle.Blocks;
 
 namespace Vehicle
 {
+	/// <summary>
+	/// This class holds all vehicle related data, such as the Design, Editor state and Runtime/simulation state.
+	/// </summary>
 	[DataContract]
-	public class VehicleController : MonoBehaviour
+	public class VehicleData : IDeserializationCallback
 	{
 		// This class will be added to the root object of any vehicle added to a world scene.
 
-		// It will need to spawn a GridController to provide the grid of blocks that the root object has, then work out and declare the EnclosedSpaces and ExposedSpaces.
+		// It will need to spawn a GridController to provide the grid of blocks that the root object has,
+		// then work out and declare the EnclosedSpaces and ExposedSpaces.
 		// These should probably be a separate class tht records the pressure, liquid content, gas content etc
 		// It will also need to manage the camera system for third-person mode if a player is controlling the vehicle.
 
-		#region NestedTypes
+
+		#region Design
 
 		#region BlockRecord Optimalization (Can be ignored for now)
-
 		/// <summary>
 		/// BlockRecords are for simple blocks that don't need to store additional information.
 		/// </summary>
@@ -46,7 +51,7 @@ namespace Vehicle
 
 			[DataMember]
 #if ShortBlockRecordID
-		public byte BlockID; // We can probably get away with this, since BlockRecord will only hold Trivial blocks.
+			public byte BlockID; // We can probably get away with this, since BlockRecord will only hold Trivial blocks.
 #else
 			public BlockID BlockID;
 #endif
@@ -56,43 +61,37 @@ namespace Vehicle
 			/// </summary>
 			public BlockDefinition Definition => BlockDefinition.Definitions[BlockID];
 		}
-
-		#endregion BlockRecord Optimalization (Can be ignored for now)
-
-		#endregion NestedTypes
-
 		// Not implemented, but if commented out would break with renames and other refactorings.
 		[DataMember]
 		List<BlockRecord> simpleBlocks = new List<BlockRecord>();
-
+		#endregion BlockRecord Optimalization (Can be ignored for now)
 
 		[DataMember]
 		List<Block> blocks = new List<Block>();
 
+
+		#endregion Design
+
+		#region Editor
+
+
+		#endregion Editor
+
+		#region Runtime/Simulation
+
 		[DataMember]
-		List<ActiveBlock> complexBlocks = new List<ActiveBlock>();
+		List<BlockBehaviour> runtimeBlocks = null;
 
-		public void Test()
-		{
-			var foo = new BinaryFormatter();
-		}
-
+		#endregion Runtime/Simulation
 
 		private GameObject myGameObject;
 
 
 
-
-
-
-		public void Awake() { }
-
-		public void Start() { }
-
-		public void FixedUpdate() { }
-
-		public void Update() { }
-
-
+		/// <inheritdoc />
+		public void OnDeserialization(object sender)
+		{
+			//throw new NotImplementedException();
+		}
 	}
 }

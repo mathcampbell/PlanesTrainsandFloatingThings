@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Vehicle.Blocks.Active
+﻿namespace Vehicle.BlockBehaviours.Active
 {
-	public class LithiumBattery : ActiveBlock
+	public class LithiumBattery : ActiveBlockBehaviour
 	{
 
 		public NumericOutput CurrentCharge;

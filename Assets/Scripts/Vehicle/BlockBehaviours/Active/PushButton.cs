@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Vehicle.Blocks.Active
+namespace Vehicle.BlockBehaviours.Active
 {
-	public class PushButton : ActiveBlock
+	public class PushButton : ActiveBlockBehaviour
 	{
 		public OnOffOutput IOOutputSwitch;
 
@@ -23,8 +21,6 @@ namespace Vehicle.Blocks.Active
 
 
 		}
-
-		override public void Init() { }
 
 		// Update is called once per frame
 		void Update() { }

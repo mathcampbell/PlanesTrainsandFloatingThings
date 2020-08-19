@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Vehicle.Blocks.Active
+namespace Vehicle.BlockBehaviours.Active
 {
-	public class LightBlock : ActiveBlock
+	public class LightBlockBehaviour : ActiveBlockBehaviour
 	{
 		public OnOffInput IOInputLightSwitch;
 		public bool lightOn;
@@ -13,6 +11,12 @@ namespace Vehicle.Blocks.Active
 		public Material lightMatOriginal;
 		private Material lightMat;
 		private float powerAvailable;
+
+		public void Awake()
+		{
+			// this.GetComponentInChildren<Renderer>().material = lightMat;
+
+		}
 
 		// Start is called before the first frame update
 		void Start()
@@ -25,11 +29,7 @@ namespace Vehicle.Blocks.Active
 			LightObject.intensity = 0f;
 		}
 
-		override public void Init()
-		{
-			// this.GetComponentInChildren<Renderer>().material = lightMat;
-
-		}
+		
 
 		// Update is called once per frame
 		void Update() { }
