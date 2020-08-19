@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
+
 using BlockDefinitions;
 
 using Testing.Serialization;
@@ -11,7 +12,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-[CustomEditor(typeof(BlockDefinitionBehaviour))]
+[CustomEditor(typeof(BlockDefinitionInspectorTarget))]
 public class BlockDefinitionInspector : Editor
 {
 	/// <inheritdoc />
@@ -35,22 +36,7 @@ public class BlockDefinitionInspector : Editor
 
 	private static void HardcodedDefinitions()
 	{
-		var list = new List<BlockDefinition>
-		{
-			  new BlockDefinition(1,   10, "TestBlock",  "A block for testing.")
-			, new BlockDefinition(2, 10, "TestBlock2", "A 2nd block for testing.")
-		};
-
-		{ // Sanity check
-			var usedIds = new Dictionary<BlockID, BlockDefinition>();
-			foreach (var definition in list)
-			{
-				if (false == usedIds.TryAdd(definition.BlockID, definition))
-				{
-					throw new InvalidOperationException("Definition " + definition.Name + " uses already assigned BlockID " + (uint)definition.BlockID);
-				}
-			}
-		}
+		var list = ZHardcodeBlockDefinitions.MainDefinitions();
 
 		foreach (var definition in list)
 		{
@@ -70,7 +56,7 @@ public class BlockDefinitionInspector : Editor
 		if (null == d) throw new ArgumentNullException(nameof(d));
 
 		// ( no instance (static method), { definition, path (create a default), overwrite existing file, nice xml formatting } )
-		writeToXmlMethodInfo.Invoke(null    , new object[] { d, null, true     , true });
+		writeToXmlMethodInfo.Invoke(null, new object[] { d, null, true     , true });
 	}
 
 	private static void WriteTo_Bin(BlockDefinition d)
