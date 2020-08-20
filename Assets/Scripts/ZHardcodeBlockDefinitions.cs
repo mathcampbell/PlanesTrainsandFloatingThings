@@ -14,10 +14,12 @@ using BlockDefinitions;
 	{
 		public static List<BlockDefinition> MainDefinitions()
 		{
+			BlockID id = 1;
 			var list = new List<BlockDefinition>
 			{
-				new BlockDefinition(1,   10, "TestBlock",  "A block for testing.")
-				, new BlockDefinition(2, 10, "TestBlock2", "A 2nd block for testing.")
+				new BlockDefinition(id++,   10, "TestBlock",  "A block for testing.")
+				, new BlockDefinition(id++, 10, "TestBlock2", "A 2nd block for testing.")
+				, new EngineBD(id++, 100, "Engine V6", "Engine with sounds and a model.")
 			};
 
 			{ // Sanity check
