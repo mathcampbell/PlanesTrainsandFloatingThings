@@ -383,11 +383,11 @@ namespace BlockDefinitions
 				Serializer.WriteObject(writer, d);
 			}
 		}
-#endif
+#endif //UNITY_EDITOR
 
-#endregion Serialization
+		#endregion Serialization
 
 
-#endregion Static
+		#endregion Static
 	}
 }

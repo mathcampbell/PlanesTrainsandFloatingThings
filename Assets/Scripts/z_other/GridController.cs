@@ -10,16 +10,16 @@ public class GridController : MonoBehaviour
 	public GridBlock[,,] vehicleGrid;
 
 
-   public GridController(Vector3 bounds)
-    {
+	public GridController(Vector3 bounds)
+	{
 		var xsize = Mathf.RoundToInt(bounds.x / 0.25f);
 		var ysize = Mathf.RoundToInt(bounds.y / 0.25f);
 		var zsize = Mathf.RoundToInt(bounds.z / 0.25f);
 
 		vehicleGrid = new GridBlock[xsize, ysize, zsize];
-    }
+	}
 
-    public IEnumerable<GridBlock> Grid
+	public IEnumerable<GridBlock> Grid
 	{
 		get
 		{
@@ -27,7 +27,6 @@ public class GridController : MonoBehaviour
 			{
 				yield return (GridBlock)gridItem;
 			}
-			
 		}
 	}
 
