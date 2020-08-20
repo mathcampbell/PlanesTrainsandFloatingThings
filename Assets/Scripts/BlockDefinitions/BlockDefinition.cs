@@ -143,12 +143,6 @@ namespace BlockDefinitions
 		}
 
 
-
-		/// <summary>
-		/// Use <see cref="Path.Combine"/> with <see cref="Application.dataPath"/> and this to get the final path.
-		/// </summary>
-		public const string MeshFolder = "Models";
-
 		/// <summary>
 		/// This is called when the entire object Graph is Deserialized, by the serializer.
 		/// </summary>
@@ -186,7 +180,7 @@ namespace BlockDefinitions
 				foo[myMaybeDerivedType] = memberList;
 			}
 
-
+			int count = 0;
 			foreach (var tuple in memberList)
 			{
 				var fetchAttribute = tuple.Item1;
@@ -201,7 +195,7 @@ namespace BlockDefinitions
 
 				GetSetMemberInfo pathFieldInfo;
 				{
-					var _pathFieldInfo = myMaybeDerivedType.GetField(pathFieldName);
+					var _pathFieldInfo = myMaybeDerivedType.GetField(pathFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 					if (null == _pathFieldInfo)
 					{
 						throw new Exception
@@ -220,8 +214,10 @@ namespace BlockDefinitions
 				}
 
 				string pathValue = pathFieldInfo.GetValue<string>(this);
+				if (null == pathValue) continue;
 
-				string fullPath = Path.Combine(Application.dataPath, pathValue);
+				//string fullPath = Path.Combine(Application.dataPath, pathValue);
+				string fullPath = "Assets/" + pathValue;
 
 				Type dataType = dataMemberInfo.MemberDataType;
 
@@ -236,9 +232,12 @@ namespace BlockDefinitions
 				if (null == result)
 				{
 					Debug.LogWarning($"Getting data for {fullDataFieldName} failed because no resource was returned for the path in {fullPathFieldName}. ({fullPath}).");
+					continue;
 				}
 				dataMemberInfo.SetValue(this, result);
+				count++;
 			}
+			Debug.Log($"Loaded {count} resources for definition {this.Name}");
 		}
 
 #region Static
