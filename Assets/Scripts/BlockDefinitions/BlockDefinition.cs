@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -312,10 +312,17 @@ namespace BlockDefinitions
 
 
 
-#region Serialization
+		#region Serialization
 
-		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(BlockDefinition));
+		// Derived Types, the serializer needs to know about them or it'll choke.
+		private static readonly List<Type> SerializerKnownTypes = Reflection.FindAllDerivedTypes<BlockDefinition>(Assembly.GetExecutingAssembly());
+
+		// The serializer that will handle the data, creating it is said to be expensive, so we reuse it.
+		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(BlockDefinition), SerializerKnownTypes);
+
 		private static readonly XmlDictionary SerializerDictionary = new XmlDictionary();
+
+
 
 		private static BlockDefinition ReadFromFile_XML(string filePath)
 		{
