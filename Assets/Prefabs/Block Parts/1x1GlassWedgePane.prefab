@@ -56,6 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -81,6 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &4191815210537435407
 Animator:
   serializedVersion: 3
@@ -160,18 +162,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1054946212010668306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db567e9616653423bb71127858edb183, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ca0535675f0949cea1a6e6cc6bc114f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Collider: {fileID: 0}
-  blockName: 
-  blockID: 4
-  description: 
-  mass: 10
-  sidelength: 0.25
-  volume: 0
-  matArray: []
-  BlockAnim: {fileID: 4191815210537435407}
+  unitySerializationData: 4005426c6f636b2e036e696c860836687474703a2f2f736368656d61732e64617461636f6e74726163742e6f72672f323030342f30372f56656869636c652e426c6f636b7309016929687474703a2f2f7777772e77332e6f72672f323030312f584d4c536368656d612d696e7374616e636501
 --- !u!95 &4974410413138179299
 Animator:
   serializedVersion: 3
