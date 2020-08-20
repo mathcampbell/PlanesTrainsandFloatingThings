@@ -18,6 +18,7 @@ namespace Vehicle.BlockBehaviours
 		/// Used to serialize things Unity can't.
 		/// </summary>
 		[SerializeField]
+		[HideInInspector]
 		private byte[] unitySerializationData;
 
 
