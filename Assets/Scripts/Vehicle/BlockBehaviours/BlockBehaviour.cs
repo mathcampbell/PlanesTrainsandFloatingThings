@@ -35,6 +35,7 @@ namespace Vehicle.BlockBehaviours
 		#endregion DefinitionShortcuts
 
 		// todo: Only for existing code compatibility
+		[NonSerialized]
 		public GameObject gameObject;
 		public float sidelength => myBlockDefinition.sidelength;
 
@@ -119,7 +120,7 @@ namespace Vehicle.BlockBehaviours
 		/// <inheritdoc />
 		public void OnBeforeSerialize()
 		{
-			// Unity: before serialization -> serialize fields unity can't to byteArray.
+			// Unity: before serialization -> serialize fields Unity can't to byteArray.
 			using (var stream = new MemoryStream())
 			{
 				Block.WriteToStreamBinary(stream, blockDesign);
@@ -133,7 +134,7 @@ namespace Vehicle.BlockBehaviours
 		/// <inheritdoc />
 		public void OnAfterDeserialize()
 		{
-			// Unity: after deserialization -> deserialize fields unity can't from byteArray.
+			// Unity: after deserialization -> deserialize fields Unity can't from byteArray.
 			if (null == unitySerializationData)
 			{
 				Debug.LogError($"{nameof(unitySerializationData)} was null: no data was loaded.");
