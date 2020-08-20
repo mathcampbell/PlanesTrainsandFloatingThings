@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BlockDefinitions;
+namespace BlockDefinitions
+{
 
-/// <summary>
-/// An attribute that specifies that this field or property in a <see cref="BlockDefinition"/> should be loaded from a resource.
-/// </summary>
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+	/// <summary>
+	/// An attribute that specifies that this field or property in a <see cref="BlockDefinition"/> should be loaded from a resource.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
 	internal class FetchDefinitionDataAttribute : Attribute
 	{
 		/// <summary>
@@ -24,6 +25,8 @@ using BlockDefinitions;
 		/// Use <see cref="nameof()"/> to get it, so that it will survive a rename of the field.</param>
 		public FetchDefinitionDataAttribute(string nameOfFieldWithResourcePath)
 		{
-			this.nameOfFieldWithResourcePath = nameOfFieldWithResourcePath ?? throw new ArgumentNullException(nameof(nameOfFieldWithResourcePath));
+			this.nameOfFieldWithResourcePath = nameOfFieldWithResourcePath
+			                                ?? throw new ArgumentNullException(nameof(nameOfFieldWithResourcePath));
 		}
 	}
+}

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-
+namespace Tools {
 	public static class CollectionExtensions
 	{
 		/// <summary>
@@ -72,5 +69,6 @@ using System.Threading.Tasks;
 			instance[key] = value;
 			return wasAdd;
 		}
+	}
 }
 

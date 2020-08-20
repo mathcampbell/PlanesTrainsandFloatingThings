@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using BlockDefinitions;
 
+using Tools;
+
 
 	/// <summary>
 	/// This class contains C# hardcoded <see cref="BlockDefinition"/>s, for testing purposes.
