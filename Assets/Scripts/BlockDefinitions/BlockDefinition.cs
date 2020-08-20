@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -111,7 +111,7 @@ namespace BlockDefinitions
 		/// Note: this can be <see cref="null"/>, for example for blocks that create a mesh shared with neighbors on the fly.
 		/// </summary>
 		[DataMember]
-		public readonly string meshFileName;
+		public readonly string MeshFilePath;
 
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace BlockDefinitions
 		/// Typically <see cref="null"/> for <see cref="IsSingleCubeBlock"/>s because
 		/// they will auto-generate a mesh shared with other nearby blocks.
 		/// </summary>
-		[FetchDefinitionData(nameof(meshFileName))]
+		[FetchDefinitionData(nameof(MeshFilePath))]
 		public Mesh Mesh { get; private set; }
 
 
@@ -133,12 +133,13 @@ namespace BlockDefinitions
 		#endregion Instance Data
 
 
-		public BlockDefinition(BlockID blockID, float mass, string name, string description)
+		public BlockDefinition(BlockID blockID, float mass, string name, string description, string meshFilePath = null)
 		{
 			BlockID = blockID;
 			Mass = mass;
 			Name = name ?? throw new ArgumentNullException(nameof(name));
 			Description = description ?? throw new ArgumentNullException(nameof(description));
+			this.MeshFilePath = meshFilePath;
 		}
 
 
@@ -325,6 +326,7 @@ namespace BlockDefinitions
 			}
 		}
 
+#if UNITY_EDITOR
 		/// <summary>
 		/// Sorts out common stuff for writing to files, such as ensuring the path is correct, and overwriting an existing file is intended.
 		/// </summary>
@@ -332,7 +334,7 @@ namespace BlockDefinitions
 		/// <param name="filePath">if null or empty, will be set to a path derived from the definition</param>
 		/// <param name="allowOverWrite"></param>
 		/// <param name="extension"></param>
-		private static void WriteToFileCommon(BlockDefinition d, ref string filePath, bool allowOverWrite, string extension)
+		public static void WriteToFileCommon(BlockDefinition d, ref string filePath, bool allowOverWrite, string extension)
 		{
 			if (null == d) throw new ArgumentNullException(nameof(d));
 
@@ -347,7 +349,7 @@ namespace BlockDefinitions
 			}
 		}
 
-		private static void WriteToFile_XML(BlockDefinition d, string filePath = null, bool allowOverWrite = false, bool niceFormat = false)
+		public static void WriteToFile_XML(BlockDefinition d, string filePath = null, bool allowOverWrite = false, bool niceFormat = false)
 		{
 			WriteToFileCommon(d, ref filePath, allowOverWrite, ".xml");
 
@@ -365,7 +367,7 @@ namespace BlockDefinitions
 			}
 		}
 
-		private static void WriteToFile_Binary(BlockDefinition d, string filePath = null, bool allowOverWrite = false)
+		public static void WriteToFile_Binary(BlockDefinition d, string filePath = null, bool allowOverWrite = false)
 		{
 			WriteToFileCommon(d, ref filePath, allowOverWrite, ".bin");
 
@@ -375,8 +377,7 @@ namespace BlockDefinitions
 				Serializer.WriteObject(writer, d);
 			}
 		}
-
-
+#endif
 
 #endregion Serialization
 

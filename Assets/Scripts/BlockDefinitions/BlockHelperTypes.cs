@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -58,6 +58,24 @@ namespace BlockDefinitions // This file contains multiple items !!
 		{
 			ID = b;
 		}
+
+		public BlockID(Int32 b)
+		{
+			ID = (UInt16) b;
+		}
+
+		public BlockID(BlockID b)
+		{
+			ID = b.ID;
+		}
+
+
+		public static BlockID operator ++(BlockID a)
+		{
+			// The compiler does magic to make this work as expected, don't question it.  https://stackoverflow.com/a/19141153
+			return new BlockID(a.ID + 1);
+		}
+
 
 		/// <summary>
 		/// Convert from byte
