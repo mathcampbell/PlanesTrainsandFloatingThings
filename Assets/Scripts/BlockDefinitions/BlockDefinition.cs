@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -240,7 +240,7 @@ namespace BlockDefinitions
 			Debug.Log($"Loaded {count} resources for definition {this.Name}");
 		}
 
-#region Static
+		#region Static
 
 
 		private static readonly Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>> foo =
@@ -265,6 +265,12 @@ namespace BlockDefinitions
 
 
 		private static bool Initialized = false;
+
+
+		static BlockDefinition()
+		{
+			LoadAllDefinitions();
+		}
 
 
 		/// <summary>
