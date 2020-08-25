@@ -73,6 +73,12 @@ namespace Vehicle.BlockBehaviours
 			BlockAnim = GetComponent<Animator>();
 		}
 
+		void Start()
+		{
+			if (null != myBlockDefinition.Mesh)
+				meshFilter.mesh = myBlockDefinition.Mesh;
+		}
+
 		#region More visual stuff
 		public void SetMaterial(Material mat)
 		{
