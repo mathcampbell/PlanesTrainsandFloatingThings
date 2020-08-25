@@ -53,6 +53,17 @@ namespace Vehicle.Blocks
 
 		#endregion
 
+		public Block()
+		{
+
+		}
+
+		public Block(BlockDefinition d)
+		{
+			myBlockDefinition = d;
+			blockID = d.BlockID;
+		}
+
 		/// <inheritdoc />
 		public void OnDeserialization(object sender)
 		{

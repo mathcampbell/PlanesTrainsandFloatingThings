@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -17,6 +17,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
+using Vehicle.BlockBehaviours;
+using Vehicle.Blocks;
 
 
 namespace BlockDefinitions
@@ -166,6 +168,7 @@ namespace BlockDefinitions
 			Type myMaybeDerivedType = GetType(); // the Type, since BlockDefinition will be derived by others, we need to get the Runtime type.
 
 			// Reflection is expensive, so save the list of members and attributes for each Type and re-use them.
+			// (There wil be multiple instances of most BlockDefinition types)
 			if (! foo.TryGetValue(myMaybeDerivedType, out var memberList))
 			{
 				memberList = new List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>();
@@ -231,13 +234,37 @@ namespace BlockDefinitions
 #endif
 				if (null == result)
 				{
-					Debug.LogWarning($"Getting data for {fullDataFieldName} failed because no resource was returned for the path in {fullPathFieldName}. ({fullPath}).");
+					Debug.LogError($"Getting data for {fullDataFieldName} failed because no resource was returned for the path in {fullPathFieldName}. ({fullPath}).");
 					continue;
 				}
 				dataMemberInfo.SetValue(this, result);
 				count++;
 			}
-			Debug.Log($"Loaded {count} resources for definition {this.Name}");
+			Console.WriteLine($"Loaded {count} resources for definition {this.Name}");
+		}
+
+		/// <summary>
+		/// Instantiate a new <see cref="GameObject"/>with a <see cref="BlockBehaviour"/> representing this block, to be used in the context of the VehicleEditor.
+		/// </summary>
+		/// <returns>new BlockBehaviour, attached to a new GameObject</returns>
+		public BlockBehaviour InstantiateEditorBlockBehaviour()
+		{
+			var go = new GameObject(Name);
+			return InstantiateEditorBlockBehaviour(go);
+		}
+
+		/// <summary>
+		/// Instantiate a new <see cref="BlockBehaviour"/> representing this block on the given <paramref name="gameObject"/>, to be used in the context of the VehicleEditor.
+		/// </summary>
+		/// <param name="gameObject">GameObject to which the <see cref="BlockBehaviour"/> wil be attached</param>
+		/// <returns>new BlockBehaviour, attached to <paramref name="gameObject"/></returns>
+		public BlockBehaviour InstantiateEditorBlockBehaviour(GameObject gameObject)
+		{
+			var go = gameObject;
+			var behaviour = go.AddComponent<BlockBehaviour>();
+			var design = new Block(this);
+			behaviour.blockDesign = design;
+			return behaviour;
 		}
 
 		#region Static

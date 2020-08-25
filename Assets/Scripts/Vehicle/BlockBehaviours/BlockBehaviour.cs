@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 using BlockDefinitions;
@@ -36,8 +36,10 @@ namespace Vehicle.BlockBehaviours
 		#endregion DefinitionShortcuts
 
 		// todo: Only for existing code compatibility
-		[NonSerialized]
-		public GameObject gameObject;
+		//[NonSerialized]
+		//public GameObject gameObject;
+
+
 		public float sidelength => myBlockDefinition.sidelength;
 
 
@@ -67,14 +69,22 @@ namespace Vehicle.BlockBehaviours
 
 		void Awake()
 		{
-			Collider = GetComponent<BoxCollider>();
-			meshFilter = this.GetComponentInChildren<MeshFilter>();
-			matArray = this.GetComponentInChildren<Renderer>().materials;
-			BlockAnim = GetComponent<Animator>();
+			Collider = gameObject.AddComponent<BoxCollider>();
+			meshFilter = gameObject.AddComponent<MeshFilter>();
+			//matArray = gameObject.AddComponent<Renderer>().materials;
+			gameObject.AddComponent<MeshRenderer>();
+
+			if (gameObject.HasComponent<Animator>())
+				BlockAnim = gameObject.GetComponent<Animator>();
+			else
+				BlockAnim = gameObject.AddComponent<Animator>();
+
+			if(null == BlockAnim) throw new Exception("BlockAnim was null, even though we checked if it existed, and added it if it didn't");
 		}
 
 		void Start()
 		{
+			if(null == blockDesign) throw new Exception("Not properly initialized");
 			if (null != myBlockDefinition.Mesh)
 				meshFilter.mesh = myBlockDefinition.Mesh;
 		}
