@@ -19,9 +19,10 @@ using Tools;
 			BlockID id = 1;
 			var list = new List<BlockDefinition>
 			{
-				new BlockDefinition(id++,   10, "TestBlock",  "A block for testing.")
-				, new BlockDefinition(id++, 10, "TestBlock2", "A 2nd block for testing.")
-				, new EngineBD(id++, 100, "Engine V6", "Engine with sounds and a model.")
+				new BlockDefinition(id++,   10, "Cube",  "A Cube", "Models/Block_Primitives/Block.obj")
+				, new BlockDefinition(id++, 10, "Wedge", "Wedge", "Models/Block_Primitives/1x1wedge.obj")
+				, new BlockDefinition(id++, 10, "Triangle corner", "Triangle corner", "Models/Block_Primitives/1x1pyramid.obj")
+				, new EngineBD(id++, 100, "Engine V6", "Engine with sounds and a model.", "Models/Block_Primitives/EngineV6.fbx")
 			};
 
 			{ // Sanity check

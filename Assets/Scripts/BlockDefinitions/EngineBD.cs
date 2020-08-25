@@ -64,8 +64,8 @@ namespace BlockDefinitions
 
 
 		/// <inheritdoc />
-		public EngineBD(BlockID blockID, float mass, string name, string description) : base
-			(blockID, mass, name, description, meshFilePath: "Models/Block_Primitives/EngineV6.fbx")
+		public EngineBD(BlockID blockID, float mass, string name, string description, string meshFilePath) : base
+			(blockID, mass, name, description, meshFilePath)
 		{
 			StarterSoundClipPath = "Audio/engineV6_starter.ogg";
 			IdleSoundClipPath = "Audio/engineV6_idle_loop.ogg";

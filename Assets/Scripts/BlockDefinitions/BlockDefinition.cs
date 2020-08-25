@@ -158,7 +158,7 @@ namespace BlockDefinitions
 		/// This method is used to load any data that is not stored in the definition file itself, like Meshes, Sounds etc.
 		/// This data should be marked with <see cref="FetchDefinitionDataAttribute"/>, it's presence will cause the data to be loaded automatically.
 		/// </summary>
-		public void LoadResources()
+		public void LoadResources() // todo?: can be made private?
 		{
 			if (DataLoaded) return;
 			DataLoaded = true;
