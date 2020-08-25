@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
@@ -81,7 +81,7 @@ namespace VehicleEditor
 			var startingPos = ShipRoot.transform.position;
 			startingPos.x += BlockLogic.Grid.x;
 			CurrentBlock.transform.position = startingPos;
-			ShipRoot.SetSolid();
+			ShipRoot.SetGhostEnabled(false);
 			GameMode = GameModes.BuildMode;
 		}
 

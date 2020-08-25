@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 
 using BlockDefinitions;
@@ -97,12 +97,6 @@ namespace Vehicle.BlockBehaviours
 
 		public void SetAllMaterials(Material[] newMats)
 		{
-			//Material[] matArray = GetComponentInChildren<Renderer>().materials;
-			//for (int i = 0; i<matArray.Length; i++)
-			//{
-			//	matArray[i] = newMats[i];
-			//}
-
 			GetComponent<Renderer>().materials = newMats;
 		}
 
@@ -121,14 +115,28 @@ namespace Vehicle.BlockBehaviours
 			*/
 		}
 
+		public void SetColliderEnabled(bool newState)
+		{
+			Collider.enabled = newState;
+			foreach (var collider in GetComponentsInChildren<Collider>())
+			{
+				collider.enabled = newState;
+			}
+		}
+
+		public virtual void SetGhostEnabled(bool newStateIsGhost)
+		{
+			BlockAnim.SetBool("BlockGhost", newStateIsGhost);
+		}
+
 		public virtual void SetGhost()
 		{
-			BlockAnim.SetBool("BlockGhost", true);
+			SetGhostEnabled(true);
 		}
 
 		public virtual void SetSolid()
 		{
-			BlockAnim.SetBool("BlockGhost", false);
+			SetGhostEnabled(false);
 		}
 		#endregion more visual stuff
 
