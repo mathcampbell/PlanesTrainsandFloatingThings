@@ -13,7 +13,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(BlockDefinitionInspectorTarget))]
-public class BlockDefinitionInspector : Editor
+public class BlockDefinitionEditor : Editor
 {
 	/// <inheritdoc />
 	public override void OnInspectorGUI()
