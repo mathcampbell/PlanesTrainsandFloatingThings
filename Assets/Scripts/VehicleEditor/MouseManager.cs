@@ -1,5 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+
+using BlockDefinitions;
+
+using Tools;
 
 using UnityEngine;
 
@@ -10,7 +14,7 @@ namespace VehicleEditor
 {
 	public class MouseManager : MonoBehaviour
 	{
-		public BlockBehaviour PrefabBlock;
+		public BlockDefinition CurrentlySelectedDefinition;
 		public GameObject BlockPlacementSprite;
 		public GameObject CurrentPlacementSprite;
 
@@ -18,6 +22,7 @@ namespace VehicleEditor
 
 		public ComponentKeybindDialog ComponentKeybindDialog;
 
+		[InspectorReadonly]
 		public BlockBehaviour ShipRoot;
 
 		public GameObject DataLine;
@@ -42,6 +47,7 @@ namespace VehicleEditor
 		protected Material[] BlockMats;
 
 		//Stuff for Nodes
+		[InspectorReadonly]
 		protected BlockBehaviour CurrentBlock;
 		protected Quaternion CurrentBlockRot;
 		protected NumericOutput CurrentNode;
@@ -68,6 +74,7 @@ namespace VehicleEditor
 
 		void Awake()
 		{
+			CurrentlySelectedDefinition = BlockDefinition.Definitions.Values.First();
 			LayerMaskIONode = LayerMask.GetMask("IONode");
 			LayerMaskNumericNode = LayerMask.GetMask("NumericNode");
 			LayerMaskCompNode = LayerMask.GetMask("CompNode");
@@ -77,12 +84,17 @@ namespace VehicleEditor
 		void Start()
 		{
 			theCamera = Camera.main;
-			SetNextBlock();
+
+			ShipRoot = CurrentlySelectedDefinition.InstantiateEditorBlockBehaviour();
+
 			var startingPos = ShipRoot.transform.position;
 			startingPos.x += BlockLogic.Grid.x;
+
+			CurrentBlock = CurrentlySelectedDefinition.InstantiateEditorBlockBehaviour();
 			CurrentBlock.transform.position = startingPos;
 			ShipRoot.SetGhostEnabled(false);
 			GameMode = GameModes.BuildMode;
+			SetNextBlock();
 		}
 
 		// Update is called once per frame
@@ -843,6 +855,11 @@ namespace VehicleEditor
 			}
 		}
 
+		public void SetNextBlock(BlockDefinition newSelection)
+		{
+			CurrentlySelectedDefinition = newSelection;
+			SetNextBlock();
+		}
 
 		public void SetNextBlock()
 		{
@@ -850,30 +867,12 @@ namespace VehicleEditor
 			{
 				DestroyImmediate(CurrentBlock.gameObject);
 				CurrentBlock = null;
-				//BlockMats = null;
 			}
-			CurrentBlock = Instantiate(PrefabBlock);
 
+			CurrentBlock = CurrentlySelectedDefinition.InstantiateEditorBlockBehaviour();
 			CurrentBlock.transform.SetParent(ShipRoot.transform);
-
-
-			CurrentBlock.Collider.enabled = false;
-			Collider[] ColliderArray = CurrentBlock.GetComponentsInChildren<Collider>();
-			for(int i = 0; i < ColliderArray.Length; i++)
-			{
-				ColliderArray[i].enabled = false;
-			}
-
-			//BlockMats = CurrentBlock.GetAllMaterials();
-			//Material[] transMats = CurrentBlock.GetAllMaterials();
-			//for(int i = 0; i<transMats.Length; i++)
-			//{
-			//	transMats[i] = TransparentMat;
-			//}
-
-			//CurrentBlock.SetAllMaterials(transMats);
-			CurrentBlock.SetGhost();
-
+			CurrentBlock.SetColliderEnabled(false);
+			CurrentBlock.SetGhostEnabled(true);
 		}
 
 		public void DeleteBlock()
