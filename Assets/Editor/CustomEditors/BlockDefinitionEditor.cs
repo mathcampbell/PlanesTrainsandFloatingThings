@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 
 
@@ -36,8 +37,15 @@ public class BlockDefinitionEditor : Editor
 
 	private static void HardcodedDefinitions()
 	{
-		var list = ZHardcodeBlockDefinitions.MainDefinitions();
+		// Clean up existing definitions (if ew renamed one, the old name will not be overwritten, causing it to persist)
+		var definitionsFolder = Path.Combine(Application.dataPath, BlockDefinition.DefinitionsFolder);
+		foreach (string filePath in Directory.GetFiles(definitionsFolder, "*.xml"))
+		{
+			File.Delete(filePath);
+			File.Delete($"{filePath}.meta");
+		}
 
+		var list = ZHardcodeBlockDefinitions.MainDefinitions();
 		foreach (var definition in list)
 		{
 			WriteTo_XML(definition);
