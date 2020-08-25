@@ -107,7 +107,7 @@ namespace VehicleEditor
 							var placementBlockPosition = BlockLogic.SnapToGrid
 								                             (hitInfo.point)
 							                           + (hitInfo.normal * 0.125f);
-							if (CurrentPlacementSprite == null)
+							if (null == CurrentPlacementSprite)
 							{
 								CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
 							}
@@ -118,14 +118,14 @@ namespace VehicleEditor
 							Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
 							CurrentPlacementSprite.transform.rotation = PlacementRot;
 							SnapPointOK = false;
-							if (CurrentBlock != null && CurrentBlock != ShipRoot)
+							if (null != CurrentBlock && CurrentBlock != ShipRoot)
 							{
-								GameObject.DestroyImmediate(CurrentBlock.gameObject);
+								DestroyImmediate(CurrentBlock.gameObject);
 							}
 						}
 						else
 						{
-							if (CurrentBlock == null)
+							if (null == CurrentBlock)
 							{
 								SetNextBlock();
 							}
@@ -138,7 +138,7 @@ namespace VehicleEditor
 							             + (hitInfo.normal * -0.25f);
 							//var placementBlockPosition = BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * 0.125f);
 							var placementBlockPosition = hitBlock + (hitInfo.normal * 0.125f);
-							if (CurrentPlacementSprite == null)
+							if (null == CurrentPlacementSprite)
 							{
 								CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
 							}
@@ -151,7 +151,7 @@ namespace VehicleEditor
 							//var position = BlockLogic.SnapToGrid(hitInfo.point+(hitInfo.normal*0.125f));
 							var position = BlockLogic.SnapToGrid(hitBlock) + (hitInfo.normal * 0.25f);
 							Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
-							if (CurrentBlockRot == null) CurrentBlockRot = PlacementRot;
+							if (null == CurrentBlockRot) CurrentBlockRot = PlacementRot;
 							CurrentBlock.transform.rotation = CurrentBlockRot;
 
 							CurrentPlacementSprite.transform.rotation = PlacementRot;
@@ -237,10 +237,10 @@ namespace VehicleEditor
 							{
 								//   placePosition = placePosition + (hitInfo.normal*-0.25f);   
 
-								if (CurrentBlock != null && CurrentBlock != ShipRoot)
+								if (null != CurrentBlock && CurrentBlock != ShipRoot)
 								{
-									GameObject.DestroyImmediate(CurrentBlock.gameObject);
-									GameObject.Destroy(CurrentPlacementSprite.gameObject);
+									DestroyImmediate(CurrentBlock.gameObject);
+									Destroy(CurrentPlacementSprite.gameObject);
 								}
 
 							}
@@ -248,18 +248,18 @@ namespace VehicleEditor
 					}
 					else
 					{
-						if (CurrentBlock != null && CurrentBlock != ShipRoot)
+						if (null != CurrentBlock && CurrentBlock != ShipRoot)
 						{
-							GameObject.DestroyImmediate(CurrentBlock.gameObject);
+							DestroyImmediate(CurrentBlock.gameObject);
 						}
 
-						if (CurrentPlacementSprite != null)
+						if (null != CurrentPlacementSprite)
 						{
-							GameObject.Destroy(CurrentPlacementSprite.gameObject);
+							Destroy(CurrentPlacementSprite.gameObject);
 						}
 					}
 
-					if (Input.GetMouseButtonDown(0) && CurrentBlock != null && PositionOK)
+					if (Input.GetMouseButtonDown(0) && null != CurrentBlock && PositionOK)
 					{
 						// Now we're gonna check if the place we're gonna place it (which we've checked is physcially ok, ie no overlaps) has a block snap to connect to.
 						if (SnapPointOK == true)
@@ -338,7 +338,7 @@ namespace VehicleEditor
 							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskNumericNode))
 							{
 								CurrentNode = hitInfo.collider.GetComponent<NumericOutput>();
-								if (CurrentNode != null)
+								if (null != CurrentNode)
 								{
 									CurrentLine = Instantiate(DataLine);
 									CurrentLine.transform.SetParent(CurrentNode.transform);
@@ -364,7 +364,7 @@ namespace VehicleEditor
 							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskNumericNode))
 							{
 								var newInputNode = hitInfo.collider.GetComponent<NumericInput>();
-								if (newInputNode != null)
+								if (null != newInputNode)
 								{
 									// we found a node to connect to. Do the connection code and drop the line.
 
@@ -373,9 +373,9 @@ namespace VehicleEditor
 									if (newInputNode.connectedNode == CurrentNode)
 									{
 										// Check the nodes aren't already linked and if so delete the link
-										GameObject.Destroy(CurrentNode.GetComponentInChildren<NumericNodeLine>().gameObject);
+										Destroy(CurrentNode.GetComponentInChildren<NumericNodeLine>().gameObject);
 										newInputNode.connectedNode = null;
-										GameObject.DestroyImmediate(CurrentLine.gameObject);
+										DestroyImmediate(CurrentLine.gameObject);
 										CurrentNode = null;
 										CurrentLine = null;
 									}
@@ -384,7 +384,7 @@ namespace VehicleEditor
 									{
 										// We already have a connection so we need to replace it.
 										var oldNode = newInputNode.connectedNode;
-										GameObject.Destroy(oldNode.GetComponentInChildren<NumericNodeLine>().gameObject);
+										Destroy(oldNode.GetComponentInChildren<NumericNodeLine>().gameObject);
 										newInputNode.connectedNode = CurrentNode;
 										linePositions[0] = CurrentNode.transform.position;
 										linePositions[1] = newInputNode.transform.position;
@@ -436,7 +436,7 @@ namespace VehicleEditor
 					{
 						if (CurrentLine)
 						{
-							GameObject.DestroyImmediate(CurrentLine.gameObject);
+							DestroyImmediate(CurrentLine.gameObject);
 							CurrentLine = null;
 							CurrentNode = null;
 						}
@@ -457,7 +457,7 @@ namespace VehicleEditor
 							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskIONode))
 							{
 								CurrentOnOffNode = hitInfo.collider.GetComponent<OnOffOutput>();
-								if (CurrentOnOffNode != null)
+								if (null != CurrentOnOffNode)
 								{
 									CurrentLine = Instantiate(IOLine, CurrentOnOffNode.transform);
 
@@ -482,15 +482,15 @@ namespace VehicleEditor
 							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskIONode))
 							{
 								var newInputNode = hitInfo.collider.GetComponent<OnOffInput>();
-								if (newInputNode != null)
+								if (null != newInputNode)
 								{
 									// we found a node to connect to. Do the connection code and drop the line.
 									if (newInputNode.connectedNode == CurrentOnOffNode)
 									{
 										// Check the nodes aren't already linked and if so delete the link
-										GameObject.Destroy(CurrentOnOffNode.GetComponentInChildren<IONodeLine>().gameObject);
+										Destroy(CurrentOnOffNode.GetComponentInChildren<IONodeLine>().gameObject);
 										newInputNode.connectedNode = null;
-										GameObject.DestroyImmediate(CurrentLine.gameObject);
+										DestroyImmediate(CurrentLine.gameObject);
 										CurrentOnOffNode = null;
 										CurrentLine = null;
 									}
@@ -498,7 +498,7 @@ namespace VehicleEditor
 									{
 										// We found a node but it already has a connection so we need to replace it.
 										var oldNode = newInputNode.connectedNode;
-										GameObject.Destroy(oldNode.GetComponentInChildren<IONodeLine>().gameObject);
+										Destroy(oldNode.GetComponentInChildren<IONodeLine>().gameObject);
 										newInputNode.connectedNode = CurrentOnOffNode;
 										linePositions[0] = CurrentOnOffNode.transform.position;
 										linePositions[1] = newInputNode.transform.position;
@@ -549,7 +549,7 @@ namespace VehicleEditor
 					{
 						if (CurrentLine)
 						{
-							GameObject.DestroyImmediate(CurrentLine.gameObject);
+							DestroyImmediate(CurrentLine.gameObject);
 							CurrentLine = null;
 							CurrentOnOffNode = null;
 						}
@@ -571,7 +571,7 @@ namespace VehicleEditor
 							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskElectricNode))
 							{
 								CurrentPowerNode = hitInfo.collider.GetComponent<PowerNetworkItem>();
-								if (CurrentPowerNode != null)
+								if (null != CurrentPowerNode)
 								{
 									CurrentLine = Instantiate(ElectricLine, CurrentPowerNode.transform);
 
@@ -610,7 +610,7 @@ namespace VehicleEditor
 							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskElectricNode))
 							{
 								var newPowerNode = hitInfo.collider.GetComponent<PowerNetworkItem>();
-								if (newPowerNode != null)
+								if (null != newPowerNode)
 								{
 									// First check it's not still our first node..
 									if (newPowerNode == CurrentPowerNode)
@@ -707,7 +707,7 @@ namespace VehicleEditor
 												 && CurrentManager.consumers.Count == 0
 												 && CurrentManager.storages.Count  == 0)
 												{
-													GameObject.Destroy(CurrentManager.gameObject);
+													Destroy(CurrentManager.gameObject);
 												}
 
 												CurrentPowerNode.manager = null;
@@ -723,13 +723,13 @@ namespace VehicleEditor
 												 && newManager.consumers.Count == 0
 												 && newManager.storages.Count  == 0)
 												{
-													GameObject.Destroy(newManager.gameObject);
+													Destroy(newManager.gameObject);
 												}
 
 												newPowerNode.manager = null;
 											}
 
-											GameObject.Destroy(CurrentLine.gameObject);
+											Destroy(CurrentLine.gameObject);
 											CurrentPowerNode = null;
 											CurrentLine = null;
 											CurrentManager = null;
@@ -766,7 +766,7 @@ namespace VehicleEditor
 													newManager.producers.Clear();
 													newManager.consumers.Clear();
 													newManager.storages.Clear();
-													GameObject.Destroy(newManager.gameObject);
+													Destroy(newManager.gameObject);
 													newPowerNode.manager = CurrentManager;
 												}
 												// We've reassigned the objects to the merged network, we've cleared the old manager of it's objects and told the objects who their boss is ;)
@@ -825,13 +825,13 @@ namespace VehicleEditor
 								CurrentPowerNode.RemoveFromNetwork();
 								if (CurrentManager.producers.Count == 0 && CurrentManager.consumers.Count == 0 && CurrentManager.storages.Count == 0)
 								{
-									GameObject.Destroy(CurrentManager.gameObject);
+									Destroy(CurrentManager.gameObject);
 								}
 
 								CurrentPowerNode.manager = null;
 							}
 
-							GameObject.DestroyImmediate(CurrentLine.gameObject);
+							DestroyImmediate(CurrentLine.gameObject);
 							CurrentLine = null;
 							CurrentPowerNode = null;
 							CurrentManager = null;
@@ -846,9 +846,9 @@ namespace VehicleEditor
 
 		public void SetNextBlock()
 		{
-			if (CurrentBlock != null)
+			if (null != CurrentBlock)
 			{
-				GameObject.DestroyImmediate(CurrentBlock.gameObject);
+				DestroyImmediate(CurrentBlock.gameObject);
 				CurrentBlock = null;
 				//BlockMats = null;
 			}
@@ -882,10 +882,10 @@ namespace VehicleEditor
 			if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, BlockLogic.LayerMaskBlock))
 			{
 				var block = hitInfo.collider.GetComponent<BlockBehaviour>();
-				if (block != null && block != ShipRoot)
+				if (null != block && block != ShipRoot)
 				{
 					block.GetComponentInParent<Rigidbody>().mass -= block.Mass;
-					GameObject.DestroyImmediate(block.gameObject);
+					DestroyImmediate(block.gameObject);
 				}
 			}
 		}
@@ -913,7 +913,7 @@ namespace VehicleEditor
 				{
 					if (numericNodeLines[j].IsConnected() == false)
 					{
-						GameObject.Destroy(numericNodeLines[j].gameObject);
+						Destroy(numericNodeLines[j].gameObject);
 					}
 				}
 				if (allBlocks[i] is ActiveBlockBehaviour)
@@ -975,7 +975,7 @@ namespace VehicleEditor
 				{
 					if (iONodeLines[j].IsConnected() == false)
 					{
-						GameObject.Destroy(iONodeLines[j].gameObject);
+						Destroy(iONodeLines[j].gameObject);
 					}
 				}
 				if (allBlocks[i] is ActiveBlockBehaviour)
@@ -1037,7 +1037,7 @@ namespace VehicleEditor
 		{
 			Collider theCollider = DoRaycast();
 
-			if (theCollider == null)
+			if (null == theCollider)
 			{
 				return;
 			}
@@ -1048,7 +1048,7 @@ namespace VehicleEditor
 
 			GameObject shipPart = FindShipPart(theCollider);
 
-			if (shipPart == null)
+			if (null == shipPart)
 			{
 				// We clicked on something that doesn't have a parent, so it's probably
 				// not a valid part of our ship
@@ -1058,7 +1058,7 @@ namespace VehicleEditor
 
 			KeybindableComponent kc = shipPart.GetComponent<KeybindableComponent>();
 
-			if (kc == null)
+			if (null == kc)
 			{
 				// This object isn't keybindable.
 				return;
@@ -1073,7 +1073,7 @@ namespace VehicleEditor
 		{
 			Transform curr = collider.transform;
 
-			while (curr != null)
+			while (null != curr)
 			{
 				if (curr.gameObject.tag == "VehiclePart")
 				{
