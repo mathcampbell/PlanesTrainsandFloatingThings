@@ -31,7 +31,11 @@ namespace BlockDefinitions
 	[DataContract]
 	public class BlockDefinition : IDeserializationCallback
 	{
-		// See static data below
+		public const bool LoadOnlyHardcodedDefinitions = true;
+
+
+
+		// See also static data below
 		#region Instance data
 		/// <summary>
 		/// The ID of this type of block.
@@ -126,6 +130,12 @@ namespace BlockDefinitions
 
 
 
+		[DataMember]
+		public readonly string MaterialFilePath;
+
+		[FetchDefinitionData(nameof(MaterialFilePath))]
+		public Material Material { get; private set; }
+
 
 		/// <summary>
 		/// Is external data loaded (such as Meshes, Sounds etc.)
@@ -135,13 +145,14 @@ namespace BlockDefinitions
 		#endregion Instance Data
 
 
-		public BlockDefinition(BlockID blockID, float mass, string name, string description, string meshFilePath = null)
+		public BlockDefinition(BlockID blockID, float mass, string name, string description, string meshFilePath = null, string materialFilePath = null)
 		{
 			BlockID = blockID;
 			Mass = mass;
 			Name = name ?? throw new ArgumentNullException(nameof(name));
 			Description = description ?? throw new ArgumentNullException(nameof(description));
-			this.MeshFilePath = meshFilePath;
+			MeshFilePath = meshFilePath;
+			MaterialFilePath = materialFilePath;
 		}
 
 
@@ -273,7 +284,6 @@ namespace BlockDefinitions
 		private static readonly Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>> foo =
 			                new Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>>();
 
-		// TODO: Fill me with data!
 		// TODO: Ensure that IsSingleCubeBlock blocks have the lowest BlockIDs so that we can use a byte to index them and save space.
 		// How to get list of resources: https://answers.unity.com/questions/610777/find-all-objects-in-resource-folder-at-runtime-wit.html
 		// Note: We want to load any file in the folder, given that mods could add files.
@@ -291,14 +301,11 @@ namespace BlockDefinitions
 		public static IReadOnlyDictionary<BlockID, BlockDefinition> Definitions => readonlyDefinitions;
 
 
-		private static bool Initialized = false;
-
 
 		static BlockDefinition()
 		{
 			LoadAllDefinitions();
 		}
-
 
 		/// <summary>
 		/// Use <see cref="Path.Combine"/> with <see cref="Application.dataPath"/> and this to get the final path.
@@ -311,38 +318,31 @@ namespace BlockDefinitions
 
 			var filePaths = Directory.GetFiles(folder, "*.xml");
 
-			if (false == filePaths.Any())
+			if (false == filePaths.Any() || LoadOnlyHardcodedDefinitions)
 			{
-				Debug.LogError("No BlockDefinition files found!");
-			}
+				if (LoadOnlyHardcodedDefinitions)
+					Debug.Log("Forcing loading definitions from C# HardCode.");
+				else
+					Debug.Log("No definitions loaded from file, will now load C# HardCode instead.");
 
-			foreach (string filePath in filePaths)
-			{
-				var def = ReadFromFile_XML(filePath);
-				if (! definitions.AddOrUpdate(def.BlockID, def))
+				foreach (var definition in ZHardcodeBlockDefinitions.MainDefinitions())
 				{
-					Debug.LogWarning("Re-Definition of ID#" + def.BlockID);
-				}
-			}
-		}
-
-		public static void EnsureInitialized()
-		{
-			if (Initialized) return;
-
-			Initialized = true;
-			LoadAllDefinitions();
-			if (definitions.Count == 0)
-			{
-				Debug.Log("No definitions loaded from file, will now load C# HardCode instead.");
-				var list = ZHardcodeBlockDefinitions.MainDefinitions();
-				foreach (var definition in list)
-				{
+					definition.LoadResources();
 					definitions.Add(definition.BlockID, definition);
 				}
 			}
+			else
+			{
+				foreach (string filePath in filePaths)
+				{
+					var def = ReadFromFile_XML(filePath);
+					if (! definitions.AddOrUpdate(def.BlockID, def))
+					{
+						Debug.LogWarning("Re-Definition of ID#" + def.BlockID);
+					}
+				}
+			}
 		}
-
 
 
 		#region Serialization

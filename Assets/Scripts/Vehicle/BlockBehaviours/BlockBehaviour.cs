@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 using BlockDefinitions;
@@ -54,8 +54,8 @@ namespace Vehicle.BlockBehaviours
 		[NonSerialized]
 		public MeshFilter meshFilter;
 
-		//[NonSerialized]
-		//public Renderer renderer; // inherited from MonoBehaviour
+		[NonSerialized]
+		public Renderer renderer; // inherited from MonoBehaviour
 
 		[NonSerialized]
 		public Material[] matArray;
@@ -71,6 +71,7 @@ namespace Vehicle.BlockBehaviours
 		{
 			Collider = gameObject.AddComponent<BoxCollider>();
 			meshFilter = gameObject.AddComponent<MeshFilter>();
+			renderer = gameObject.AddComponent<MeshRenderer>();
 			//matArray = gameObject.AddComponent<Renderer>().materials;
 			gameObject.AddComponent<MeshRenderer>();
 
@@ -87,6 +88,9 @@ namespace Vehicle.BlockBehaviours
 			if(null == blockDesign) throw new Exception("Not properly initialized");
 			if (null != myBlockDefinition.Mesh)
 				meshFilter.mesh = myBlockDefinition.Mesh;
+			if (null != myBlockDefinition.Material)
+				renderer.material = myBlockDefinition.Material;
+
 		}
 
 		#region More visual stuff
