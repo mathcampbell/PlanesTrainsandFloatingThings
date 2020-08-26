@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 
 using BlockDefinitions;
@@ -91,6 +91,7 @@ namespace Vehicle.BlockBehaviours
 			if (null != myBlockDefinition.Material)
 				renderer.material = myBlockDefinition.Material;
 
+			Collider.size = new Vector3(myBlockDefinition.sidelength, myBlockDefinition.sidelength, myBlockDefinition.sidelength);
 		}
 
 		#region More visual stuff
