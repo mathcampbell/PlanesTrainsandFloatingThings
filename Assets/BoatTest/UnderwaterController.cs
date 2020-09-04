@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Experimental.Rendering.Universal;
 
 public class UnderwaterController : MonoBehaviour
 {
@@ -46,8 +46,9 @@ public class UnderwaterController : MonoBehaviour
         if (currentDepth <0)
         {
             var depthLevel = Mathf.Abs(currentDepth) / 20f;
-            TheSun.color = Color.Lerp(daylightColor, underwaterLightColor, depthLevel);
-            TheSun.intensity = Mathf.Lerp(originalSunIntensity, .1f, (Mathf.Abs(currentDepth)/50f));
+           // TheSun.color = Color.Lerp(daylightColor, underwaterLightColor, depthLevel);
+          //  TheSun.intensity = Mathf.Lerp(originalSunIntensity, .1f, (Mathf.Abs(currentDepth)/50f));
+            Shader.SetGlobalColor("_FogColor", Color.Lerp(underwaterFogColorShallow, underwaterFogColorDeep, depthLevel));
             if (isUnderwater == false)
             GoUnderwater();
             
@@ -85,7 +86,7 @@ public class UnderwaterController : MonoBehaviour
         // TheSun.intensity = originalSunIntensity;
         //  TheSun.bounceIntensity = originalSunBounceIntensity;
       //  TheCamera.clearFlags = CameraClearFlags.Skybox;
-           TheSun.color = daylightColor;
+      //     TheSun.color = daylightColor;
         BlitPass.PassEnabled(false);
     }
 }
