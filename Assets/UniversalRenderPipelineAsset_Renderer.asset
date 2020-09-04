@@ -28,7 +28,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16167
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     Event: 450
-    isEnabled: 1
+    isEnabled: 0
     blitMaterial: {fileID: 2100000, guid: 5fa3973e6af8e4d5baf8b153a7785558, type: 2}
     blitMaterialPassIndex: 0
     destination: 0

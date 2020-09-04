@@ -7,18 +7,20 @@ using UnityEngine.Rendering.Universal;
 
 public class UnderwaterController : MonoBehaviour
 {
-    public Color underwaterFogColorShallow;
-    public Color underwaterFogColorDeep;
+    [ColorUsage(true, true)] public Color underwaterFogColorShallow;
+    [ColorUsage(true, true)] public Color underwaterFogColorDeep;
     public Color underwaterLightColor;
     public Color underwaterDeepLightColor;
     public Color daylightColor;
     private bool isUnderwater;
     public WaterController CurrentWaterController;
     private Camera TheCamera;
-    private Volume UnderwaterPost;
+    private Volume PostVolume;
+    public VolumeProfile UnderwaterPost;
+    public VolumeProfile AboveWaterPost;
     public Light TheSun;
     public Blit BlitPass;
-    private float originalSunIntensity = 1.3f;
+    private float originalSunIntensity = 2.0f;
     private float originalSunBounceIntensity = 1f;
     private float currentDepth;
     
@@ -29,8 +31,10 @@ public class UnderwaterController : MonoBehaviour
     void Start()
     {
         TheCamera = GetComponentInChildren<Camera>();
-        UnderwaterPost = GetComponentInChildren<Volume>();
-      //  TheSun.intensity = originalSunIntensity;
+        PostVolume = GetComponentInChildren<Volume>();
+        
+       
+       TheSun.intensity = originalSunIntensity;
       //  TheSun.bounceIntensity = originalSunBounceIntensity;
        // theSkybox = GetComponentInChildren<Skybox>();
         //SkyboxMat = theSkybox.material;
@@ -47,7 +51,7 @@ public class UnderwaterController : MonoBehaviour
         {
             var depthLevel = Mathf.Abs(currentDepth) / 20f;
            // TheSun.color = Color.Lerp(daylightColor, underwaterLightColor, depthLevel);
-          //  TheSun.intensity = Mathf.Lerp(originalSunIntensity, .1f, (Mathf.Abs(currentDepth)/50f));
+            TheSun.intensity = Mathf.Lerp(originalSunIntensity, .1f, (Mathf.Abs(currentDepth)/50f));
             Shader.SetGlobalColor("_FogColor", Color.Lerp(underwaterFogColorShallow, underwaterFogColorDeep, depthLevel));
             if (isUnderwater == false)
             GoUnderwater();
@@ -67,8 +71,8 @@ public class UnderwaterController : MonoBehaviour
         //RenderSettings.fog = true;
         var depthLevel = depthAbs / 20f;
         RenderSettings.fogColor = Color.Lerp(underwaterFogColorShallow, underwaterFogColorDeep, depthLevel);
-        RenderSettings.fogDensity = Mathf.Lerp(0.01f, 0.8f, depthLevel);
-        UnderwaterPost.enabled = true;
+       // RenderSettings.fogDensity = Mathf.Lerp(0.01f, 0.8f, depthLevel);
+        PostVolume.profile = UnderwaterPost;
 
         
         //TheSun.bounceIntensity = Mathf.Lerp(originalSunBounceIntensity, 0f, depthLevel);
@@ -82,8 +86,8 @@ public class UnderwaterController : MonoBehaviour
     {
         isUnderwater = false;
         RenderSettings.fog = false;
-        UnderwaterPost.enabled = false;
-        // TheSun.intensity = originalSunIntensity;
+        PostVolume.profile = AboveWaterPost;
+         TheSun.intensity = originalSunIntensity;
         //  TheSun.bounceIntensity = originalSunBounceIntensity;
       //  TheCamera.clearFlags = CameraClearFlags.Skybox;
       //     TheSun.color = daylightColor;

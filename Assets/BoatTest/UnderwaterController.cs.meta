@@ -5,6 +5,8 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - CurrentWaterController: {instanceID: 0}
+  - UnderwaterPost: {fileID: 11400000, guid: 5adf1a14c568341809ae61a441ca7400, type: 2}
+  - AboveWaterPost: {fileID: 11400000, guid: 75b232eafe7eb2f4498d58ae5b0bf08a, type: 2}
   - TheSun: {instanceID: 0}
   - BlitPass: {fileID: 4526548512380105909, guid: 8b2107d5dc9124172b6e7c0396e91e93,
       type: 2}
