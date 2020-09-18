@@ -33,7 +33,7 @@ public class GenericConsumer : PowerConsumer
 
     public override void  Consume(float fractionOfPotential)
     {
-        recieved = fractionOfPotential;
+        recieved = requested * fractionOfPotential;
     }
     
 

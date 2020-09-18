@@ -135,9 +135,11 @@ public class PowerNetworkManager : MonoBehaviour
 					producer.Produce(1);
 				}
 
+				float storageFraction = deficit / storageAvailable;
+
 				foreach (var storage in storages)
 				{
-					//TODO: Equally distribute
+					storage.available -= (storage.available *= storageFraction);
                     
 				}
 

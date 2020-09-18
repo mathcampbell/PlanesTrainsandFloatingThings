@@ -48,6 +48,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -290,6 +291,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -506,6 +508,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -531,6 +534,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6398010393184128365
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,12 +600,12 @@ MonoBehaviour:
   Collider: {fileID: 0}
   blockName: Light Block
   blockID: 7
-  description: This block emits a small light upon recieving an on-signal
+  description: This block emits a small light upon recieving an on-signal.
   mass: 15
   sidelength: 1
   volume: 0
   matArray: []
-  BlockAnim: {fileID: 0}
+  BlockAnim: {fileID: 3713123172906150666}
   IOInputLightSwitch: {fileID: 672792948}
   lightOn: 0
   LightObject: {fileID: 5388748249588605464}

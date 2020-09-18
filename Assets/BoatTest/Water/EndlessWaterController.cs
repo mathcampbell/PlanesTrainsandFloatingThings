@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 //Creates an endless sea
@@ -141,7 +142,7 @@ public class EndlessWaterController : MonoBehaviour
     //Update which water chuncks are visible
     private void UpdateWaterChunks()
     {
-        float maxViewDistance = 1000f;
+        float maxViewDistance = 2000f;
 
         //How many chunks are visible in one direction
         int chunksVisible = Mathf.RoundToInt(maxViewDistance / chunkWidth);
@@ -245,9 +246,10 @@ public class EndlessWaterController : MonoBehaviour
             if (!hasFoundDeactivatedChunk)
             {
                 AddNewWaterSquare();
-
+                
                 Vector3 chunkPos = coordinatesWithoutChunkList[i];
-
+                UnityEngine.Debug.Log("Added a new watersquare here: " + chunkPos);
+                
                 //The newly added water chunk is the last one in the list
                 //GameObject chunkObjToActivate = allWaterChunks[allWaterChunks.Count - 1].highDetailedWaterChunk;
 
