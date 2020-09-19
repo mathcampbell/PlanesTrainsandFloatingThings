@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq.Expressions;
+using System;
+using System.Collections.Specialized;
 
 //Different wavetypes
 
@@ -39,8 +42,13 @@ public class WaveTypes
 
 	//Gerstner Waves
 	public static float GerstnerWave(
-		float x_coord, 
-	    float z_coord) 
+		Vector3 position,
+		float amplitude,
+		float frequency,
+		float time,
+		float lambda)
+
+
 	{
 		/*
 		 * y = A * cos(k * x_0 - w * t)
@@ -49,8 +57,10 @@ public class WaveTypes
 		 * x_0 = (x_o, z0)
 		 * w - frequency
 		 * t - time
-		 */
-
+		*/ 
+		float x_coord = position.x;
+		float z_coord = position.z;
+		
 		float y_coord = 0;
 
 		Vector2 x_0 = new Vector2(x_coord, z_coord);
@@ -60,9 +70,11 @@ public class WaveTypes
 		 * 
 		 * k - wavevector (determines the direction of the wave)
 		 * lambda - length of the wave
-		 */
-
-
+		
+		float wavevector = 2 * Mathf.PI / lambda;
+		y_coord = amplitude * Mathf.Cos(wavevector * x_0 - frequency * time);
+		*/
 		return y_coord;
+		
 	}	
 }

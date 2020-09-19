@@ -25,10 +25,10 @@ MonoBehaviour:
     fallbackErrorPS: {fileID: 4800000, guid: e6e9a19c3678ded42a3bc431ebef7dbd, type: 3}
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 16167
+    m_Bits: 4294967295
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 16167
+    m_Bits: 4294967295
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
     passOperation: 0
     failOperation: 0
     zFailOperation: 0
-  m_ShadowTransparentReceive: 1
+  m_ShadowTransparentReceive: 0
 --- !u!114 &4526548512380105909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     Event: 450
-    isEnabled: 1
+    isEnabled: 0
     blitMaterial: {fileID: 2100000, guid: 5fa3973e6af8e4d5baf8b153a7785558, type: 2}
     blitMaterialPassIndex: 0
     destination: 0

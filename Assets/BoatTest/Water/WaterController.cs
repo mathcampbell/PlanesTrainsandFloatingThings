@@ -8,7 +8,7 @@ public class WaterController : MonoBehaviour
     public static WaterController current;
 
     public bool isMoving;
-
+    public bool useGerstner;
     //Wave height and speed
     public float scale = 0.1f;
     public float speed = 1.0f;
@@ -32,7 +32,14 @@ public class WaterController : MonoBehaviour
     {
         if (isMoving)
         {
+            if (useGerstner)
+            {
+                return WaveTypes.GerstnerWave(position, scale, speed, timeSinceStart, waveDistance);
+            }
+            else
             return WaveTypes.SinXWave(position, speed, scale, waveDistance, noiseStrength, noiseWalk, timeSinceStart);
+
+
         }
         else
         {
