@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e51bb4328bb28449a9bc2ae587daf752
+guid: 2bfd6a5a74da8ec4987315b6f7359eaf
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable: []
@@ -7,13 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: DefaultMat
-    second: {fileID: 2100000, guid: f88ac31da91454bcaadf160a239df84b, type: 2}
+      name: World_Roadsign_GiveWay
+    second: {fileID: 2100000, guid: dc68ab580d33c1d46af4595bfd3e1bd6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: World_Roadsign_Metal
+    second: {fileID: 2100000, guid: 8054f7fc20522db46aa649782ad11dda, type: 2}
   materials:
     materialImportMode: 1
-    materialName: 1
+    materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -48,7 +53,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 1
+    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
