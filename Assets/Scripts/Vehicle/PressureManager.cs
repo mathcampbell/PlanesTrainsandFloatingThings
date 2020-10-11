@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Vehicle;
 
-public class PressureManager : Monobehaviour
+public class PressureManager : MonoBehaviour
 
 {
-	public VehicleController vehicle;
-
+	public VehicleData vehicle;
 
 	public void Start()
 	{ }
@@ -24,5 +24,11 @@ public class PressureManager : Monobehaviour
     {
 
 
+    }
+
+	public GridController GridInit()
+    {
+		GridController vehicleGrid = new GridController(vehicle.GetBounds());
+		return vehicleGrid;
     }
 }
