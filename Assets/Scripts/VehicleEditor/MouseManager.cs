@@ -9,6 +9,8 @@ using UnityEngine;
 
 using Vehicle.BlockBehaviours;
 using Vehicle.Blocks;
+using Vehicle.ElectricalPower;
+using Vehicle.ElectricalPower.PowerTypes;
 
 namespace VehicleEditor
 {

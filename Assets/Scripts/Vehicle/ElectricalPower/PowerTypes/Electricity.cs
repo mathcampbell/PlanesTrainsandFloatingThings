@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Electricity : PowerType
-{
-	public Electricity()
+﻿namespace Vehicle.ElectricalPower.PowerTypes {
+	public class Electricity : PowerType
 	{
-		name = "Electricity";
+		public Electricity()
+		{
+			name = "Electricity";
 
-		//useTorque = false;
+			//useTorque = false;
+		}
 	}
 }

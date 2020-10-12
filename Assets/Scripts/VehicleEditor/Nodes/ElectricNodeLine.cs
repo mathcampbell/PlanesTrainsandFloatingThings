@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Vehicle.ElectricalPower;
+
 public class ElectricNodeLine : MonoBehaviour
 {
     public PowerNetworkItem ConnectedFrom;

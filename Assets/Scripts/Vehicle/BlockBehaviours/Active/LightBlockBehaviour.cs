@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using Vehicle.ElectricalPower;
+
 namespace Vehicle.BlockBehaviours.Active
 {
 	public class LightBlockBehaviour : ActiveBlockBehaviour
