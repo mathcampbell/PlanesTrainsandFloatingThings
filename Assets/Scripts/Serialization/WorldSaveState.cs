@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -74,6 +74,8 @@ namespace Serialization
 
 			// CreateDirectory will create if does not exist, and do nothing if it exists already.
 			Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+			Debug.Log($"Saving world to file: {fileName}...");
 			using (var stream = File.OpenWrite(filePath))
 			{
 				if (binary)
@@ -92,6 +94,7 @@ namespace Serialization
 					}
 				}
 			}
+			Debug.Log($"Saving completed.");
 		}
 
 
@@ -142,6 +145,7 @@ namespace Serialization
 			}
 
 			WorldSaveState state;
+			Debug.Log($"Loading saved world state from file: {Path.GetFileName(filePath)}");
 			if (binary)
 			{
 				using (var stream = File.OpenRead(filePath))
@@ -159,6 +163,7 @@ namespace Serialization
 			}
 
 			state.Apply();
+			Debug.Log($"Loading completed.");
 		}
 
 		private void Apply()
