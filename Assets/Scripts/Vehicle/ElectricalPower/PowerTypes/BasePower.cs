@@ -10,11 +10,15 @@
 		/// </summary>
 		public string name;
 
-		
 		/// <summary>
-		/// Does this resource use Torque calculation
+		/// The name of the unit used to measure stored power.
 		/// </summary>
-		//public bool useTorque = false
+		public string storageUnit;
+
+		/// <summary>
+		/// The name of the unit used to measure usage of power.
+		/// </summary>
+		public string usageUnit;
 
 	}
 }
