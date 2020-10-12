@@ -301,8 +301,15 @@ namespace BlockDefinitions
 		public static IReadOnlyDictionary<BlockID, BlockDefinition> Definitions => readonlyDefinitions;
 
 
-
+		private static bool Initialized = false;
 		static BlockDefinition()
+		{
+			
+		}
+
+
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		static void InitializationTrigger()
 		{
 			LoadAllDefinitions();
 		}
@@ -311,8 +318,15 @@ namespace BlockDefinitions
 		/// Use <see cref="Path.Combine"/> with <see cref="Application.dataPath"/> and this to get the final path.
 		/// </summary>
 		public const string DefinitionsFolder = "GameData/BlockDefinitions";
+
+		/// <summary>
+		/// Load all definitions.
+		/// </summary>
 		public static void LoadAllDefinitions()
 		{
+			if (Initialized) return;
+			Initialized = true;
+
 			// Requires .Net (Standard) 2.0 (see: project settings -> player -> Other Settings -> API Compatibility Level)
 			var folder = Path.Combine(Application.dataPath, DefinitionsFolder);
 
