@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -72,6 +72,8 @@ namespace Serialization
 				saveFileFolder,
 				fileName + (binary ? saveFileExtensionBinary : saveFileExtensionXml));
 
+			// CreateDirectory will create if does not exist, and do nothing if it exists already.
+			Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 			using (var stream = File.OpenWrite(filePath))
 			{
 				if (binary)
