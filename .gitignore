@@ -1,3 +1,17 @@
+
+
+
+
+
+
+# User specific stuff
+## Mac/OSX folder attributes & metatdata
+.DS_Store
+
+
+
+
+# Build stuff
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
