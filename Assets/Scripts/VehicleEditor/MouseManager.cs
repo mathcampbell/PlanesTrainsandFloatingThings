@@ -855,12 +855,20 @@ namespace VehicleEditor
 			}
 		}
 
+		/// <summary>
+		/// Instantiate the given BlockDefinition into a real Block instance.
+		/// </summary>
+		/// <param name="newSelection"></param>
 		public void SetNextBlock(BlockDefinition newSelection)
 		{
 			CurrentlySelectedDefinition = newSelection;
 			SetNextBlock();
 		}
 
+		/// <summary>
+		/// (Re)Instantiate the currently selected BlockDefinition into a real Block instance.
+		/// </summary>
+		/// <param name="newSelection"></param>
 		public void SetNextBlock()
 		{
 			if (null != CurrentBlock)
@@ -1128,49 +1136,49 @@ namespace VehicleEditor
 			}
 		}
 
+		// todo: vehicle should be responsible for this.
 		public void RecalculateMassAndInertia(BlockBehaviour RootBlock)
 		{
 			// Finding CoM
 			Vector3 newCenterOfMass = Vector3.zero;
 			Vector3 newInertiaVector = Vector3.zero;
 			Vector3 distance = Vector3.zero;
-			BlockBehaviour m;
+			BlockBehaviour behaviour;
 			float sumOfMass = 0f;
-			GameObject[] connectedBlocks;
 			GameObject rootObject = RootBlock.gameObject;
 
-			connectedBlocks = GameObject.FindGameObjectsWithTag("VehicleBlock");
+			GameObject[] connectedBlocks = GameObject.FindGameObjectsWithTag("VehicleBlock");
 
 			//List<Block> allConnectedBlocks = new List<Block>();
 
 			//(allConnectedBlocks);
 			/*foreach (Transform t in allConnectedBlocks) 
-		{
-
-			if (t.gameObject.activeSelf)
 			{
-				m = t.GetComponent<Block> ();
 
-				newCenterOfMass += (t.localPosition * m.mass);
+				if (t.gameObject.activeSelf)
+				{
+					m = t.GetComponent<Block> ();
 
-				sumOfMass += m.mass;
+					newCenterOfMass += (t.localPosition * m.mass);
+
+					sumOfMass += m.mass;
+				}
 			}
-		}
 
-		newCenterOfMass = newCenterOfMass /sumOfMass;
+			newCenterOfMass = newCenterOfMass /sumOfMass;
 
-		Debug.Log (newCenterOfMass);
-	*/
+			Debug.Log (newCenterOfMass);
+			*/
 
 			foreach (GameObject VehicleBlock in connectedBlocks)
 			{
 				if (VehicleBlock.activeSelf)
 				{
-					m = VehicleBlock.GetComponent<BlockBehaviour>();
+					behaviour = VehicleBlock.GetComponent<BlockBehaviour>();
 
-					newCenterOfMass += (transform.localPosition * m.Mass);
+					newCenterOfMass += (transform.localPosition * behaviour.Mass);
 
-					sumOfMass += m.Mass;
+					sumOfMass += behaviour.Mass;
 				}
 			}
 
@@ -1182,32 +1190,32 @@ namespace VehicleEditor
 			//Finding Inertia Vector
 
 			/*(foreach (Transform t in allConnectedBlocks) 
-		{
-			if (t.gameObject.activeSelf) 
 			{
-				m = t.GetComponent<Block> ();
-				distance = new Vector3 (Mathf.Pow (t.localPosition.y - newCenterOfMass.y, 2.0f) + Mathf.Pow (t.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow (t.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow (t.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow (t.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow (t.localPosition.y - newCenterOfMass.y, 2.0f));
-				newInertiaVector += ((Vector3.one * m.mass *m.sidelength/ 6.0f) + m.mass* distance);
-				// if your parent object is in the list: detect it and use this line for this module:
-					//newInertiaVector += (Vector3.one * m.mass *m.sidelength/ 6.0f);
+				if (t.gameObject.activeSelf) 
+				{
+					m = t.GetComponent<Block> ();
+					distance = new Vector3 (Mathf.Pow (t.localPosition.y - newCenterOfMass.y, 2.0f) + Mathf.Pow (t.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow (t.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow (t.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow (t.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow (t.localPosition.y - newCenterOfMass.y, 2.0f));
+					newInertiaVector += ((Vector3.one * m.mass *m.sidelength/ 6.0f) + m.mass* distance);
+					// if your parent object is in the list: detect it and use this line for this module:
+						//newInertiaVector += (Vector3.one * m.mass *m.sidelength/ 6.0f);
+				}
 			}
-		}
-		*/
+			*/
 
 			foreach (GameObject VehicleBlock in connectedBlocks)
 			{
 				if (VehicleBlock.gameObject.activeSelf)
 				{
-					m = VehicleBlock.GetComponent<BlockBehaviour>();
+					behaviour = VehicleBlock.GetComponent<BlockBehaviour>();
 					distance = new Vector3(Mathf.Pow(transform.localPosition.y - newCenterOfMass.y, 2.0f) + Mathf.Pow(transform.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow(transform.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow(transform.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow(transform.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow(transform.localPosition.y - newCenterOfMass.y, 2.0f));
 
 					if (VehicleBlock == ShipRoot)
 					{
-						newInertiaVector += (Vector3.one * m.Mass * m.sidelength / 6.0f);
+						newInertiaVector += (Vector3.one * behaviour.Mass * behaviour.sidelength / 6.0f);
 					}
 					else
 					{
-						newInertiaVector += ((Vector3.one * m.Mass * m.sidelength / 6.0f) + m.Mass * distance);
+						newInertiaVector += ((Vector3.one * behaviour.Mass * behaviour.sidelength / 6.0f) + behaviour.Mass * distance);
 						// if your parent object is in the list: detect it and use this line for this module:
 						//newInertiaVector += (Vector3.one * m.mass *m.sidelength/ 6.0f);
 					}

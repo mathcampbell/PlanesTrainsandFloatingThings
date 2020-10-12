@@ -33,7 +33,7 @@ public class GridController : MonoBehaviour
 
 
 
-void Awake()
+	void Awake()
 	{
 		
 	}

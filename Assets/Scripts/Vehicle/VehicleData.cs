@@ -96,11 +96,11 @@ namespace Vehicle
 		}
 
 		public Vector3 GetBounds()
-        {
+		{
 			// This needs to return the bounds of the entire vehicle as a Vector3 for the GridController class.
 			// For now, implemented as a holding point.
 			Vector3 bounds = new Vector3(0, 0, 0);
 			return bounds;
-        }
+		}
 	}
 }
