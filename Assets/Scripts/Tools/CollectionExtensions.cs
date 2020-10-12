@@ -69,6 +69,179 @@ namespace Tools {
 			instance[key] = value;
 			return wasAdd;
 		}
+
+		#region Dictionary Increments
+
+		/// <summary>
+		/// Increment the value at <paramref name="key"/> by <see cref="1"/> if it exists, and initialize it to <see cref="1"/> if it does not.
+		/// </summary>
+		/// <typeparam name="TKey">the key type of the dictionary</typeparam>
+		/// <param name="instance">the dictionary instance to operate on</param>
+		/// <param name="key">the key to index the dictionary with</param>
+		public static void IncrementOrCreateKey<TKey>(this IDictionary<TKey, Int32> instance, TKey key)
+		{
+			if (instance.TryGetValue(key, out Int32 value))
+			{
+				instance[key] = value + 1;
+			}
+			else
+			{
+				instance[key] = 1;
+			}
+		}
+
+		/// <summary>
+		/// Increment the value at <paramref name="key"/> by <see cref="1"/> if it exists, and initialize it to <see cref="1"/> if it does not.
+		/// </summary>
+		/// <typeparam name="TKey">the key type of the dictionary</typeparam>
+		/// <param name="instance">the dictionary instance to operate on</param>
+		/// <param name="key">the key to index the dictionary with</param>
+		public static void IncrementOrCreateKey<TKey>(this IDictionary<TKey, UInt32> instance, TKey key)
+		{
+			if (instance.TryGetValue(key, out UInt32 value))
+			{
+				instance[key] = value + 1;
+			}
+			else
+			{
+				instance[key] = 1;
+			}
+		}
+
+		/// <summary>
+		/// Increment the value at <paramref name="key"/> by <see cref="1"/> if it exists, and initialize it to <see cref="1"/> if it does not.
+		/// </summary>
+		/// <typeparam name="TKey">the key type of the dictionary</typeparam>
+		/// <param name="instance">the dictionary instance to operate on</param>
+		/// <param name="key">the key to index the dictionary with</param>
+		public static void IncrementOrCreateKey<TKey>(this IDictionary<TKey, Int64> instance, TKey key)
+		{
+			if (instance.TryGetValue(key, out Int64 value))
+			{
+				instance[key] = value + 1;
+			}
+			else
+			{
+				instance[key] = 1;
+			}
+		}
+
+		/// <summary>
+		/// Increment the value at <paramref name="key"/> by <see cref="1"/> if it exists, and initialize it to <see cref="1"/> if it does not.
+		/// </summary>
+		/// <typeparam name="TKey">the key type of the dictionary</typeparam>
+		/// <param name="instance">the dictionary instance to operate on</param>
+		/// <param name="key">the key to index the dictionary with</param>
+		public static void IncrementOrCreateKey<TKey>(this IDictionary<TKey, UInt64> instance, TKey key)
+		{
+			if (instance.TryGetValue(key, out UInt64 value))
+			{
+				instance[key] = value + 1;
+			}
+			else
+			{
+				instance[key] = 1;
+			}
+		}
+
+
+		/// <summary>
+		/// merge <paramref name="other"/> into <paramref name="instance"/>, adding values of matching keys together.
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="instance"></param>
+		/// <param name="other"></param>
+		public static void MergeCountDictionary<TKey>
+			(this IDictionary<TKey, Int32> instance, IDictionary<TKey, Int32> other)
+		{
+			foreach (KeyValuePair<TKey, Int32> kvp in other)
+			{
+				var key = kvp.Key;
+				var val = kvp.Value;
+				if (instance.ContainsKey(key))
+				{
+					instance[key] += val;
+				}
+				else
+				{
+					instance[key] = val;
+				}
+			}
+		}
+
+		/// <summary>
+		/// merge <paramref name="other"/> into <paramref name="instance"/>, adding values of matching keys together.
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="instance"></param>
+		/// <param name="other"></param>
+		public static void MergeCountDictionary<TKey>
+			(this IDictionary<TKey, UInt32> instance, IDictionary<TKey, UInt32> other)
+		{
+			foreach (KeyValuePair<TKey, UInt32> kvp in other)
+			{
+				var key = kvp.Key;
+				var val = kvp.Value;
+				if (instance.ContainsKey(key))
+				{
+					instance[key] += val;
+				}
+				else
+				{
+					instance[key] = val;
+				}
+			}
+		}
+
+		/// <summary>
+		/// merge <paramref name="other"/> into <paramref name="instance"/>, adding values of matching keys together.
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="instance"></param>
+		/// <param name="other"></param>
+		public static void MergeCountDictionary<TKey>
+			(this IDictionary<TKey, Int64> instance, IDictionary<TKey, Int64> other)
+		{
+			foreach (KeyValuePair<TKey, Int64> kvp in other)
+			{
+				var key = kvp.Key;
+				var val = kvp.Value;
+				if (instance.ContainsKey(key))
+				{
+					instance[key] += val;
+				}
+				else
+				{
+					instance[key] = val;
+				}
+			}
+		}
+
+		/// <summary>
+		/// merge <paramref name="other"/> into <paramref name="instance"/>, adding values of matching keys together.
+		/// </summary>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="instance"></param>
+		/// <param name="other"></param>
+		public static void MergeCountDictionary<TKey>
+			(this IDictionary<TKey, UInt64> instance, IDictionary<TKey, UInt64> other)
+		{
+			foreach (KeyValuePair<TKey, UInt64> kvp in other)
+			{
+				var key = kvp.Key;
+				var val = kvp.Value;
+				if (instance.ContainsKey(key))
+				{
+					instance[key] += val;
+				}
+				else
+				{
+					instance[key] = val;
+				}
+			}
+		}
+
+		#endregion Dictionary Increments
 	}
 }
 
