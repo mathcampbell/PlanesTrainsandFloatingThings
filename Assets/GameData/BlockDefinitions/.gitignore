@@ -1,0 +1,9 @@
+# Ignore everything in this folder (because still testing)
+*
+
+# Un-Ignore this file
+!.gitignore
+
+# Un-Ignore the warning, and it's meta file
+!_WARNING.txt
+!_WARNING.txt.meta
