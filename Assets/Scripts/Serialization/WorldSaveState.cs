@@ -24,55 +24,85 @@ namespace Serialization
 	public class WorldSaveState
 	{
 		private const string saveFileFolder = "Saves";
-		private const string saveFileExtensionHReadable = ".xml";
+
+		private const string saveFileExtensionXml = ".xml";
 		private const string saveFileExtensionBinary = ".save";
 
 		private const string WorldSceneName = "World";
 
+		#region SavedState
 
 		// public List<Player> players
 		public List<VehicleData> vehicles;
 
 
 
-		private static WorldSaveState CreateSaveState()
+
+		#endregion SavedState
+
+
+		#region Saving
+
+		/// <summary>
+		/// Create a saveState from the current scene.
+		/// </summary>
+		/// <returns></returns>
+		public static WorldSaveState CreateSaveState()
 		{
 			WorldSaveState state = new WorldSaveState();
 
 
 
-
+			// todo: actually do something.
 
 
 			return state;
 		}
 
-		public static void Save(string fileName, bool humanReadable = false)
+		/// <summary>
+		/// Save the provided <see cref="WorldSaveState"/> to a file.
+		/// </summary>
+		/// <param name="state">Data to save</param>
+		/// <param name="fileName">save path, relative to saves folder, no extension</param>
+		/// <param name="binary">if true save to xml instead of binary</param>
+		public static void SaveToFile(WorldSaveState state, string fileName, bool binary = true)
+		{
+			var filePath = Path.Combine(
+				Application.persistentDataPath,
+				saveFileFolder,
+				fileName + (binary ? saveFileExtensionBinary : saveFileExtensionXml));
+
+			using (var stream = File.OpenWrite(filePath))
+			{
+				if (binary)
+				{
+					using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream))
+					{
+						Serializer.WriteObject(writer, state);
+					}
+				}
+				else
+				{
+					var settings = new XmlWriterSettings();
+					using (var writer = XmlDictionaryWriter.Create(stream, settings))
+					{
+						Serializer.WriteObject(writer, state);
+					}
+				}
+			}
+		}
+
+
+		public static void Save(string fileName, bool binary = true)
 		{
 			var state = CreateSaveState();
 
-			// todo: verify arguments
-
-
-			if (humanReadable)
-			{
-				fileName += saveFileExtensionHReadable;
-				throw new NotImplementedException();
-			}
-			else
-			{
-				fileName += saveFileExtensionBinary;
-			}
-
-
-			var filePath = Path.Combine(Application.persistentDataPath, saveFileFolder, fileName);
-
-			using (var stream = File.OpenWrite(filePath))
-			using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream))
-			{
-				Serializer.WriteObject(writer, state);
-			}
+			SaveToFile(state, fileName, binary);
 		}
+
+		#endregion Saving
+
+		#region Loading
 
 		private static void LoadAndApplySaveState(string filePath)
 		{
@@ -82,10 +112,48 @@ namespace Serialization
 			// Open a fresh Scene.
 			SceneManager.LoadScene(WorldSceneName, LoadSceneMode.Single);
 
-			WorldSaveState state;
-			using (var reader = XmlDictionaryReader.Create(filePath))
+
+			var ext = Path.GetExtension(filePath);
+			bool binary;
+			if (string.IsNullOrWhiteSpace(ext))
 			{
-				state = (WorldSaveState)Serializer.ReadObject(reader);
+				var pathBin = $"{filePath}{saveFileExtensionBinary}";
+				var pathXml = $"{filePath}{saveFileExtensionXml}";
+				if (File.Exists(pathBin))
+				{
+					filePath = pathBin;
+					binary = true;
+				}
+				else if (File.Exists(pathXml))
+				{
+					filePath = pathXml;
+					binary = false;
+				}
+				else
+				{
+					throw new FileNotFoundException(null, filePath);
+				}
+			}
+			else
+			{
+				binary = ext == saveFileExtensionBinary;
+			}
+
+			WorldSaveState state;
+			if (binary)
+			{
+				using (var stream = File.OpenRead(filePath))
+				using (var reader = XmlDictionaryReader.CreateBinaryReader(stream, SerializerDictionary, XmlDictionaryReaderQuotas.Max))
+				{
+					state = (WorldSaveState) Serializer.ReadObject(reader);
+				}
+			}
+			else
+			{
+				using (var reader = XmlDictionaryReader.Create(filePath))
+				{
+					state = (WorldSaveState)Serializer.ReadObject(reader);
+				}
 			}
 
 			state.Apply();
@@ -98,17 +166,38 @@ namespace Serialization
 
 		public static void Load(string fileName)
 		{
-			// convert fileName to full file path
-			// handle non-existence etc.
-			throw new NotImplementedException();
+			var filePath = Path.Combine(Application.persistentDataPath, saveFileFolder, fileName);
+			if (Path.HasExtension(fileName))
+			{
+				LoadAndApplySaveState(filePath);
+				return;
+			}
+			else
+			{
+				if (File.Exists($"{filePath}{saveFileExtensionBinary}"))
+				{
+					LoadAndApplySaveState($"{filePath}{saveFileExtensionBinary}");
+					return;
+				} else if (File.Exists($"{filePath}{saveFileExtensionXml}"))
+				{
+					LoadAndApplySaveState($"{filePath}{saveFileExtensionXml}");
+					return;
+				}
+			}
+
+			throw new FileNotFoundException("SaveFile not found.", filePath);
 		}
+
+		#endregion Loading
+
+
 
 
 		#region Static
 
-
 		// The serializer that will handle the data, creating it is said to be expensive, so we reuse it.
 		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(WorldSaveState));
+		private static readonly XmlDictionary SerializerDictionary = new XmlDictionary();
 
 		#endregion Static
 	}
