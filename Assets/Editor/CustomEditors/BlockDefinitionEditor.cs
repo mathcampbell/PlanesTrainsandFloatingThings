@@ -23,7 +23,7 @@ public class BlockDefinitionEditor : Editor
 
 		if (GUILayout.Button("Read definitions from file"))
 		{
-			BlockDefinition.LoadAllDefinitions();
+			BlockDefinition.EnsureDefinitionsLoaded();
 		}
 
 		if (GUILayout.Button("(over)Write Hardcoded definitions to file"))
@@ -31,13 +31,13 @@ public class BlockDefinitionEditor : Editor
 			HardcodedDefinitions();
 		}
 
-		EditorGUILayout.IntField("Number of definitions read from file(s)", BlockDefinition.Definitions.Count);
+		EditorGUILayout.IntField("Number of definitions loaded", BlockDefinition.Definitions.Count);
 	}
 
 
 	private static void HardcodedDefinitions()
 	{
-		// Clean up existing definitions (if ew renamed one, the old name will not be overwritten, causing it to persist)
+		// Clean up existing definitions (if we renamed one, the old name will not be overwritten, causing it to persist)
 		var definitionsFolder = Path.Combine(Application.dataPath, BlockDefinition.DefinitionsFolder);
 		foreach (string filePath in Directory.GetFiles(definitionsFolder, "*.xml"))
 		{

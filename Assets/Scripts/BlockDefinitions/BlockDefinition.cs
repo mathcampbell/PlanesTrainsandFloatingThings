@@ -180,7 +180,7 @@ namespace BlockDefinitions
 
 			// Reflection is expensive, so save the list of members and attributes for each Type and re-use them.
 			// (There wil be multiple instances of most BlockDefinition types)
-			if (! foo.TryGetValue(myMaybeDerivedType, out var memberList))
+			if (! knownBlockDefinitionMemberLists.TryGetValue(myMaybeDerivedType, out var memberList))
 			{
 				memberList = new List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>();
 				foreach (var member in myMaybeDerivedType.GetMembers
@@ -191,7 +191,7 @@ namespace BlockDefinitions
 						memberList.Add((theFetchAttribute, new GetSetMemberInfo(member)));
 				}
 
-				foo[myMaybeDerivedType] = memberList;
+				knownBlockDefinitionMemberLists[myMaybeDerivedType] = memberList;
 			}
 
 			int count = 0;
@@ -280,8 +280,7 @@ namespace BlockDefinitions
 
 		#region Static
 
-
-		private static readonly Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>> foo =
+		private static readonly Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>> knownBlockDefinitionMemberLists =
 			                new Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>>();
 
 		// TODO: Ensure that IsSingleCubeBlock blocks have the lowest BlockIDs so that we can use a byte to index them and save space.
@@ -311,7 +310,7 @@ namespace BlockDefinitions
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 		static void InitializationTrigger()
 		{
-			LoadAllDefinitions();
+			EnsureDefinitionsLoaded();
 		}
 
 		/// <summary>
@@ -319,10 +318,11 @@ namespace BlockDefinitions
 		/// </summary>
 		public const string DefinitionsFolder = "GameData/BlockDefinitions";
 
+
 		/// <summary>
 		/// Load all definitions.
 		/// </summary>
-		public static void LoadAllDefinitions()
+		public static void EnsureDefinitionsLoaded()
 		{
 			if (Initialized) return;
 			Initialized = true;
