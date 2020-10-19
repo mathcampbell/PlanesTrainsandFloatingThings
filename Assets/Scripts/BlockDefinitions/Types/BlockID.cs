@@ -1,42 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Runtime.Serialization;
 
-using UnityEngine;
-
-namespace BlockDefinitions // This file contains multiple items !!
+namespace BlockDefinitions.Types
 {
-	[DataContract]
-	public struct Orientation
-	{
-		// Placeholder
-		// We can probably get away with an int or enum, but I didn't feel like figuring that out right now.
-
-		// todo: mirroring
-		//		* Can be multiple mirrors / complicated
-		// todo: do we want the scale / shear hacks like in Stormworks to be possible?
-		//		That would mean using a full Transform/Matrix4 though (would need to merge/refactor position and orientation too)
-	}
-
-	/// <summary>
-	/// An Flags Enum to define sides of a single block.
-	/// </summary>
-	[Flags]
-	[DataContract]
-	public enum BlockSides : UInt16
-	{
-		// We need to set the values explicitly, because it defaults to just counting upwards.
-		  None   = 0b_000000
-		, Top    = 0b_000001
-		, Bottom = 0b_000010
-		, Left   = 0b_000100
-		, Right  = 0b_001000
-		, Front  = 0b_010000
-		, Rear   = 0b_100000
-		, All    = Top | Bottom | Left | Right | Front | Rear // 0b_111111
-	}
-
 	/// <summary>
 	/// The type used to hold the BlockID. We may decide to change it later, in which case we should only need to do it here rather than everywhere it's actually used.
 	/// </summary>
@@ -61,7 +27,7 @@ namespace BlockDefinitions // This file contains multiple items !!
 
 		public BlockID(Int32 b)
 		{
-			ID = (UInt16) b;
+			ID = (UInt16)b;
 		}
 
 		public BlockID(BlockID b)
@@ -94,6 +60,6 @@ namespace BlockDefinitions // This file contains multiple items !!
 		/// Convert to byte. This could fail if the resulting number does not fit!
 		/// </summary>
 		/// <param name="id"></param>
-		public static explicit operator byte(BlockID id) => (byte) id.ID;
+		public static explicit operator byte(BlockID id) => (byte)id.ID;
 	}
 }

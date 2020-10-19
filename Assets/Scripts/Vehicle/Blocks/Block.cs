@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 
 using BlockDefinitions;
+using BlockDefinitions.Types;
 
 using UnityEngine;
 

@@ -2,6 +2,7 @@
 using System.IO;
 
 using BlockDefinitions;
+using BlockDefinitions.Types;
 
 using UnityEngine;
 

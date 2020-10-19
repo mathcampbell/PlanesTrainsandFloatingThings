@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 
+using BlockDefinitions.Types;
+
 using UnityEngine;
 
 namespace BlockDefinitions

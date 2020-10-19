@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
+using BlockDefinitions.Types;
+
 using Tools;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -295,7 +297,7 @@ namespace BlockDefinitions
 		private static readonly ReadOnlyDictionary<BlockID, BlockDefinition> readonlyDefinitions = new ReadOnlyDictionary<BlockID, BlockDefinition>(definitions);
 
 		/// <summary>
-		/// A Map from <see cref="BlockDefinitions.BlockID"/> to <see cref="BlockDefinition"/>.
+		/// A Map from <see cref="BlockDefinitions.Types.BlockID"/> to <see cref="BlockDefinition"/>.
 		/// </summary>
 		public static IReadOnlyDictionary<BlockID, BlockDefinition> Definitions => readonlyDefinitions;
 

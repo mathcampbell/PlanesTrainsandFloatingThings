@@ -14,6 +14,8 @@ using Vehicle.BlockBehaviours;
 using Vehicle.Blocks;
 using System.Collections.Specialized;
 
+using BlockDefinitions.Types;
+
 namespace Vehicle
 {
 	/// <summary>
