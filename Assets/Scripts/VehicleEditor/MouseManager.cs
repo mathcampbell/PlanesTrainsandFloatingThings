@@ -105,757 +105,803 @@ namespace VehicleEditor
 			switch (GameMode) {
 				case GameModes.BuildMode:
 				{
-					LayerMask combined = BlockLogic.LayerMaskBlock + BlockLogic.LayerMaskSnapPoint;
-					//if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out var hitInfo, BlockLogic.LayerMaskBlock))
+					UpdateBuildMode();
+					break;
+				}
+				case GameModes.DataMode:
+				{
+					UpdateDataMode();
+					break;
+				}
+				case GameModes.OnOffMode:
+				{
+					UpdateOnOffMode();
+					break;
+				}
+				case GameModes.ElectricMode:
+				{
+					UpdateElectricMode();
+					break;
+				}
+			}
+		}
+
+		#region Update game modes
+
+		private void UpdateBuildMode()
+		{
+			LayerMask combined = BlockLogic.LayerMaskBlock + BlockLogic.LayerMaskSnapPoint;
+			//if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out var hitInfo, BlockLogic.LayerMaskBlock))
+			if (Physics.Raycast
+			(
+				Camera.main.ScreenPointToRay(Input.mousePosition)
+				, out RaycastHit hitInfo
+				, Mathf.Infinity
+				, combined
+			))
+			{
+				if (hitInfo.collider.gameObject.tag != "BlockSnap")
+				{
+					// We didn't hit a snappoint, we got a block, which means the current spot is NOT valid for placing our block, so lets just set it red and move on)
+					var placementBlockPosition = BlockLogic.SnapToGrid(hitInfo.point)
+					                           + (hitInfo.normal * 0.125f);
+					if (null == CurrentPlacementSprite)
+					{
+						CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
+					}
+
+					CurrentPlacementSprite.transform.position = placementBlockPosition;
+					Animator SpriteAnimator = CurrentPlacementSprite.GetComponent<Animator>();
+					SpriteAnimator.SetBool("PlacementBad", true);
+					Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
+					CurrentPlacementSprite.transform.rotation = PlacementRot;
+					SnapPointOK = false;
+					if (null != CurrentBlock && CurrentBlock != ShipRoot)
+					{
+						DestroyImmediate(CurrentBlock.gameObject);
+					}
+				}
+				else
+				{
+					if (null == CurrentBlock)
+					{
+						SetNextBlock();
+					}
+					//Snap the position to the grid
+
+					//var hitBlock = hitInfo.collider.transform.position+(hitInfo.normal * -0.125f);
+
+					var hitBlock = BlockLogic.SnapToGrid(hitInfo.point + (hitInfo.normal * 0.125f))
+					             + (hitInfo.normal * -0.25f);
+					//var placementBlockPosition = BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * 0.125f);
+					var placementBlockPosition = hitBlock + (hitInfo.normal * 0.125f);
+					if (null == CurrentPlacementSprite)
+					{
+						CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
+					}
+
+					CurrentPlacementSprite.transform.position = placementBlockPosition;
+					Animator SpriteAnimator = CurrentPlacementSprite.GetComponent<Animator>();
+					SpriteAnimator.SetBool("PlacementBad", false);
+
+
+					//var position = BlockLogic.SnapToGrid(hitInfo.point+(hitInfo.normal*0.125f));
+					var position = BlockLogic.SnapToGrid(hitBlock) + (hitInfo.normal * 0.25f);
+					Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
+					if (null == CurrentBlockRot) CurrentBlockRot = PlacementRot;
+					CurrentBlock.transform.rotation = CurrentBlockRot;
+
+					CurrentPlacementSprite.transform.rotation = PlacementRot;
+
+					// try to make sure it's not going to colide with anything!
+
+					var placePosition = position;
+					PositionOK = false;
+					SnapPointOK = false;
+					int repeater = 0;
+					for (int i = 0; i < 4; i++)
+					{
+						var collider = Physics.OverlapBox
+						(
+							placePosition + CurrentBlock.transform.rotation * CurrentBlock.Collider.center
+							, CurrentBlock.Collider.size / 2
+							, CurrentBlock.transform.rotation
+							, BlockLogic.LayerMaskBlock
+						);
+						if (collider.Length == 0)
+						{
+							CurrentBlock.transform.position = placePosition;
+							//  CurrentPlacementSprite.transform.position = placementBlockPosition;
+
+							Collider[] ColliderArray =
+								CurrentBlock.gameObject.GetComponentsInChildren<Collider>();
+							for (int j = 0; j < ColliderArray.Length; j++)
+							{
+								ColliderArray[j].enabled = true;
+							}
+
+							Debug.Log("Repeater is: " + repeater);
+
+							var snapPoints = Physics.OverlapSphere
+							(
+								BlockLogic.SnapToGrid(hitInfo.point + (hitInfo.normal * 0.125f))
+							  + (hitInfo.normal * -0.125f)
+								, 0.05f
+								, BlockLogic.LayerMaskSnapPoint
+							);
+							if (snapPoints.Length == 2)
+							{
+								SpriteAnimator.SetBool("PlacementBad", false);
+								SnapPointOK = true;
+
+								for (int j = 0; j < ColliderArray.Length; j++)
+								{
+									ColliderArray[j].enabled = false;
+								}
+							}
+							else
+							{
+								SpriteAnimator.SetBool("PlacementBad", true);
+
+								SnapPointOK = false;
+
+								for (int j = 0; j < ColliderArray.Length; j++)
+								{
+									ColliderArray[j].enabled = false;
+								}
+							}
+
+							PositionOK = true;
+						}
+
+						if (PositionOK)
+						{
+							break;
+						}
+
+						else
+						{
+							//placePosition.y += BlockLogic.Grid.y;
+							placePosition += (hitInfo.normal * 0.25f);
+							// placementBlockPosition += (hitInfo.normal * 0.25f);
+							repeater += 1;
+						}
+					}
+
+					if (PositionOK == false)
+					{
+						//   placePosition = placePosition + (hitInfo.normal*-0.25f);   
+
+						if (null != CurrentBlock && CurrentBlock != ShipRoot)
+						{
+							DestroyImmediate(CurrentBlock.gameObject);
+							Destroy(CurrentPlacementSprite.gameObject);
+						}
+					}
+				}
+			}
+			else
+			{
+				if (null != CurrentBlock && CurrentBlock != ShipRoot)
+				{
+					DestroyImmediate(CurrentBlock.gameObject);
+				}
+
+				if (null != CurrentPlacementSprite)
+				{
+					Destroy(CurrentPlacementSprite.gameObject);
+				}
+			}
+
+			if (Input.GetMouseButtonDown(0) && null != CurrentBlock && PositionOK)
+			{
+				// Now we're gonna check if the place we're gonna place it (which we've checked is physcially ok, ie no overlaps) has a block snap to connect to.
+				if (SnapPointOK == true)
+				{
+					// Now we need to check that the new block has a snappoint that will accomodate the placement 
+
+					CurrentBlock.Collider.enabled = true;
+					Collider[] ColliderArray = CurrentBlock.GetComponentsInChildren<Collider>();
+					for (int i = 0; i < ColliderArray.Length; i++)
+					{
+						ColliderArray[i].enabled = true;
+					}
+
+					// Returning all the materials to original
+
+					//CurrentBlock.SetAllMaterials(BlockMats);
+					CurrentBlock.SetSolid();
+
+					// Adding our block's mass to the Root
+					Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
+					CurrentBlock.GetComponentInParent<Rigidbody>().mass += CurrentBlock.Mass;
+					Debug.Log("Vehicle mass is now:");
+					Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
+					BuilderClick.Play();
+
+					CurrentBlock = null;
+					SetNextBlock();
+					CurrentBlock.transform.rotation = CurrentBlockRot;
+				}
+				else
+				{ // It wasn't a suitable snap location!
+				}
+			}
+
+			// Delete Block
+			if (Input.GetKeyDown(KeyCode.X))
+			{
+				DeleteBlock();
+				SetNextBlock();
+			}
+
+			// Rotate the block in Y
+			if (Input.GetKeyDown(KeyCode.L))
+			{
+				CurrentBlock.transform.Rotate(Vector3.up, 90);
+				CurrentBlockRot = CurrentBlock.transform.rotation;
+			}
+
+			// Rotate the block in X
+			if (Input.GetKeyDown(KeyCode.K))
+			{
+				CurrentBlock.transform.Rotate(Vector3.left, 90);
+				CurrentBlockRot = CurrentBlock.transform.rotation;
+			}
+
+			// Rotate the block in Z
+			if (Input.GetKeyDown(KeyCode.J))
+			{
+				CurrentBlock.transform.Rotate(Vector3.forward, 90);
+				CurrentBlockRot = CurrentBlock.transform.rotation;
+			}
+		}
+
+		private void UpdateDataMode()
+		{
+			int lengthOfLine = 2;
+			var linePositions = new Vector3[lengthOfLine];
+
+
+			if (Input.GetMouseButton(0))
+			{
+				if (! CurrentLine)
+				{
 					if (Physics.Raycast
 					(
 						Camera.main.ScreenPointToRay(Input.mousePosition)
 						, out RaycastHit hitInfo
 						, Mathf.Infinity
-						, combined
+						, LayerMaskNumericNode
 					))
 					{
-						if (hitInfo.collider.gameObject.tag != "BlockSnap")
+						CurrentNode = hitInfo.collider.GetComponent<NumericOutput>();
+						if (null != CurrentNode)
 						{
-							// We didn't hit a snappoint, we got a block, which means the current spot is NOT valid for placing our block, so lets just set it red and move on)
-							var placementBlockPosition = BlockLogic.SnapToGrid
-								                             (hitInfo.point)
-							                           + (hitInfo.normal * 0.125f);
-							if (null == CurrentPlacementSprite)
-							{
-								CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
-							}
+							CurrentLine = Instantiate(DataLine);
+							CurrentLine.transform.SetParent(CurrentNode.transform);
+							// If there's no Current Line, and the mouse is Down on a Node, we eed to make a new CurrentLine and then start it at *that* point. 
+							// Then next frame, just update the other end of the line to the curent mouse position!)
+							linePositions[0] = CurrentNode.transform.position;
+							linePositions[1] = Camera.main.ScreenToWorldPoint
+								(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
 
-							CurrentPlacementSprite.transform.position = placementBlockPosition;
-							Animator SpriteAnimator = CurrentPlacementSprite.GetComponent<Animator>();
-							SpriteAnimator.SetBool("PlacementBad", true);
-							Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
-							CurrentPlacementSprite.transform.rotation = PlacementRot;
-							SnapPointOK = false;
-							if (null != CurrentBlock && CurrentBlock != ShipRoot)
+							CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+							CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+						}
+						else
+						{
+							//Not an Output
+
+							Debug.Log(hitInfo.collider);
+						}
+					}
+				}
+
+				if (CurrentLine)
+				{
+					if (Physics.Raycast
+					(
+						Camera.main.ScreenPointToRay(Input.mousePosition)
+						, out RaycastHit hitInfo
+						, Mathf.Infinity
+						, LayerMaskNumericNode
+					))
+					{
+						var newInputNode = hitInfo.collider.GetComponent<NumericInput>();
+						if (null != newInputNode)
+						{
+							// we found a node to connect to. Do the connection code and drop the line.
+
+
+							if (newInputNode.connectedNode == CurrentNode)
 							{
-								DestroyImmediate(CurrentBlock.gameObject);
+								// Check the nodes aren't already linked and if so delete the link
+								Destroy(CurrentNode.GetComponentInChildren<NumericNodeLine>().gameObject);
+								newInputNode.connectedNode = null;
+								DestroyImmediate(CurrentLine.gameObject);
+								CurrentNode = null;
+								CurrentLine = null;
+							}
+							else if (newInputNode.connectedNode)
+
+							{
+								// We already have a connection so we need to replace it.
+								var oldNode = newInputNode.connectedNode;
+								Destroy(oldNode.GetComponentInChildren<NumericNodeLine>().gameObject);
+								newInputNode.connectedNode = CurrentNode;
+								linePositions[0] = CurrentNode.transform.position;
+								linePositions[1] = newInputNode.transform.position;
+								CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+								CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+								CurrentLine.GetComponent<NumericNodeLine>().ConnectedInput = newInputNode;
+								CurrentLine.GetComponent<NumericNodeLine>().ConnectedOutput = CurrentNode;
+								CurrentLine = null;
+								CurrentNode = null;
+							}
+							else
+							{
+								// There's no current connection, and we're ready to connect!
+								newInputNode.connectedNode = CurrentNode;
+								linePositions[0] = CurrentNode.transform.position;
+								linePositions[1] = newInputNode.transform.position;
+								CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+								CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+								CurrentLine.GetComponent<NumericNodeLine>().ConnectedInput = newInputNode;
+								CurrentLine.GetComponent<NumericNodeLine>().ConnectedOutput = CurrentNode;
+								CurrentLine = null;
+								CurrentNode = null;
 							}
 						}
 						else
 						{
-							if (null == CurrentBlock)
+							// Found a node but it's an output.
+							Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint
+								(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
+							linePositions[0] = CurrentNode.transform.position;
+							linePositions[1] = mouseLineDraw;
+
+							CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+							CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+						}
+					}
+					else
+					{
+						Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint
+							(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
+						linePositions[0] = CurrentNode.transform.position;
+						linePositions[1] = mouseLineDraw;
+						Debug.Log("Drawing a line update cos no node");
+						CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+						CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+					}
+				}
+			}
+
+			if (Input.GetMouseButtonUp(0))
+			{
+				if (CurrentLine)
+				{
+					DestroyImmediate(CurrentLine.gameObject);
+					CurrentLine = null;
+					CurrentNode = null;
+				}
+			}
+		}
+
+		private void UpdateOnOffMode()
+		{
+			int lengthOfLine = 2;
+			var linePositions = new Vector3[lengthOfLine];
+
+
+			if (Input.GetMouseButton(0))
+			{
+				if (! CurrentLine)
+				{
+					if (Physics.Raycast
+					(
+						Camera.main.ScreenPointToRay(Input.mousePosition)
+						, out RaycastHit hitInfo
+						, Mathf.Infinity
+						, LayerMaskIONode
+					))
+					{
+						CurrentOnOffNode = hitInfo.collider.GetComponent<OnOffOutput>();
+						if (null != CurrentOnOffNode)
+						{
+							CurrentLine = Instantiate(IOLine, CurrentOnOffNode.transform);
+
+							// If there's no Current Line, and the mouse is Down on a Node, we eed to make a new CurrentLine and then start it at *that* point. 
+							// Then next frame, just update the other end of the line to the curent mouse position!)
+							linePositions[0] = CurrentOnOffNode.transform.position;
+							linePositions[1] = Camera.main.ScreenToWorldPoint
+								(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
+
+							CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+							CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+						}
+						else
+						{
+							//Not an Output
+
+							Debug.Log(hitInfo.collider);
+						}
+					}
+				}
+
+				if (CurrentLine)
+				{
+					if (Physics.Raycast
+					(
+						Camera.main.ScreenPointToRay(Input.mousePosition)
+						, out RaycastHit hitInfo
+						, Mathf.Infinity
+						, LayerMaskIONode
+					))
+					{
+						var newInputNode = hitInfo.collider.GetComponent<OnOffInput>();
+						if (null != newInputNode)
+						{
+							// we found a node to connect to. Do the connection code and drop the line.
+							if (newInputNode.connectedNode == CurrentOnOffNode)
 							{
-								SetNextBlock();
+								// Check the nodes aren't already linked and if so delete the link
+								Destroy(CurrentOnOffNode.GetComponentInChildren<IONodeLine>().gameObject);
+								newInputNode.connectedNode = null;
+								DestroyImmediate(CurrentLine.gameObject);
+								CurrentOnOffNode = null;
+								CurrentLine = null;
 							}
-							//Snap the position to the grid
-
-							//var hitBlock = hitInfo.collider.transform.position+(hitInfo.normal * -0.125f);
-
-							var hitBlock = BlockLogic.SnapToGrid
-								               (hitInfo.point + (hitInfo.normal * 0.125f))
-							             + (hitInfo.normal * -0.25f);
-							//var placementBlockPosition = BlockLogic.SnapToGrid(hitInfo.point) + (hitInfo.normal * 0.125f);
-							var placementBlockPosition = hitBlock + (hitInfo.normal * 0.125f);
-							if (null == CurrentPlacementSprite)
+							else if (newInputNode.connectedNode)
 							{
-								CurrentPlacementSprite = Instantiate(BlockPlacementSprite);
+								// We found a node but it already has a connection so we need to replace it.
+								var oldNode = newInputNode.connectedNode;
+								Destroy(oldNode.GetComponentInChildren<IONodeLine>().gameObject);
+								newInputNode.connectedNode = CurrentOnOffNode;
+								linePositions[0] = CurrentOnOffNode.transform.position;
+								linePositions[1] = newInputNode.transform.position;
+								CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+								CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+								CurrentLine.GetComponent<IONodeLine>().ConnectedInput = newInputNode;
+								CurrentLine.GetComponent<IONodeLine>().ConnectedOutput = CurrentOnOffNode;
+								CurrentLine = null;
+								CurrentOnOffNode = null;
 							}
+							else
+							{
+								// Found a node, there's nothing on it, ready to connect!
+								newInputNode.connectedNode = CurrentOnOffNode;
+								linePositions[0] = CurrentOnOffNode.transform.position;
+								linePositions[1] = newInputNode.transform.position;
+								CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+								CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+								CurrentLine.GetComponent<IONodeLine>().ConnectedInput = newInputNode;
+								CurrentLine.GetComponent<IONodeLine>().ConnectedOutput = CurrentOnOffNode;
+								CurrentLine = null;
+								CurrentOnOffNode = null;
+							}
+						}
+						else
+						{
+							Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint
+								(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
+							linePositions[0] = CurrentOnOffNode.transform.position;
+							linePositions[1] = mouseLineDraw;
+							Debug.Log("Drawing update cos node wasn't Input");
+							CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+							CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+						}
+					}
+					else
+					{
+						Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint
+							(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
+						linePositions[0] = CurrentOnOffNode.transform.position;
+						linePositions[1] = mouseLineDraw;
+						Debug.Log("Drawing a line update cos no node");
+						CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+						CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+					}
+				}
+			}
 
-							CurrentPlacementSprite.transform.position = placementBlockPosition;
-							Animator SpriteAnimator = CurrentPlacementSprite.GetComponent<Animator>();
-							SpriteAnimator.SetBool("PlacementBad", false);
+			if (Input.GetMouseButtonUp(0))
+			{
+				if (CurrentLine)
+				{
+					DestroyImmediate(CurrentLine.gameObject);
+					CurrentLine = null;
+					CurrentOnOffNode = null;
+				}
+			}
+		}
+
+		private void UpdateElectricMode()
+		{
+			// Do the ELectric Mode View stuff here
+
+			int lengthOfLine = 2;
+			var linePositions = new Vector3[lengthOfLine];
 
 
-							//var position = BlockLogic.SnapToGrid(hitInfo.point+(hitInfo.normal*0.125f));
-							var position = BlockLogic.SnapToGrid(hitBlock) + (hitInfo.normal * 0.25f);
-							Quaternion PlacementRot = Quaternion.LookRotation(hitInfo.normal, Vector3.forward);
-							if (null == CurrentBlockRot) CurrentBlockRot = PlacementRot;
-							CurrentBlock.transform.rotation = CurrentBlockRot;
+			if (Input.GetMouseButton(0))
+			{
+				if (!CurrentLine)
+				{
+					if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskElectricNode))
+					{
+						CurrentPowerNode = hitInfo.collider.GetComponent<PowerNetworkItem>();
+						if (null != CurrentPowerNode)
+						{
+							CurrentLine = Instantiate(ElectricLine, CurrentPowerNode.transform);
 
-							CurrentPlacementSprite.transform.rotation = PlacementRot;
+							// If there's no Current Line, and the mouse is Down on a Node, we need to make a new CurrentLine and then start it at *that* point.  Then create a new power manager if there isn't one already.
+							// Then next frame, just update the other end of the line to the curent mouse position!)
+							linePositions[0] = CurrentPowerNode.transform.position;
+							linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 1f)));
 
-							// try to make sure it's not going to colide with anything!
+							CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+							CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
 
-							var placePosition = position;
-							PositionOK = false;
-							SnapPointOK = false;
-							int repeater = 0;
-							for (int i = 0; i < 4; i++)
+							if (CurrentPowerNode.manager)
+							{
+								// We already have a Power Manager for this node, so simply set it as the CurrentManager.
+								CurrentManager = CurrentPowerNode.manager;
+							}
+							else
+							{
+								// We don't have a Manager for the node, so we'll need to instantiate one!
+								CurrentManager = Instantiate(NewManager, ShipRoot.transform);
+								CurrentManager.powerType = new Electricity();
+								CurrentPowerNode.manager = CurrentManager;
+								CurrentPowerNode.AddToNetwork();
+							}
+						}
+						else
+						{
+							//Not an Output
+
+							Debug.Log(hitInfo.collider);
+						}
+					}
+				}
+				if (CurrentLine)
+				{
+					if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskElectricNode))
+					{
+						var newPowerNode = hitInfo.collider.GetComponent<PowerNetworkItem>();
+						if (null != newPowerNode)
+						{
+							// First check it's not still our first node..
+							if (newPowerNode == CurrentPowerNode)
+							{
+								linePositions[0] = CurrentPowerNode.transform.position;
+								linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 1f)));
+
+								CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+								CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+							}
+							else
+							// we found a node to connect to.
 							{
 
-								var collider = Physics.OverlapBox
-								(
-									placePosition + CurrentBlock.transform.rotation * CurrentBlock.Collider.center
-									, CurrentBlock.Collider.size / 2
-									, CurrentBlock.transform.rotation
-									, BlockLogic.LayerMaskBlock
-								);
-								if (collider.Length == 0)
+								// Now we need to check if it's an existing line we need to delete, or a new connection.
+								if (CurrentPowerNode.DirectlyConnected.Contains(newPowerNode))
 								{
-									CurrentBlock.transform.position = placePosition;
-									//  CurrentPlacementSprite.transform.position = placementBlockPosition;
+									// We now know it's directly connected to this node, so we need to remove it! Also need to de-merge netorks possibly
 
-									Collider[] ColliderArray =
-										CurrentBlock.gameObject.GetComponentsInChildren<Collider>();
-									for (int j = 0; j < ColliderArray.Length; j++)
+									/*
+
+							This is a problem I haven't yet worked out how to solve.
+							We might have a situation here wheren there is a network where the link we are about to delete is the ONLY link between one group of objects and another...so the two groups should be made into two-networks
+
+							But..
+
+							They might also be joined somewhere else, so it's "one" network, and needs to stay that way. So we need to somehow check every object in the network to see if there is a path from CurrentPowerNode to newPowerNode, or if this is it...
+
+							*/
+
+
+									// Now we need to find the line and remove that too.
+									ElectricNodeLine[] ConnectedLines =
+										CurrentPowerNode.GetComponentsInChildren<ElectricNodeLine>();
+									Debug.Log("CurrenPowerNode has these connected lines:");
+									Debug.Log(ConnectedLines.Count());
+									for (int i = 0; i < ConnectedLines.Length; i++)
 									{
-										ColliderArray[j].enabled = true;
+										Debug.Log("Connected Node is:");
+										Debug.Log(ConnectedLines[i].ConnectedTo);
+										//Finding any lines in CurrentPowerNode that need to be wiped.
+
+										if (ConnectedLines[i].ConnectedTo == newPowerNode)
+											GameObject.Destroy(ConnectedLines[i].gameObject);
+
 									}
 
-									Debug.Log("Repeater is: " + repeater);
-
-									var snapPoints = Physics.OverlapSphere
-									(
-										BlockLogic.SnapToGrid
-											(hitInfo.point + (hitInfo.normal * 0.125f))
-									  + (hitInfo.normal * -0.125f)
-										, 0.05f
-										, BlockLogic.LayerMaskSnapPoint
-									);
-									if (snapPoints.Length == 2)
+									ElectricNodeLine[] newConnectedLines =
+										newPowerNode.GetComponentsInChildren<ElectricNodeLine>();
+									Debug.Log("newPowerNode has these connected lines:");
+									Debug.Log(newConnectedLines.Count());
+									for (int j = 0; j < newConnectedLines.Length; j++)
 									{
-										SpriteAnimator.SetBool("PlacementBad", false);
-										SnapPointOK = true;
-
-										for (int j = 0; j < ColliderArray.Length; j++)
+										// Finding any lines in newPowerNode that need to be wiped.
+										Debug.Log("ConnectedNode is");
+										Debug.Log(newConnectedLines[j].ConnectedTo);
+										if (newConnectedLines[j].ConnectedTo == CurrentPowerNode)
 										{
-											ColliderArray[j].enabled = false;
+											GameObject.Destroy(newConnectedLines[j].gameObject);
+											Debug.Log("Destroying a line");
 										}
+									}
+
+									CurrentPowerNode.DirectlyConnected.Remove(newPowerNode);
+									newPowerNode.DirectlyConnected.Remove(CurrentPowerNode);
+
+									//here's my attempt to work out if the network needs demerged. Hang on to your butts...
+									HashSet<PowerNetworkItem> RemainingNetworkNodes = new HashSet<PowerNetworkItem>
+										(CurrentManager.network);
+									HashSet<PowerNetworkItem> ConnectingNetworkNodes =
+										PowerNetworkLogic.TraverseConnectedNetwork(CurrentPowerNode);
+									RemainingNetworkNodes.ExceptWith(ConnectingNetworkNodes);
+
+
+									// Now we check if the RemainingNetworkNodes set still has any nodes in it - if it does it should be it's own network...it will ususally have at least then newPowerNode!
+									if (RemainingNetworkNodes.Count > 0)
+									{
+										List<PowerNetworkItem> NewNetworkNodes =
+											RemainingNetworkNodes.ToList<PowerNetworkItem>();
+										PowerNetworkManager NewNetwork = Instantiate(NewManager, ShipRoot.transform);
+										NewNetwork.powerType = new Electricity();
+										NewNetwork.AddToNetwork(NewNetworkNodes);
+										CurrentManager.RemoveFromNetwork(NewNetworkNodes);
+										// We've now found all the networkitems that aren't in our current network anymore, we've removed them, put them in their own network.
+									}
+
+
+									// Now we check both to see if they have no connections left. If so, the relevent manager gets removed. Orphaned Managers will get cleaned up on GameMode change.
+
+									if (CurrentPowerNode.DirectlyConnected.Count < 1)
+									{
+										CurrentPowerNode.RemoveFromNetwork();
+										if (CurrentManager.producers.Count == 0
+										 && CurrentManager.consumers.Count == 0
+										 && CurrentManager.storages.Count == 0)
+										{
+											Destroy(CurrentManager.gameObject);
+										}
+
+										CurrentPowerNode.manager = null;
+
+
+									}
+
+									if (newPowerNode.DirectlyConnected.Count < 1)
+									{
+										newPowerNode.RemoveFromNetwork();
+										var newManager = newPowerNode.manager;
+										if (newManager.producers.Count == 0
+										 && newManager.consumers.Count == 0
+										 && newManager.storages.Count == 0)
+										{
+											Destroy(newManager.gameObject);
+										}
+
+										newPowerNode.manager = null;
+									}
+
+									Destroy(CurrentLine.gameObject);
+									CurrentPowerNode = null;
+									CurrentLine = null;
+									CurrentManager = null;
+								}
+								else
+								{
+									// check if it's in an existing network and if so, merge the networks.
+
+									if (newPowerNode.manager)
+									{
+										// Firstly, is the new node in the same network already?
+										if (newPowerNode.manager != CurrentManager)
+										{
+											// Merge the lists from second manager into first manager, set all the objects in second manager to now look to the first, then delete the second manager.
+											var newManager = newPowerNode.manager;
+											CurrentManager.producers.AddRange(newManager.producers);
+											CurrentManager.consumers.AddRange(newManager.consumers);
+											CurrentManager.storages.AddRange(newManager.storages);
+											foreach (PowerProducer producer in newManager.producers)
+											{
+												producer.manager = CurrentManager;
+											}
+
+											foreach (PowerConsumer consumer in newManager.consumers)
+											{
+												consumer.manager = CurrentManager;
+											}
+
+											foreach (PowerStorage storage in newManager.storages)
+											{
+												storage.manager = CurrentManager;
+											}
+
+											newManager.producers.Clear();
+											newManager.consumers.Clear();
+											newManager.storages.Clear();
+											Destroy(newManager.gameObject);
+											newPowerNode.manager = CurrentManager;
+										}
+										// We've reassigned the objects to the merged network, we've cleared the old manager of it's objects and told the objects who their boss is ;)
+										// Now we do the "connect the two nodes together with a line, and set it all up to be left in the next frame.
+
+										newPowerNode.DirectlyConnected.Add(CurrentPowerNode);
+										CurrentPowerNode.DirectlyConnected.Add(newPowerNode);
+										linePositions[0] = CurrentPowerNode.transform.position;
+										linePositions[1] = newPowerNode.transform.position;
+										CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+										CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+										CurrentLine.GetComponent<ElectricNodeLine>().ConnectedTo = newPowerNode;
+										CurrentLine.GetComponent<ElectricNodeLine>().ConnectedFrom = CurrentPowerNode;
+										CurrentLine = null;
+										CurrentPowerNode = null;
+										CurrentManager = null;
 									}
 									else
 									{
-										SpriteAnimator.SetBool("PlacementBad", true);
-
-										SnapPointOK = false;
-
-										for (int j = 0; j < ColliderArray.Length; j++)
-										{
-											ColliderArray[j].enabled = false;
-										}
+										// Found a node, there's nothing on it, ready to connect! Need to add the new node to teh current network and set it to be left in the next frame.
+										newPowerNode.DirectlyConnected.Add(CurrentPowerNode);
+										CurrentPowerNode.DirectlyConnected.Add(newPowerNode);
+										newPowerNode.manager = CurrentManager;
+										newPowerNode.AddToNetwork();
+										linePositions[0] = CurrentPowerNode.transform.position;
+										linePositions[1] = newPowerNode.transform.position;
+										CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+										CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
+										CurrentLine.GetComponent<ElectricNodeLine>().ConnectedTo = newPowerNode;
+										CurrentLine.GetComponent<ElectricNodeLine>().ConnectedFrom = CurrentPowerNode;
+										CurrentLine = null;
+										CurrentPowerNode = null;
+										CurrentManager = null;
 									}
-
-									PositionOK = true;
 								}
-
-								if (PositionOK)
-								{
-									break;
-								}
-
-								else
-								{
-									//placePosition.y += BlockLogic.Grid.y;
-									placePosition += (hitInfo.normal * 0.25f);
-									// placementBlockPosition += (hitInfo.normal * 0.25f);
-									repeater += 1;
-								}
-							}
-
-							if (PositionOK == false)
-							{
-								//   placePosition = placePosition + (hitInfo.normal*-0.25f);   
-
-								if (null != CurrentBlock && CurrentBlock != ShipRoot)
-								{
-									DestroyImmediate(CurrentBlock.gameObject);
-									Destroy(CurrentPlacementSprite.gameObject);
-								}
-
 							}
 						}
 					}
 					else
 					{
-						if (null != CurrentBlock && CurrentBlock != ShipRoot)
-						{
-							DestroyImmediate(CurrentBlock.gameObject);
-						}
-
-						if (null != CurrentPlacementSprite)
-						{
-							Destroy(CurrentPlacementSprite.gameObject);
-						}
+						Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 1f)));
+						linePositions[0] = CurrentPowerNode.transform.position;
+						linePositions[1] = mouseLineDraw;
+						Debug.Log("Drawing a line update cos no node");
+						CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
+						CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
 					}
-
-					if (Input.GetMouseButtonDown(0) && null != CurrentBlock && PositionOK)
-					{
-						// Now we're gonna check if the place we're gonna place it (which we've checked is physcially ok, ie no overlaps) has a block snap to connect to.
-						if (SnapPointOK == true)
-						{
-							// Now we need to check that the new block has a snappoint that will accomodate the placement 
-
-							CurrentBlock.Collider.enabled = true;
-							Collider[] ColliderArray = CurrentBlock.GetComponentsInChildren<Collider>();
-							for (int i = 0; i < ColliderArray.Length; i++)
-							{
-								ColliderArray[i].enabled = true;
-							}
-
-							// Returning all the materials to original
-
-							//CurrentBlock.SetAllMaterials(BlockMats);
-							CurrentBlock.SetSolid();
-
-							// Adding our block's mass to the Root
-							Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
-							CurrentBlock.GetComponentInParent<Rigidbody>().mass += CurrentBlock.Mass;
-							Debug.Log("Vehicle mass is now:");
-							Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
-							BuilderClick.Play();
-
-							CurrentBlock = null;
-							SetNextBlock();
-							CurrentBlock.transform.rotation = CurrentBlockRot;
-						}
-						else
-						{ // It wasn't a suitable snap location!
-
-						}
-					}
-
-					// Delete Block
-					if (Input.GetKeyDown(KeyCode.X))
-					{
-						DeleteBlock();
-						SetNextBlock();
-					}
-
-					// Rotate the block in Y
-					if (Input.GetKeyDown(KeyCode.L))
-					{
-						CurrentBlock.transform.Rotate(Vector3.up, 90);
-						CurrentBlockRot = CurrentBlock.transform.rotation;
-
-					}
-
-					// Rotate the block in X
-					if (Input.GetKeyDown(KeyCode.K))
-					{
-						CurrentBlock.transform.Rotate(Vector3.left, 90);
-						CurrentBlockRot = CurrentBlock.transform.rotation;
-					}
-
-					// Rotate the block in Z
-					if (Input.GetKeyDown(KeyCode.J))
-					{
-						CurrentBlock.transform.Rotate(Vector3.forward, 90);
-						CurrentBlockRot = CurrentBlock.transform.rotation;
-					}
-
-					break;
 				}
-				case GameModes.DataMode: {
-					int lengthOfLine = 2;
-					var linePositions = new Vector3[lengthOfLine];
-
-
-					if (Input.GetMouseButton(0))
+			}
+			if (Input.GetMouseButtonUp(0))
+			{
+				if (CurrentLine)
+				{
+					if (CurrentPowerNode.DirectlyConnected.Count < 1)
 					{
-						if (!CurrentLine)
+						CurrentPowerNode.RemoveFromNetwork();
+						if (CurrentManager.producers.Count == 0 && CurrentManager.consumers.Count == 0 && CurrentManager.storages.Count == 0)
 						{
-							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskNumericNode))
-							{
-								CurrentNode = hitInfo.collider.GetComponent<NumericOutput>();
-								if (null != CurrentNode)
-								{
-									CurrentLine = Instantiate(DataLine);
-									CurrentLine.transform.SetParent(CurrentNode.transform);
-									// If there's no Current Line, and the mouse is Down on a Node, we eed to make a new CurrentLine and then start it at *that* point. 
-									// Then next frame, just update the other end of the line to the curent mouse position!)
-									linePositions[0] = CurrentNode.transform.position;
-									linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
-
-									CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-									CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-								}
-								else
-								{
-									//Not an Output
-
-									Debug.Log(hitInfo.collider);
-								}
-							}
+							Destroy(CurrentManager.gameObject);
 						}
 
-						if (CurrentLine)
-						{
-							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskNumericNode))
-							{
-								var newInputNode = hitInfo.collider.GetComponent<NumericInput>();
-								if (null != newInputNode)
-								{
-									// we found a node to connect to. Do the connection code and drop the line.
-
-
-
-									if (newInputNode.connectedNode == CurrentNode)
-									{
-										// Check the nodes aren't already linked and if so delete the link
-										Destroy(CurrentNode.GetComponentInChildren<NumericNodeLine>().gameObject);
-										newInputNode.connectedNode = null;
-										DestroyImmediate(CurrentLine.gameObject);
-										CurrentNode = null;
-										CurrentLine = null;
-									}
-									else if (newInputNode.connectedNode)
-
-									{
-										// We already have a connection so we need to replace it.
-										var oldNode = newInputNode.connectedNode;
-										Destroy(oldNode.GetComponentInChildren<NumericNodeLine>().gameObject);
-										newInputNode.connectedNode = CurrentNode;
-										linePositions[0] = CurrentNode.transform.position;
-										linePositions[1] = newInputNode.transform.position;
-										CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-										CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-										CurrentLine.GetComponent<NumericNodeLine>().ConnectedInput = newInputNode;
-										CurrentLine.GetComponent<NumericNodeLine>().ConnectedOutput = CurrentNode;
-										CurrentLine = null;
-										CurrentNode = null;
-									}
-									else
-									{
-										// There's no current connection, and we're ready to connect!
-										newInputNode.connectedNode = CurrentNode;
-										linePositions[0] = CurrentNode.transform.position;
-										linePositions[1] = newInputNode.transform.position;
-										CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-										CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-										CurrentLine.GetComponent<NumericNodeLine>().ConnectedInput = newInputNode;
-										CurrentLine.GetComponent<NumericNodeLine>().ConnectedOutput = CurrentNode;
-										CurrentLine = null;
-										CurrentNode = null;
-									}
-								}
-								else
-								{
-									// Found a node but it's an output.
-									Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
-									linePositions[0] = CurrentNode.transform.position;
-									linePositions[1] = mouseLineDraw;
-
-									CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-									CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-								}
-							}
-							else
-							{
-								Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
-								linePositions[0] = CurrentNode.transform.position;
-								linePositions[1] = mouseLineDraw;
-								Debug.Log("Drawing a line update cos no node");
-								CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-								CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-							}
-						}
+						CurrentPowerNode.manager = null;
 					}
 
-					if (Input.GetMouseButtonUp(0))
-					{
-						if (CurrentLine)
-						{
-							DestroyImmediate(CurrentLine.gameObject);
-							CurrentLine = null;
-							CurrentNode = null;
-						}
-					}
-
-					break;
-				}
-				case GameModes.OnOffMode: {
-					int lengthOfLine = 2;
-					var linePositions = new Vector3[lengthOfLine];
-
-
-					if (Input.GetMouseButton(0))
-					{
-
-						if (!CurrentLine)
-						{
-							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskIONode))
-							{
-								CurrentOnOffNode = hitInfo.collider.GetComponent<OnOffOutput>();
-								if (null != CurrentOnOffNode)
-								{
-									CurrentLine = Instantiate(IOLine, CurrentOnOffNode.transform);
-
-									// If there's no Current Line, and the mouse is Down on a Node, we eed to make a new CurrentLine and then start it at *that* point. 
-									// Then next frame, just update the other end of the line to the curent mouse position!)
-									linePositions[0] = CurrentOnOffNode.transform.position;
-									linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
-
-									CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-									CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-								}
-								else
-								{
-									//Not an Output
-
-									Debug.Log(hitInfo.collider);
-								}
-							}
-						}
-						if (CurrentLine)
-						{
-							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskIONode))
-							{
-								var newInputNode = hitInfo.collider.GetComponent<OnOffInput>();
-								if (null != newInputNode)
-								{
-									// we found a node to connect to. Do the connection code and drop the line.
-									if (newInputNode.connectedNode == CurrentOnOffNode)
-									{
-										// Check the nodes aren't already linked and if so delete the link
-										Destroy(CurrentOnOffNode.GetComponentInChildren<IONodeLine>().gameObject);
-										newInputNode.connectedNode = null;
-										DestroyImmediate(CurrentLine.gameObject);
-										CurrentOnOffNode = null;
-										CurrentLine = null;
-									}
-									else if (newInputNode.connectedNode)
-									{
-										// We found a node but it already has a connection so we need to replace it.
-										var oldNode = newInputNode.connectedNode;
-										Destroy(oldNode.GetComponentInChildren<IONodeLine>().gameObject);
-										newInputNode.connectedNode = CurrentOnOffNode;
-										linePositions[0] = CurrentOnOffNode.transform.position;
-										linePositions[1] = newInputNode.transform.position;
-										CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-										CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-										CurrentLine.GetComponent<IONodeLine>().ConnectedInput = newInputNode;
-										CurrentLine.GetComponent<IONodeLine>().ConnectedOutput = CurrentOnOffNode;
-										CurrentLine = null;
-										CurrentOnOffNode = null;
-									}
-									else
-									{
-										// Found a node, there's nothing on it, ready to connect!
-										newInputNode.connectedNode = CurrentOnOffNode;
-										linePositions[0] = CurrentOnOffNode.transform.position;
-										linePositions[1] = newInputNode.transform.position;
-										CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-										CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-										CurrentLine.GetComponent<IONodeLine>().ConnectedInput = newInputNode;
-										CurrentLine.GetComponent<IONodeLine>().ConnectedOutput = CurrentOnOffNode;
-										CurrentLine = null;
-										CurrentOnOffNode = null;
-									}
-								}
-								else
-								{
-									Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
-									linePositions[0] = CurrentOnOffNode.transform.position;
-									linePositions[1] = mouseLineDraw;
-									Debug.Log("Drawing update cos node wasn't Input");
-									CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-									CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-								}
-							}
-							else
-							{
-								Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 0.5f)));
-								linePositions[0] = CurrentOnOffNode.transform.position;
-								linePositions[1] = mouseLineDraw;
-								Debug.Log("Drawing a line update cos no node");
-								CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-								CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-							}
-						}
-					}
-
-					if (Input.GetMouseButtonUp(0))
-					{
-						if (CurrentLine)
-						{
-							DestroyImmediate(CurrentLine.gameObject);
-							CurrentLine = null;
-							CurrentOnOffNode = null;
-						}
-					}
-
-					break;
-				}
-				case GameModes.ElectricMode: {
-					// Do the ELectric Mode View stuff here
-
-					int lengthOfLine = 2;
-					var linePositions = new Vector3[lengthOfLine];
-
-
-					if (Input.GetMouseButton(0))
-					{
-						if (!CurrentLine)
-						{
-							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskElectricNode))
-							{
-								CurrentPowerNode = hitInfo.collider.GetComponent<PowerNetworkItem>();
-								if (null != CurrentPowerNode)
-								{
-									CurrentLine = Instantiate(ElectricLine, CurrentPowerNode.transform);
-
-									// If there's no Current Line, and the mouse is Down on a Node, we need to make a new CurrentLine and then start it at *that* point.  Then create a new power manager if there isn't one already.
-									// Then next frame, just update the other end of the line to the curent mouse position!)
-									linePositions[0] = CurrentPowerNode.transform.position;
-									linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 1f)));
-
-									CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-									CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-
-									if (CurrentPowerNode.manager)
-									{
-										// We already have a Power Manager for this node, so simply set it as the CurrentManager.
-										CurrentManager = CurrentPowerNode.manager;
-									}
-									else
-									{
-										// We don't have a Manager for the node, so we'll need to instantiate one!
-										CurrentManager = Instantiate(NewManager, ShipRoot.transform);
-										CurrentManager.powerType = new Electricity();
-										CurrentPowerNode.manager = CurrentManager;
-										CurrentPowerNode.AddToNetwork();
-									}
-								}
-								else
-								{
-									//Not an Output
-
-									Debug.Log(hitInfo.collider);
-								}
-							}
-						}
-						if (CurrentLine)
-						{
-							if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo, Mathf.Infinity, LayerMaskElectricNode))
-							{
-								var newPowerNode = hitInfo.collider.GetComponent<PowerNetworkItem>();
-								if (null != newPowerNode)
-								{
-									// First check it's not still our first node..
-									if (newPowerNode == CurrentPowerNode)
-									{
-										linePositions[0] = CurrentPowerNode.transform.position;
-										linePositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 1f)));
-
-										CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-										CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-									}
-									else
-										// we found a node to connect to.
-									{
-
-										// Now we need to check if it's an existing line we need to delete, or a new connection.
-										if (CurrentPowerNode.DirectlyConnected.Contains(newPowerNode))
-										{
-											// We now know it's directly connected to this node, so we need to remove it! Also need to de-merge netorks possibly
-
-											/*
-	
-									This is a problem I haven't yet worked out how to solve.
-									We might have a situation here wheren there is a network where the link we are about to delete is the ONLY link between one group of objects and another...so the two groups should be made into two-networks
-	
-									But..
-	
-									They might also be joined somewhere else, so it's "one" network, and needs to stay that way. So we need to somehow check every object in the network to see if there is a path from CurrentPowerNode to newPowerNode, or if this is it...
-	
-									*/
-
-
-											// Now we need to find the line and remove that too.
-											ElectricNodeLine[] ConnectedLines =
-												CurrentPowerNode.GetComponentsInChildren<ElectricNodeLine>();
-											Debug.Log("CurrenPowerNode has these connected lines:");
-											Debug.Log(ConnectedLines.Count());
-											for (int i = 0; i < ConnectedLines.Length; i++)
-											{
-												Debug.Log("Connected Node is:");
-												Debug.Log(ConnectedLines[i].ConnectedTo);
-												//Finding any lines in CurrentPowerNode that need to be wiped.
-
-												if (ConnectedLines[i].ConnectedTo == newPowerNode)
-													GameObject.Destroy(ConnectedLines[i].gameObject);
-
-											}
-
-											ElectricNodeLine[] newConnectedLines =
-												newPowerNode.GetComponentsInChildren<ElectricNodeLine>();
-											Debug.Log("newPowerNode has these connected lines:");
-											Debug.Log(newConnectedLines.Count());
-											for (int j = 0; j < newConnectedLines.Length; j++)
-											{
-												// Finding any lines in newPowerNode that need to be wiped.
-												Debug.Log("ConnectedNode is");
-												Debug.Log(newConnectedLines[j].ConnectedTo);
-												if (newConnectedLines[j].ConnectedTo == CurrentPowerNode)
-												{
-													GameObject.Destroy(newConnectedLines[j].gameObject);
-													Debug.Log("Destroying a line");
-												}
-											}
-
-											CurrentPowerNode.DirectlyConnected.Remove(newPowerNode);
-											newPowerNode.DirectlyConnected.Remove(CurrentPowerNode);
-
-											//here's my attempt to work out if the network needs demerged. Hang on to your butts...
-											HashSet<PowerNetworkItem> RemainingNetworkNodes = new HashSet<PowerNetworkItem>
-												(CurrentManager.network);
-											HashSet<PowerNetworkItem> ConnectingNetworkNodes =
-												PowerNetworkLogic.TraverseConnectedNetwork(CurrentPowerNode);
-											RemainingNetworkNodes.ExceptWith(ConnectingNetworkNodes);
-
-
-											// Now we check if the RemainingNetworkNodes set still has any nodes in it - if it does it should be it's own network...it will ususally have at least then newPowerNode!
-											if (RemainingNetworkNodes.Count > 0)
-											{
-												List<PowerNetworkItem> NewNetworkNodes =
-													RemainingNetworkNodes.ToList<PowerNetworkItem>();
-												PowerNetworkManager NewNetwork = Instantiate(NewManager, ShipRoot.transform);
-												NewNetwork.powerType = new Electricity();
-												NewNetwork.AddToNetwork(NewNetworkNodes);
-												CurrentManager.RemoveFromNetwork(NewNetworkNodes);
-												// We've now found all the networkitems that aren't in our current network anymore, we've removed them, put them in their own network.
-											}
-
-
-											// Now we check both to see if they have no connections left. If so, the relevent manager gets removed. Orphaned Managers will get cleaned up on GameMode change.
-
-											if (CurrentPowerNode.DirectlyConnected.Count < 1)
-											{
-												CurrentPowerNode.RemoveFromNetwork();
-												if (CurrentManager.producers.Count == 0
-												 && CurrentManager.consumers.Count == 0
-												 && CurrentManager.storages.Count  == 0)
-												{
-													Destroy(CurrentManager.gameObject);
-												}
-
-												CurrentPowerNode.manager = null;
-
-
-											}
-
-											if (newPowerNode.DirectlyConnected.Count < 1)
-											{
-												newPowerNode.RemoveFromNetwork();
-												var newManager = newPowerNode.manager;
-												if (newManager.producers.Count == 0
-												 && newManager.consumers.Count == 0
-												 && newManager.storages.Count  == 0)
-												{
-													Destroy(newManager.gameObject);
-												}
-
-												newPowerNode.manager = null;
-											}
-
-											Destroy(CurrentLine.gameObject);
-											CurrentPowerNode = null;
-											CurrentLine = null;
-											CurrentManager = null;
-										}
-										else
-										{
-											// check if it's in an existing network and if so, merge the networks.
-
-											if (newPowerNode.manager)
-											{
-												// Firstly, is the new node in the same network already?
-												if (newPowerNode.manager != CurrentManager)
-												{
-													// Merge the lists from second manager into first manager, set all the objects in second manager to now look to the first, then delete the second manager.
-													var newManager = newPowerNode.manager;
-													CurrentManager.producers.AddRange(newManager.producers);
-													CurrentManager.consumers.AddRange(newManager.consumers);
-													CurrentManager.storages.AddRange(newManager.storages);
-													foreach (PowerProducer producer in newManager.producers)
-													{
-														producer.manager = CurrentManager;
-													}
-
-													foreach (PowerConsumer consumer in newManager.consumers)
-													{
-														consumer.manager = CurrentManager;
-													}
-
-													foreach (PowerStorage storage in newManager.storages)
-													{
-														storage.manager = CurrentManager;
-													}
-
-													newManager.producers.Clear();
-													newManager.consumers.Clear();
-													newManager.storages.Clear();
-													Destroy(newManager.gameObject);
-													newPowerNode.manager = CurrentManager;
-												}
-												// We've reassigned the objects to the merged network, we've cleared the old manager of it's objects and told the objects who their boss is ;)
-												// Now we do the "connect the two nodes together with a line, and set it all up to be left in the next frame.
-
-												newPowerNode.DirectlyConnected.Add(CurrentPowerNode);
-												CurrentPowerNode.DirectlyConnected.Add(newPowerNode);
-												linePositions[0] = CurrentPowerNode.transform.position;
-												linePositions[1] = newPowerNode.transform.position;
-												CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-												CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-												CurrentLine.GetComponent<ElectricNodeLine>().ConnectedTo = newPowerNode;
-												CurrentLine.GetComponent<ElectricNodeLine>().ConnectedFrom = CurrentPowerNode;
-												CurrentLine = null;
-												CurrentPowerNode = null;
-												CurrentManager = null;
-											}
-											else
-											{
-												// Found a node, there's nothing on it, ready to connect! Need to add the new node to teh current network and set it to be left in the next frame.
-												newPowerNode.DirectlyConnected.Add(CurrentPowerNode);
-												CurrentPowerNode.DirectlyConnected.Add(newPowerNode);
-												newPowerNode.manager = CurrentManager;
-												newPowerNode.AddToNetwork();
-												linePositions[0] = CurrentPowerNode.transform.position;
-												linePositions[1] = newPowerNode.transform.position;
-												CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-												CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-												CurrentLine.GetComponent<ElectricNodeLine>().ConnectedTo = newPowerNode;
-												CurrentLine.GetComponent<ElectricNodeLine>().ConnectedFrom = CurrentPowerNode;
-												CurrentLine = null;
-												CurrentPowerNode = null;
-												CurrentManager = null;
-											}
-										}
-									}
-								}
-							}
-							else
-							{
-								Vector3 mouseLineDraw = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, (Camera.main.nearClipPlane + 1f)));
-								linePositions[0] = CurrentPowerNode.transform.position;
-								linePositions[1] = mouseLineDraw;
-								Debug.Log("Drawing a line update cos no node");
-								CurrentLine.GetComponent<LineRenderer>().positionCount = lengthOfLine;
-								CurrentLine.GetComponent<LineRenderer>().SetPositions(linePositions);
-							}
-						}
-					}
-					if (Input.GetMouseButtonUp(0))
-					{
-						if (CurrentLine)
-						{
-							if (CurrentPowerNode.DirectlyConnected.Count < 1)
-							{
-								CurrentPowerNode.RemoveFromNetwork();
-								if (CurrentManager.producers.Count == 0 && CurrentManager.consumers.Count == 0 && CurrentManager.storages.Count == 0)
-								{
-									Destroy(CurrentManager.gameObject);
-								}
-
-								CurrentPowerNode.manager = null;
-							}
-
-							DestroyImmediate(CurrentLine.gameObject);
-							CurrentLine = null;
-							CurrentPowerNode = null;
-							CurrentManager = null;
-						}
-					}
-
-					break;
+					DestroyImmediate(CurrentLine.gameObject);
+					CurrentLine = null;
+					CurrentPowerNode = null;
+					CurrentManager = null;
 				}
 			}
 		}
+
+
+		#endregion Update game modes
 
 		/// <summary>
 		/// Instantiate the given BlockDefinition into a real Block instance.
