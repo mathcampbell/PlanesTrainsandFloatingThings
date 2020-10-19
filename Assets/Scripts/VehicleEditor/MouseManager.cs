@@ -943,6 +943,8 @@ namespace VehicleEditor
 				}
 			}
 		}
+
+
 		public void SetGameModeData()
 		{
 			GameMode = GameModes.DataMode;
@@ -1061,8 +1063,10 @@ namespace VehicleEditor
 			theCamera.cullingMask &= ~ LayerMaskNumericNode;
 			theCamera.cullingMask &= ~ LayerMaskElectricNode;
 
+			//ShipRoot.GetComponent<Rigidbody>().isKinematic = true; // todo: @Math why?
+
+
 			// Setting all the blocks to visible again
-			ShipRoot.GetComponent<Rigidbody>().isKinematic = true;
 			BlockBehaviour[] allBlocks = ShipRoot.GetComponentsInChildren<BlockBehaviour>();
 			for (int i = 0; i < allBlocks.Length; i++)
 			{
