@@ -130,8 +130,7 @@ namespace VehicleEditor
 
 		private void UpdateBuildMode()
 		{
-			LayerMask combined = BlockLogic.LayerMaskBlock + BlockLogic.LayerMaskSnapPoint;
-			//if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out var hitInfo, BlockLogic.LayerMaskBlock))
+			LayerMask combined = BlockLogic.LayerMaskBlock | BlockLogic.LayerMaskSnapPoint;
 			if (Physics.Raycast
 			(
 				Camera.main.ScreenPointToRay(Input.mousePosition)
@@ -950,12 +949,13 @@ namespace VehicleEditor
 			Debug.Log(GameMode);
 			// Showing the Nodes
 
-			theCamera.cullingMask &= (1 << LayerMaskCompNode);
-			theCamera.cullingMask &= (1 << LayerMaskIONode);
-			theCamera.cullingMask &= (1 << LayerMaskElectricNode);
+			// Disable conflicting masks
+			theCamera.cullingMask &= ~ LayerMaskCompNode;
+			theCamera.cullingMask &= ~ LayerMaskIONode;
+			theCamera.cullingMask &= ~ LayerMaskElectricNode;
 
+			// Enable mask
 			theCamera.cullingMask |= LayerMaskNumericNode;
-			//theCamera.cullingMask &=  ~(1 << LayerMaskNumericNode);
 
 			// Getting all the Block objects & hidin any that aren't Active Blocks
 
@@ -986,9 +986,13 @@ namespace VehicleEditor
 		{
 			GameMode = GameModes.ElectricMode;
 			Debug.Log(GameMode);
-			theCamera.cullingMask &= (1 << LayerMaskCompNode);
-			theCamera.cullingMask &= (1 << LayerMaskIONode);
-			theCamera.cullingMask &= (1 << LayerMaskNumericNode);
+
+			// Disable conflicting masks
+			theCamera.cullingMask &= ~ LayerMaskCompNode;
+			theCamera.cullingMask &= ~ LayerMaskIONode;
+			theCamera.cullingMask &= ~ LayerMaskNumericNode;
+
+			// Enable mask
 			theCamera.cullingMask |= LayerMaskElectricNode;
 
 
@@ -1016,9 +1020,13 @@ namespace VehicleEditor
 		{
 			GameMode = GameModes.OnOffMode;
 			Debug.Log(GameMode);
-			theCamera.cullingMask &= (1 << LayerMaskCompNode);
-			theCamera.cullingMask &= (1 << LayerMaskElectricNode);
-			theCamera.cullingMask &= (1 << LayerMaskNumericNode);
+
+			// Disable conflicting masks
+			theCamera.cullingMask &= ~ LayerMaskCompNode;
+			theCamera.cullingMask &= ~ LayerMaskElectricNode;
+			theCamera.cullingMask &= ~ LayerMaskNumericNode;
+
+			// Enable mask
 			theCamera.cullingMask |= LayerMaskIONode;
 
 			BlockBehaviour[] allBlocks = ShipRoot.GetComponentsInChildren<BlockBehaviour>();
@@ -1046,17 +1054,13 @@ namespace VehicleEditor
 		{
 			GameMode = GameModes.BuildMode;
 			Debug.Log(GameMode);
-			// Hiding the Nodes
-			theCamera.cullingMask &= (1 << LayerMaskCompNode);
-			theCamera.cullingMask &= (1 << LayerMaskIONode);
-			theCamera.cullingMask &= (1 << LayerMaskNumericNode);
-			theCamera.cullingMask &= (1 << LayerMaskElectricNode);
-			/*
-			theCamera.cullingMask |= 1 << LayerMaskIONode;
-			theCamera.cullingMask |= 1 << LayerMaskNumericNode;
-			theCamera.cullingMask |= 1 << LayerMaskElectricNode;
-			theCamera.cullingMask |= 1 << LayerMaskCompNode;
-			*/
+
+			// Disable conflicting masks
+			theCamera.cullingMask &= ~ LayerMaskCompNode;
+			theCamera.cullingMask &= ~ LayerMaskIONode;
+			theCamera.cullingMask &= ~ LayerMaskNumericNode;
+			theCamera.cullingMask &= ~ LayerMaskElectricNode;
+
 			// Setting all the blocks to visible again
 			ShipRoot.GetComponent<Rigidbody>().isKinematic = true;
 			BlockBehaviour[] allBlocks = ShipRoot.GetComponentsInChildren<BlockBehaviour>();
