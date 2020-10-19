@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using BlockDefinitions;
@@ -220,7 +220,7 @@ namespace VehicleEditor
 								ColliderArray[j].enabled = true;
 							}
 
-							Debug.Log("Repeater is: " + repeater);
+							Debug.Log($"Repeater is: {repeater}");
 
 							var snapPoints = Physics.OverlapSphere
 							(
@@ -313,10 +313,8 @@ namespace VehicleEditor
 					CurrentBlock.SetSolid();
 
 					// Adding our block's mass to the Root
-					Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
 					CurrentBlock.GetComponentInParent<Rigidbody>().mass += CurrentBlock.Mass;
-					Debug.Log("Vehicle mass is now:");
-					Debug.Log(CurrentBlock.GetComponentInParent<Rigidbody>().mass);
+					Debug.Log($"Adding to vehicle mass: {CurrentBlock.Mass} new total: {CurrentBlock.GetComponentInParent<Rigidbody>().mass}");
 					BuilderClick.Play();
 
 					CurrentBlock = null;
@@ -706,34 +704,36 @@ namespace VehicleEditor
 									// Now we need to find the line and remove that too.
 									ElectricNodeLine[] ConnectedLines =
 										CurrentPowerNode.GetComponentsInChildren<ElectricNodeLine>();
-									Debug.Log("CurrenPowerNode has these connected lines:");
-									Debug.Log(ConnectedLines.Count());
+
+
+									var message =
+										$"CurrentPowerNode has these connected lines: {ConnectedLines.Count()}";
 									for (int i = 0; i < ConnectedLines.Length; i++)
 									{
-										Debug.Log("Connected Node is:");
-										Debug.Log(ConnectedLines[i].ConnectedTo);
+										message += $"\n\tConnected Node is: {ConnectedLines[i].ConnectedTo}";
 										//Finding any lines in CurrentPowerNode that need to be wiped.
 
 										if (ConnectedLines[i].ConnectedTo == newPowerNode)
 											GameObject.Destroy(ConnectedLines[i].gameObject);
-
 									}
+
 
 									ElectricNodeLine[] newConnectedLines =
 										newPowerNode.GetComponentsInChildren<ElectricNodeLine>();
-									Debug.Log("newPowerNode has these connected lines:");
-									Debug.Log(newConnectedLines.Count());
+
+									message += $"\n\nNewPowerNode has these connected lines: {newConnectedLines.Count()}";
 									for (int j = 0; j < newConnectedLines.Length; j++)
 									{
 										// Finding any lines in newPowerNode that need to be wiped.
-										Debug.Log("ConnectedNode is");
-										Debug.Log(newConnectedLines[j].ConnectedTo);
+										message += $"\n\tNewConnected Node is: {newConnectedLines[j].ConnectedTo}";
 										if (newConnectedLines[j].ConnectedTo == CurrentPowerNode)
 										{
 											GameObject.Destroy(newConnectedLines[j].gameObject);
-											Debug.Log("Destroying a line");
+											message += $"Destroying a line: {gameObject.name}";
 										}
 									}
+
+									Debug.Log(message);
 
 									CurrentPowerNode.DirectlyConnected.Remove(newPowerNode);
 									newPowerNode.DirectlyConnected.Remove(CurrentPowerNode);
@@ -1232,8 +1232,7 @@ namespace VehicleEditor
 
 			newCenterOfMass = newCenterOfMass / sumOfMass;
 
-			Debug.Log("new Center of Mass:");
-			Debug.Log(newCenterOfMass);
+			Debug.Log($"New Center of Mass: {newCenterOfMass}");
 
 			//Finding Inertia Vector
 
@@ -1274,8 +1273,7 @@ namespace VehicleEditor
 			RootBlock.GetComponent<Rigidbody>().inertiaTensor = newInertiaVector;
 
 			RootBlock.GetComponent<Rigidbody>().mass = sumOfMass;
-			Debug.Log("SumofMass:");
-			Debug.Log(sumOfMass);
+			Debug.Log($"Sum of Mass: {sumOfMass}");
 		}
 	}
 }
