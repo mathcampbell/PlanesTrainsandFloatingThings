@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using BlockDefinitions;
@@ -693,14 +693,14 @@ namespace VehicleEditor
 
 									/*
 
-							This is a problem I haven't yet worked out how to solve.
-							We might have a situation here wheren there is a network where the link we are about to delete is the ONLY link between one group of objects and another...so the two groups should be made into two-networks
+									This is a problem I haven't yet worked out how to solve.
+									We might have a situation here wheren there is a network where the link we are about to delete is the ONLY link between one group of objects and another...so the two groups should be made into two-networks
 
-							But..
+									But..
 
-							They might also be joined somewhere else, so it's "one" network, and needs to stay that way. So we need to somehow check every object in the network to see if there is a path from CurrentPowerNode to newPowerNode, or if this is it...
+									They might also be joined somewhere else, so it's "one" network, and needs to stay that way. So we need to somehow check every object in the network to see if there is a path from CurrentPowerNode to newPowerNode, or if this is it...
 
-							*/
+									*/
 
 
 									// Now we need to find the line and remove that too.
@@ -1052,22 +1052,22 @@ namespace VehicleEditor
 			theCamera.cullingMask &= (1 << LayerMaskNumericNode);
 			theCamera.cullingMask &= (1 << LayerMaskElectricNode);
 			/*
-		theCamera.cullingMask |= 1 << LayerMaskIONode;
-		theCamera.cullingMask |= 1 << LayerMaskNumericNode;
-		theCamera.cullingMask |= 1 << LayerMaskElectricNode;
-		theCamera.cullingMask |= 1 << LayerMaskCompNode;
-		*/
+			theCamera.cullingMask |= 1 << LayerMaskIONode;
+			theCamera.cullingMask |= 1 << LayerMaskNumericNode;
+			theCamera.cullingMask |= 1 << LayerMaskElectricNode;
+			theCamera.cullingMask |= 1 << LayerMaskCompNode;
+			*/
 			// Setting all the blocks to visible again
 			ShipRoot.GetComponent<Rigidbody>().isKinematic = true;
 			BlockBehaviour[] allBlocks = ShipRoot.GetComponentsInChildren<BlockBehaviour>();
 			for (int i = 0; i < allBlocks.Length; i++)
 			{
 				/*
-			if (allBlocks[i] is ActiveBlock)
-			{}
-			else
-			allBlocks[i].ResetMaterials();
-			*/
+				if (allBlocks[i] is ActiveBlock)
+				{}
+				else
+					allBlocks[i].ResetMaterials();
+				*/
 				allBlocks[i].SetSolid();
 
 			}
