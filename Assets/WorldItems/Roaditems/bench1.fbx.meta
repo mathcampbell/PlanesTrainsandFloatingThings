@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2bfd6a5a74da8ec4987315b6f7359eaf
+guid: 0bcfeaaee76931247b1003221350ee80
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: World_Roadsign_GiveWay
-    second: {fileID: 2100000, guid: dc68ab580d33c1d46af4595bfd3e1bd6, type: 2}
+      name: Wood
+    second: {fileID: 2100000, guid: 6a70208e2d68061459522ddaeb39c364, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: World_Roadsign_Metal
-    second: {fileID: 2100000, guid: 8054f7fc20522db46aa649782ad11dda, type: 2}
+      name: frame
+    second: {fileID: 2100000, guid: d0c164f59aba49a4b84308eb29df2c92, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
