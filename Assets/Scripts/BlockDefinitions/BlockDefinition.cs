@@ -66,20 +66,19 @@ namespace BlockDefinitions
 
 		/// <summary>
 		/// The sides of the block that are sealed (are water and pressure tight).
-		/// Only valid for <see cref="IsSingleCubeBlock"/>
 		/// </summary>
 		[DataMember]
-		public readonly BlockSides SealedSides;
+		public readonly BlockFace[] SealedSides;
 
 		/// <summary>
 		/// The sides of the block that other blocks can be attached to.
-		/// Only valid for <see cref="IsSingleCubeBlock"/>
 		/// </summary>
 		/// <remarks>
 		/// In most cases this will contain the same sides as <see cref="SealedSides"/>, but for non-sealed blocks this is needed.
+		/// If that is the case it *may* refer to the same instance as <see cref="SealedSides"/>.
 		/// </remarks>
 		[DataMember]
-		public readonly BlockSides ConnectableSides;
+		public readonly BlockFace[] ConnectableSides;
 
 		/// <summary>
 		/// The mass of the block.
@@ -146,8 +145,25 @@ namespace BlockDefinitions
 
 		#endregion Instance Data
 
-
-		public BlockDefinition(BlockID blockID, float mass, string name, string description, string meshFilePath = null, string materialFilePath = null)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="blockID"></param>
+		/// <param name="mass"></param>
+		/// <param name="name"></param>
+		/// <param name="description"></param>
+		/// <param name="meshFilePath"></param>
+		/// <param name="materialFilePath"></param>
+		/// <param name="sealedSides">If not provided an empty array is created.</param>
+		/// <param name="connectableSides">If not provided <paramref name="sealedSides"/> is used instead (by reference!), which could have been initialized to empty.</param>
+		public BlockDefinition(BlockID blockID
+		                     , float mass
+		                     , string name
+		                     , string description
+		                     , string meshFilePath = null
+		                     , string materialFilePath = null
+		                     , BlockFace[] sealedSides = null
+		                     , BlockFace[] connectableSides = null)
 		{
 			BlockID = blockID;
 			Mass = mass;
@@ -155,6 +171,21 @@ namespace BlockDefinitions
 			Description = description ?? throw new ArgumentNullException(nameof(description));
 			MeshFilePath = meshFilePath;
 			MaterialFilePath = materialFilePath;
+
+			if(null != sealedSides && ! sealedSides.IsValid())
+				throw new ArgumentException("IsValid() == false", nameof(sealedSides));
+			if(null != connectableSides && ! connectableSides.IsValid())
+				throw new ArgumentException("IsValid() == false", nameof(connectableSides));
+
+
+			// Must exist, but may be empty.
+			if(null == sealedSides) sealedSides = new BlockFace[0];
+
+			// If not provided, implicitly assume sealedSides, this also ensures it's not null.
+			if (null == connectableSides) connectableSides = sealedSides;
+
+			SealedSides = sealedSides;
+			ConnectableSides = connectableSides;
 		}
 
 
@@ -247,14 +278,17 @@ namespace BlockDefinitions
 #endif
 				if (null == result)
 				{
-					Debug.LogError($"Getting data for {fullDataFieldName} failed because no resource was returned for the path in {fullPathFieldName}. ({fullPath}).");
+					Debug.LogError($"Getting data for {fullDataFieldName} failed because no resource was returned for the path: \"{fullPath}\".");
 					continue;
 				}
 				dataMemberInfo.SetValue(this, result);
 				count++;
 			}
-			Console.WriteLine($"Loaded {count} resources for definition {this.Name}");
+			Console.WriteLine($"Loaded {count} resources for definition {Name}");
 		}
+
+		#region Instantiate
+
 
 		/// <summary>
 		/// Instantiate a new <see cref="GameObject"/>with a <see cref="BlockBehaviour"/> representing this block, to be used in the context of the VehicleEditor.
@@ -267,25 +301,52 @@ namespace BlockDefinitions
 		}
 
 		/// <summary>
-		/// Instantiate a new <see cref="BlockBehaviour"/> representing this block on the given <paramref name="gameObject"/>, to be used in the context of the VehicleEditor.
+		/// Instantiate a new <see cref="BlockBehaviour"/> representing this block on the given <paramref name="go"/>, to be used in the context of the VehicleEditor.
 		/// </summary>
-		/// <param name="gameObject">GameObject to which the <see cref="BlockBehaviour"/> wil be attached</param>
-		/// <returns>new BlockBehaviour, attached to <paramref name="gameObject"/></returns>
-		public BlockBehaviour InstantiateEditorBlockBehaviour(GameObject gameObject)
+		/// <param name="go">GameObject to which the <see cref="BlockBehaviour"/> wil be attached</param>
+		/// <returns>new BlockBehaviour, attached to <paramref name="go"/></returns>
+		public BlockBehaviour InstantiateEditorBlockBehaviour(GameObject go)
 		{
-			var go = gameObject;
 			var behaviour = go.AddComponent<BlockBehaviour>();
 			var design = new Block(this);
 			behaviour.blockDesign = design;
+
+			// todo: Editor stuff.
+
 			return behaviour;
 		}
 
+
+		public BlockBehaviour InstantiateWorldBlockBehaviour()
+		{
+			var go = new GameObject(Name);
+			return InstantiateWorldBlockBehaviour(go);
+		}
+
+		public BlockBehaviour InstantiateWorldBlockBehaviour(GameObject go)
+		{
+			var behaviour = go.AddComponent<BlockBehaviour>();
+			var design = new Block(this);
+			behaviour.blockDesign = design;
+
+			// todo Runtime stuff.
+
+			return behaviour;
+		}
+
+		#endregion Instantiate
+
 		#region Static
 
+		// Holds common information used for the loading of resources with the reflection magic.
 		private static readonly Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>> knownBlockDefinitionMemberLists =
-			                new Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>>();
+			new Dictionary<Type, List<(FetchDefinitionDataAttribute, GetSetMemberInfo)>>();
+
+
 
 		// TODO: Ensure that IsSingleCubeBlock blocks have the lowest BlockIDs so that we can use a byte to index them and save space.
+
+
 		// How to get list of resources: https://answers.unity.com/questions/610777/find-all-objects-in-resource-folder-at-runtime-wit.html
 		// Note: We want to load any file in the folder, given that mods could add files.
 		// Also: not having to recompile after adding a definition would be nice.
