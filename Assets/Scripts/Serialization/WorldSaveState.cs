@@ -7,6 +7,8 @@ using System.Xml;
 
 using BlockDefinitions;
 
+using DataTypes;
+
 using Tools;
 
 using UnityEditorInternal.VR;
@@ -205,6 +207,11 @@ namespace Serialization
 		// The serializer that will handle the data, creating it is said to be expensive, so we reuse it.
 		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(WorldSaveState));
 		private static readonly XmlDictionary SerializerDictionary = new XmlDictionary();
+
+		static WorldSaveState()
+		{
+			Serializer.AddDefaultSurrogatesSelector();
+		}
 
 		#endregion Static
 	}
