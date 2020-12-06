@@ -15,6 +15,9 @@ ModelImporter:
   - first:
       74: -5199938725290490307
     second: gearboxauto1armature|throttletype1armatureAction
+  - first:
+      74: -3282256306308188524
+    second: gearboxauto1armature|breaker1armatureAction.001
   externalObjects:
   - first:
       type: UnityEngine:Material

@@ -6,6 +6,9 @@ ModelImporter:
   - first:
       74: 4781951162920444690
     second: Armature|ArmatureAction
+  - first:
+      74: -5216331812105990214
+    second: throttletype2armature|ArmatureAction
   externalObjects:
   - first:
       type: UnityEngine:Material

@@ -9,6 +9,9 @@ ModelImporter:
   - first:
       74: -1425489514135169802
     second: flipswitch2.001|flipswitch2.001Action
+  - first:
+      74: -8282046108858796006
+    second: flipswitch2.001|rotaryswitch1armatureAction.001
   externalObjects:
   - first:
       type: UnityEngine:Material

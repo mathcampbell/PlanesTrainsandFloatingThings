@@ -6,6 +6,9 @@ ModelImporter:
   - first:
       74: -1632419999546309942
     second: pushbutton1armature|pushbutton1armatureAction
+  - first:
+      74: -424229627053879788
+    second: pushbutton1armature|pushbutton1armatureAction.001
   externalObjects:
   - first:
       type: UnityEngine:Material
