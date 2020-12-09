@@ -202,8 +202,8 @@ namespace VehicleEditor
 					{
 						var collider = Physics.OverlapBox
 						(
-							placePosition + CurrentBlock.transform.rotation * CurrentBlock.Collider.center
-							, CurrentBlock.Collider.size / 2
+							placePosition + CurrentBlock.transform.rotation * CurrentBlock.collider.center
+							, CurrentBlock.collider.size / 2
 							, CurrentBlock.transform.rotation
 							, BlockLogic.LayerMaskBlock
 						);
@@ -299,7 +299,7 @@ namespace VehicleEditor
 				{
 					// Now we need to check that the new block has a snappoint that will accomodate the placement 
 
-					CurrentBlock.Collider.enabled = true;
+					CurrentBlock.collider.enabled = true;
 					Collider[] ColliderArray = CurrentBlock.GetComponentsInChildren<Collider>();
 					for (int i = 0; i < ColliderArray.Length; i++)
 					{

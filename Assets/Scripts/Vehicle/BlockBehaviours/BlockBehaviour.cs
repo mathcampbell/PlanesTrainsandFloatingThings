@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 using BlockDefinitions;
@@ -50,13 +50,13 @@ namespace Vehicle.BlockBehaviours
 
 		[NonSerialized]
 		[HideInInspector]
-		public BoxCollider Collider; // todo: inherited from MonoBehaviour?
+		public new BoxCollider collider; // we need to hide the obsolete one in MonoBehaviour with the new keyword.
 
 		[NonSerialized]
 		public MeshFilter meshFilter;
 
 		[NonSerialized]
-		public Renderer renderer; // inherited from MonoBehaviour
+		public new Renderer renderer;
 
 		[NonSerialized]
 		public Material[] matArray;
@@ -70,7 +70,7 @@ namespace Vehicle.BlockBehaviours
 
 		void Awake()
 		{
-			Collider = gameObject.AddComponent<BoxCollider>();
+			collider = gameObject.AddComponent<BoxCollider>();
 			meshFilter = gameObject.AddComponent<MeshFilter>();
 			renderer = gameObject.AddComponent<MeshRenderer>();
 			//matArray = gameObject.AddComponent<Renderer>().materials;
@@ -92,7 +92,7 @@ namespace Vehicle.BlockBehaviours
 			if (null != myBlockDefinition.Material)
 				renderer.material = myBlockDefinition.Material;
 
-			Collider.size = new Vector3(myBlockDefinition.sidelength, myBlockDefinition.sidelength, myBlockDefinition.sidelength);
+			collider.size = new Vector3(myBlockDefinition.sidelength, myBlockDefinition.sidelength, myBlockDefinition.sidelength);
 		}
 
 		#region More visual stuff
@@ -123,7 +123,7 @@ namespace Vehicle.BlockBehaviours
 
 		public void SetColliderEnabled(bool newState)
 		{
-			Collider.enabled = newState;
+			collider.enabled = newState;
 			foreach (var collider in GetComponentsInChildren<Collider>())
 			{
 				collider.enabled = newState;
