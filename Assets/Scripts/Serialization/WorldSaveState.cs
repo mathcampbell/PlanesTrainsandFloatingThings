@@ -78,7 +78,7 @@ namespace Serialization
 			Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
 			Debug.Log($"Saving world to file: {fileName}...");
-			using (var stream = File.OpenWrite(filePath))
+			using (var stream =new MemoryStream())
 			{
 				if (binary)
 				{
@@ -94,6 +94,12 @@ namespace Serialization
 					{
 						Serializer.WriteObject(writer, state);
 					}
+				}
+
+				// This way we don't (over-)write with garbage if the serializer fails.
+				using (var file = File.OpenWrite(filePath))
+				{
+					stream.WriteTo(file);
 				}
 			}
 			Debug.Log($"Saving completed.");
