@@ -41,6 +41,8 @@ namespace Vehicle.MechanicalPower
 
 		private void FixedUpdate()
 		{
+			// todo: multiThreading, this is 99% pure C# so we can run it in parallel,
+			// and only synchronize here instead of running all the computations
 			foreach (var network in networks)
 			{
 				if (network.needsReconfiguration)
@@ -74,7 +76,9 @@ namespace Vehicle.MechanicalPower
 				ReconfigureTopology();
 			}
 
-			throw new NotImplementedException();
+			// I guess that something more needs to happen at this point, but I can't remember what that would be.
+			// Let's see if it breaks or not.
+			//throw new NotImplementedException();
 		}
 	}
 }

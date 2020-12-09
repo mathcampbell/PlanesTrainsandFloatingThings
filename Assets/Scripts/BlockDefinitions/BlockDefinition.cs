@@ -387,6 +387,12 @@ namespace BlockDefinitions
 		/// </summary>
 		public static void EnsureDefinitionsLoaded()
 		{
+			// This won't work with hot-reload when loading from file instead of hardcode,
+			// because Unity has arbitrarily decided that you can't do that (files) during hot-reload.
+
+			// to fix that would involve a singleton monobehaviour to contain the state (saved as binary using ISerializationCallback or whatever it's called)
+			// Temp fix: disable hot reload.
+
 			if (Initialized) return;
 			Initialized = true;
 

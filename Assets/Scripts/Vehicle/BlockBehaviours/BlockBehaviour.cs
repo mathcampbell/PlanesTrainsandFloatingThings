@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 
 using BlockDefinitions;
@@ -12,6 +12,7 @@ namespace Vehicle.BlockBehaviours
 {
 	/// <summary>
 	/// The Runtime-Simulation state of a block
+	/// Note! this should only be used for blocks that actually have logic to perform, Unity can't deal with 10_000s of GameObjects.
 	/// </summary>
 	public class BlockBehaviour : MonoBehaviour, ISerializationCallbackReceiver
 	{

@@ -62,7 +62,7 @@ namespace DataTypes
 		public static void AddDefaultSurrogatesSelector(this DataContractSerializer instance)
 		{
 			throw new NotImplementedException("Only works with the BinaryFormatter right now.");
-			// We create a new one each time, because otherwise the on instance we keep could get modified after it's handed out.
+			// We create a new one each time, because otherwise the instance we keep could get modified after it's handed out.
 			// For example by chaining a custom selector, that may be needed for custom behaviour.
 
 			var selector = new SurrogateSelector();
