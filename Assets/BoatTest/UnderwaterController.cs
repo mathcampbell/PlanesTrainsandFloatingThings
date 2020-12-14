@@ -20,7 +20,7 @@ public class UnderwaterController : MonoBehaviour
     public VolumeProfile AboveWaterPost;
     public Light TheSun;
     public Blit BlitPass;
-    private float originalSunIntensity = 2.0f;
+    private float originalSunIntensity = 1.3f;
     private float originalSunBounceIntensity = 1f;
     private float currentDepth;
     
