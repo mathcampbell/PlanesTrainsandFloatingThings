@@ -55,7 +55,7 @@ namespace DataTypes
 			}
 		}
 
-		// <summary>
+		/// <summary>
 		/// Set or <see cref="SurrogateSelector.ChainSelector"/> a <see cref="ISurrogateSelector"/> that applies all the <see cref="ISerializationSurrogate"/> marked with the <see cref="DefaultSerializationSurrogateAttribute"/>
 		/// </summary>
 		/// <param name="instance"></param>
