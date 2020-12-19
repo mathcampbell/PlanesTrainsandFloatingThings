@@ -4,7 +4,10 @@ using UnityEngine;
 
 namespace DataTypes.Extensions
 {
-	public static class VectorExt
+	/// <summary>
+	/// Math stuff for Vectors.
+	/// </summary>
+	public static class Mathv
 	{
 		#region UpdateBounds
 

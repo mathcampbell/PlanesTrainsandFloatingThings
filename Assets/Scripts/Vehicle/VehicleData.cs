@@ -165,7 +165,7 @@ namespace Vehicle
 				}
 			}
 
-			size = VectorExt.Abs(boundsMax - boundsMin);
+			size = Mathv.Abs(boundsMax - boundsMin);
 
 			InitializeVolumes();
 		}
