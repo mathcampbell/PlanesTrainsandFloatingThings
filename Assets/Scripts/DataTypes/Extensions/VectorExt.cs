@@ -125,5 +125,31 @@ namespace DataTypes.Extensions
 		#endregion Vector3 (float)
 
 		#endregion UpdateBounds
+
+
+		#region Abs
+
+		public static Vector2Int Abs(Vector2Int value)
+		{
+			return new Vector2Int(Math.Abs(value.x), Math.Abs(value.y));
+		}
+		public static Vector3Int Abs(Vector3Int value)
+		{
+			return new Vector3Int(Math.Abs(value.x), Math.Abs(value.y), Math.Abs(value.z));
+		}
+		public static Vector2 Abs(Vector2 value)
+		{
+			return new Vector2(Math.Abs(value.x), Math.Abs(value.y));
+		}
+		public static Vector3 Abs(Vector3 value)
+		{
+			return new Vector3(Math.Abs(value.x), Math.Abs(value.y), Math.Abs(value.z));
+		}
+		public static Vector3 Abs(Vector4 value)
+		{
+			return new Vector4(Math.Abs(value.x), Math.Abs(value.y), Math.Abs(value.z), Math.Abs(value.w));
+		}
+
+		#endregion Abs
 	}
 }
