@@ -1,8 +1,10 @@
-﻿//#define ShortBlockRecordID
+//#define ShortBlockRecordID
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 using UnityEngine;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -72,8 +74,12 @@ namespace Vehicle
 
 
 		[DataMember]
-		List<Block> blocks = new List<Block>();
+		public readonly List<Block> blocks = new List<Block>();
 
+
+		protected readonly Dictionary<Vector3Int, Block> dictPosition2Block = new Dictionary<Vector3Int, Block>();
+		protected IReadOnlyDictionary<Vector3Int, Block> dictPosition2BlockRO; // cannot access non-static thingy in initializer :(
+		public IReadOnlyDictionary<Vector3Int, Block> DictPosition2Block => dictPosition2BlockRO;
 
 		#endregion Design
 
@@ -96,10 +102,18 @@ namespace Vehicle
 		#endregion Runtime/Simulation
 
 
+
 		public void Initialize()
 		{
+			// Because C# says so I have to do this here.
+			dictPosition2BlockRO = new ReadOnlyDictionary<Vector3Int, Block>(dictPosition2Block);
+
+
 			foreach (var block in blocks)
 			{
+				dictPosition2Block.Add(block.position, block);
+
+
 				if (block.IsActiveBlock)
 				{
 					var ab = block as ActiveBlock;
