@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace DataTypes
+namespace Serialization.BinaryFormatter
 {
 	/// <summary>
 	/// Marks the decorated class as the default <see cref="ISerializationSurrogate"/> for the provided target class.

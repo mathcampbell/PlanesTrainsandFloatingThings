@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace DataTypes
+namespace Serialization.BinaryFormatter
 {
 	/// <summary>
 	/// This class provides an <see cref="ISurrogateSelector"/> that contains all the <see cref="ISerializationSurrogate"/>s that are decorated with the <see cref="DefaultSerializationSurrogateAttribute"/>
@@ -26,7 +26,7 @@ namespace DataTypes
 		/// Set or <see cref="SurrogateSelector.ChainSelector"/> a <see cref="ISurrogateSelector"/> that applies all the <see cref="ISerializationSurrogate"/> marked with the <see cref="DefaultSerializationSurrogateAttribute"/>
 		/// </summary>
 		/// <param name="instance"></param>
-		public static void AddDefaultSurrogatesSelector(this BinaryFormatter instance)
+		public static void AddDefaultSurrogatesSelector(this System.Runtime.Serialization.Formatters.Binary.BinaryFormatter instance)
 		{
 			// We create a new one each time, because otherwise the on instance we keep could get modified after it's handed out.
 			// For example by chaining a custom selector, that may be needed for custom behaviour.

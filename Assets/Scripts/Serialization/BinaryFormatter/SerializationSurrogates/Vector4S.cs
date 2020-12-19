@@ -2,14 +2,14 @@
 
 using UnityEngine;
 
-namespace DataTypes.SerializationSurrogates
+namespace Serialization.BinaryFormatter.SerializationSurrogates
 {
-	[DefaultSerializationSurrogate(typeof(Quaternion))]
-	public class QuaternionS : ISerializationSurrogate
+	[DefaultSerializationSurrogate(typeof(Vector4))]
+	public class Vector4S : ISerializationSurrogate
 	{
 		public void GetObjectData(object obj, SerializationInfo info, StreamingContext context)
 		{
-			var v = (Quaternion)obj;
+			var v = (Vector4)obj;
 			info.AddValue("x", v.x);
 			info.AddValue("y", v.y);
 			info.AddValue("z", v.z);
@@ -18,7 +18,7 @@ namespace DataTypes.SerializationSurrogates
 
 		public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
 		{
-			return new Quaternion(
+			return new Vector4(
 				info.GetSingle("x"),
 				info.GetSingle("y"),
 				info.GetSingle("z"),
