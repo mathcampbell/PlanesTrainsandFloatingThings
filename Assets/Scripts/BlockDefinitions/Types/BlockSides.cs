@@ -11,6 +11,9 @@ namespace BlockDefinitions.Types
 	public enum BlockSides : UInt16
 	{
 		// We need to set the values explicitly, because it defaults to just counting upwards.
+		/// <summary>
+		/// None shouldn't be used, but exists because a zero value is required for technical reasons.
+		/// </summary>
 		  None   = 0b_000000
 		, Top    = 0b_000001
 		, Bottom = 0b_000010

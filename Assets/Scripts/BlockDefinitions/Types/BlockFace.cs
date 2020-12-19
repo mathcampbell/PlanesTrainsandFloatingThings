@@ -7,26 +7,36 @@ using UnityEngine;
 
 namespace BlockDefinitions.Types
 {
+	// todo: The current implementation allows duplicate faces to be defined, this is bad and should be fixed somehow.
+	// todo: Maybe change position to define a face instead of the current gridPosition.
+	// todo: Then replace sides with Orientation
+
+	// todo? or change things up completely and just define the vertices and faces directly? This would allow any shape to be defined.
+
 	[DataContract]
 	public struct BlockFace
 	{
 		/// <summary>
 		/// The gridPosition where face(s) will be defined.
 		/// </summary>
+		/// <remarks>
+		/// Multiple BlockFaces may be defined for the same gridPosition, if the gridPosition has multiple FaceShapes on it.
+		/// </remarks>
 		[DataMember]
-		public Vector3Int gridPosition; //todo: use smaller dataType? Vector3sbyte does not exist but should suffice.
+		public Vector3Int gridPosition; // todo: use smaller dataType? Vector3sbyte does not exist but should suffice.
 
 		/// <summary>
 		/// The side(s) of that position where face(s) will be.
 		/// </summary>
 		[DataMember]
-		public BlockSides side;
+		public BlockSides side; // todo: Replace with orientation, see top of file comment.
 
 		/// <summary>
 		/// The shape of the face(s).
 		/// </summary>
 		[DataMember]
 		public BlockFaceShape shape;
+
 
 
 		/// <summary>

@@ -2,6 +2,9 @@
 
 namespace BlockDefinitions.Types
 {
+	/// <summary>
+	/// Orientation of a thing in a grid.
+	/// </summary>
 	[DataContract]
 	public struct Orientation
 	{
