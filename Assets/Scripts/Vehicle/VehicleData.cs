@@ -69,6 +69,8 @@ namespace Vehicle
 		List<BlockRecord> simpleBlocks = new List<BlockRecord>();
 		#endregion BlockRecord Optimalization (Can be ignored for now)
 
+
+
 		[DataMember]
 		List<Block> blocks = new List<Block>();
 
@@ -77,24 +79,46 @@ namespace Vehicle
 
 		#region Editor
 
+		/// <summary>
+		/// Contains the blocks in <see cref="blocks"/> are selectable in the VehicleEditor (to change properties)
+		/// </summary>
+		public readonly List<Block> propertyBlocks = new List<Block>();
 
 		#endregion Editor
 
 		#region Runtime/Simulation
 
-		[DataMember]
-		List<BlockBehaviour> runtimeBlocks = null;
-	
+		/// <summary>
+		/// Contains the blocks in <see cref="blocks"/> that need to be updated.
+		/// </summary>
+		public readonly List<ActiveBlock> activeBlocks = new List<ActiveBlock>();
+
 		#endregion Runtime/Simulation
 
-		private GameObject myGameObject;
 
+		public void Initialize()
+		{
+			foreach (var block in blocks)
+			{
+				if (block.IsActiveBlock)
+				{
+					var ab = block as ActiveBlock;
+					if (null == ab) throw new Exception($"Block with {nameof(Block.IsActiveBlock)} == true, but isn't instance of {nameof(ActiveBlock)}");
 
+					activeBlocks.Add(ab);
+				}
+
+				if (block.HasProperties)
+				{
+					propertyBlocks.Add(block);
+				}
+			}
+		}
 
 		/// <inheritdoc />
 		public void OnDeserialization(object sender)
 		{
-			//throw new NotImplementedException();
+			Initialize();
 		}
 
 		public Vector3 GetBounds()
