@@ -168,6 +168,8 @@ namespace Vehicle
 			size = Mathv.Abs(boundsMax - boundsMin);
 
 			InitializeVolumes();
+
+			// todo: shafts
 		}
 
 		public void InitializeVolumes()
