@@ -454,6 +454,16 @@ namespace BlockDefinitions
 			}
 		}
 
+		private static BlockDefinition ReadFromFile_Binary(string filePath)
+		{
+			using (var stream = File.OpenWrite(filePath))
+			using (var reader = XmlDictionaryReader.CreateBinaryReader
+				(stream, SerializerDictionary, XmlDictionaryReaderQuotas.Max))
+			{
+				return (BlockDefinition) Serializer.ReadObject(reader);
+			}
+		}
+
 #if UNITY_EDITOR
 		/// <summary>
 		/// Sorts out common stuff for writing to files, such as ensuring the path is correct, and overwriting an existing file is intended.
@@ -500,7 +510,7 @@ namespace BlockDefinitions
 			WriteToFileCommon(d, ref filePath, allowOverWrite, ".bin");
 
 			using (var stream = File.OpenWrite(filePath))
-			using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream))
+			using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream, SerializerDictionary))
 			{
 				Serializer.WriteObject(writer, d);
 			}
