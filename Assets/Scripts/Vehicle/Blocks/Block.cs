@@ -1,12 +1,15 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml;
 
 using BlockDefinitions;
 using BlockDefinitions.Types;
+
+using Tools;
 
 using UnityEngine;
 
@@ -22,7 +25,6 @@ namespace Vehicle.Blocks
 		#region Definition
 		// Shortcuts to the Definition of this block.
 
-		[NonSerialized]
 		internal BlockDefinition myBlockDefinition;
 
 		[DataMember]
@@ -53,6 +55,20 @@ namespace Vehicle.Blocks
 		[DataMember]
 		public Orientation orientation;
 
+
+
+
+		#endregion
+
+
+
+		#region Simulation
+
+		/// <summary>
+		/// Range 0, 1
+		/// </summary>
+		[DataMember]
+		public float damage;
 
 		#endregion
 
