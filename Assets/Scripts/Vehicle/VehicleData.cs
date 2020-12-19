@@ -1,4 +1,4 @@
-//#define ShortBlockRecordID
+﻿//#define ShortBlockRecordID
 
 using System;
 using System.Collections;
@@ -17,6 +17,8 @@ using Vehicle.Blocks;
 using System.Collections.Specialized;
 
 using BlockDefinitions.Types;
+
+using Volume = Vehicle.Volumes.Volume;
 
 namespace Vehicle
 {
@@ -89,6 +91,12 @@ namespace Vehicle
 		/// Contains the blocks in <see cref="blocks"/> are selectable in the VehicleEditor (to change properties)
 		/// </summary>
 		public readonly List<Block> propertyBlocks = new List<Block>();
+
+
+		/// <summary>
+		/// The volumes of this vehicle
+		/// </summary>
+		public readonly List<Volume> volumes = new List<Volume>();
 
 		#endregion Editor
 
