@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -68,10 +68,15 @@ namespace BlockDefinitions
 		/// The sides of the block that are sealed (are water and pressure tight).
 		/// </summary>
 		[DataMember]
+
+		/// <summary>
+		/// The faces of the block that are sealed (are water and pressure tight).
+		/// </summary>
+		[DataMember]
 		public readonly BlockFace[] SealedSides;
 
 		/// <summary>
-		/// The sides of the block that other blocks can be attached to.
+		/// The faces of the block that other blocks can be attached to.
 		/// </summary>
 		/// <remarks>
 		/// In most cases this will contain the same sides as <see cref="SealedSides"/>, but for non-sealed blocks this is needed.
@@ -84,7 +89,7 @@ namespace BlockDefinitions
 		/// The mass of the block.
 		/// </summary>
 		[DataMember]
-		public readonly float Mass;
+		public readonly float Mass; // todo: Do we need to specify where the COM will be?
 
 		/// <summary>
 		/// The volume of the block.
@@ -436,6 +441,7 @@ namespace BlockDefinitions
 		// The serializer that will handle the data, creating it is said to be expensive, so we reuse it.
 		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(BlockDefinition), SerializerKnownTypes);
 
+		// Optimization for binary operations.
 		private static readonly XmlDictionary SerializerDictionary = new XmlDictionary();
 
 

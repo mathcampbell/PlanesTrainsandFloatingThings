@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -13,8 +13,8 @@ using UnityEngine;
 namespace Vehicle.Blocks
 {
 	/// <summary>
-	/// The block class, and derived classes will hold the data related to a vehicle's design,
-	/// so it's position (,etc.) and the properties that may have been set in the VehicleEditor.
+	/// The block class, and derived classes will hold the data related to a vehicle's design and simulation,
+	/// so it's position (,etc.) and the properties that may have been set in the VehicleEditor, and the simulation state.
 	/// </summary>
 	[DataContract]
 	public class Block : IDeserializationCallback
@@ -75,12 +75,18 @@ namespace Vehicle.Blocks
 		#region Static
 		#region Serialization
 
-		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(Block));
+		// Derived Types, the serializer needs to know about them or it'll choke.
+		private static readonly List<Type> SerializerKnownTypes = Reflection.FindAllDerivedTypes<BlockDefinition>(Assembly.GetExecutingAssembly());
+
+		// The serializer that will handle the data, creating it is said to be expensive, so we reuse it.
+		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(Block), SerializerKnownTypes);
+
+		// Optimization for binary operations.
 		private static readonly XmlDictionary SerializerDictionary = new XmlDictionary();
 
 		public static void WriteToStreamBinary(Stream s, Block data)
 		{
-			using (var writer = XmlDictionaryWriter.CreateBinaryWriter(s))
+			using (var writer = XmlDictionaryWriter.CreateBinaryWriter(s, SerializerDictionary))
 			{
 				Serializer.WriteObject(writer, data);
 			}
