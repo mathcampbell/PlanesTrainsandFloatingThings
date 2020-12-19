@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tools {
+namespace DataTypes.Extensions {
 	public static class CollectionExtensions
 	{
 		/// <summary>

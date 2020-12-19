@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Tools
+namespace DataTypes.Extensions
 {
 	/// <summary>
 	/// Reflection allows reasoning about the C# code itself, such as inspecting types, attributes etc.

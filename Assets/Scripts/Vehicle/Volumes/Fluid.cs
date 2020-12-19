@@ -9,6 +9,8 @@ using System.Xml;
 using BlockDefinitions;
 using BlockDefinitions.Types;
 
+using DataTypes.Extensions;
+
 using Tools;
 
 using UnityEditor;

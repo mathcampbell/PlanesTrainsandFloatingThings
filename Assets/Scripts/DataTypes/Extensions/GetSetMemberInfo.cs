@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Tools
+namespace DataTypes.Extensions
 {
 	/// <summary>
 	/// A wrapper for <see cref="MemberInfo"/> that allows getting and setting the value of the underlying field or property.

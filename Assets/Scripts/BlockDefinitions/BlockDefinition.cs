@@ -11,6 +11,8 @@ using System.Xml;
 
 using BlockDefinitions.Types;
 
+using DataTypes.Extensions;
+
 using Tools;
 #if UNITY_EDITOR
 using UnityEditor;
