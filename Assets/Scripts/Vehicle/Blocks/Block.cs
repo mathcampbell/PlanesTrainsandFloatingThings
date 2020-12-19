@@ -55,7 +55,15 @@ namespace Vehicle.Blocks
 		[DataMember]
 		public Orientation orientation;
 
+		/// <summary>
+		/// The bounds in VehicleSpace (so taking into account position and orientation.)
+		/// </summary>
+		public Vector3Int BoundsMin => throw new NotImplementedException();
 
+		/// <summary>
+		/// The bounds in VehicleSpace (so taking into account position and orientation.)
+		/// </summary>
+		public Vector3Int BoundsMax => throw new NotImplementedException();
 
 
 		#endregion
@@ -71,6 +79,8 @@ namespace Vehicle.Blocks
 		public float damage;
 
 		#endregion
+
+
 
 		public Block()
 		{

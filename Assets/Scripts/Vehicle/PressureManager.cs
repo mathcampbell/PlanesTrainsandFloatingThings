@@ -26,7 +26,7 @@ namespace Vehicle {
 
 		public GridController GridInit()
 		{
-			GridController vehicleGrid = new GridController(vehicle.GetBounds());
+			GridController vehicleGrid = new GridController(vehicle.Size);
 			return vehicleGrid;
 		}
 	}

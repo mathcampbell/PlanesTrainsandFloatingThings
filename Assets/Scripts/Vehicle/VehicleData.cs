@@ -18,6 +18,8 @@ using System.Collections.Specialized;
 
 using BlockDefinitions.Types;
 
+using DataTypes.Extensions;
+
 using Volume = Vehicle.Volumes.Volume;
 
 namespace Vehicle
@@ -83,6 +85,17 @@ namespace Vehicle
 		protected IReadOnlyDictionary<Vector3Int, Block> dictPosition2BlockRO; // cannot access non-static thingy in initializer :(
 		public IReadOnlyDictionary<Vector3Int, Block> DictPosition2Block => dictPosition2BlockRO;
 
+
+		private Vector3Int boundsMin;
+		private Vector3Int boundsMax;
+		private Vector3Int size;
+
+		public Vector3Int BoundsMin => boundsMin;
+		public Vector3Int BoundsMax => boundsMax;
+
+		public Vector3Int Size => size;
+
+
 		#endregion Design
 
 		#region Editor
@@ -116,11 +129,16 @@ namespace Vehicle
 			// Because C# says so I have to do this here.
 			dictPosition2BlockRO = new ReadOnlyDictionary<Vector3Int, Block>(dictPosition2Block);
 
+			boundsMin = Vector3Int.zero;
+			boundsMax = Vector3Int.zero;
+
 
 			foreach (var block in blocks)
 			{
 				dictPosition2Block.Add(block.position, block);
 
+				boundsMin.UpdateBoundsMin(block.BoundsMin);
+				boundsMax.UpdateBoundsMax(block.BoundsMax);
 
 				if (block.IsActiveBlock)
 				{
@@ -135,6 +153,15 @@ namespace Vehicle
 					propertyBlocks.Add(block);
 				}
 			}
+
+			size = boundsMax - boundsMin;
+
+			InitializeVolumes();
+		}
+
+		public void InitializeVolumes()
+		{
+			// todo: implement
 		}
 
 		/// <inheritdoc />
@@ -143,12 +170,5 @@ namespace Vehicle
 			Initialize();
 		}
 
-		public Vector3 GetBounds()
-		{
-			// This needs to return the bounds of the entire vehicle as a Vector3 for the GridController class.
-			// For now, implemented as a holding point.
-			Vector3 bounds = new Vector3(1, 1, 1);
-			return bounds;
-		}
 	}
 }
