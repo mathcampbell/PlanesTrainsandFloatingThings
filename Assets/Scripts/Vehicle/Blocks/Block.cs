@@ -34,6 +34,8 @@ namespace Vehicle.Blocks
 
 		public bool IsActiveBlock => myBlockDefinition.IsActiveBlock;
 
+		public bool HasProperties => myBlockDefinition.HasProperties;
+
 		public float Mass => myBlockDefinition.Mass;
 
 		public string Name => myBlockDefinition.Name;

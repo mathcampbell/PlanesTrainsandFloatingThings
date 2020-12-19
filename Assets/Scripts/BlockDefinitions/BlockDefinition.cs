@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -65,9 +65,11 @@ namespace BlockDefinitions
 
 
 		/// <summary>
-		/// The sides of the block that are sealed (are water and pressure tight).
+		/// Does this block have properties that can be set in the VehicleEditor (so it's selectable there)
 		/// </summary>
 		[DataMember]
+		public readonly bool HasProperties = false;
+
 
 		/// <summary>
 		/// The faces of the block that are sealed (are water and pressure tight).
