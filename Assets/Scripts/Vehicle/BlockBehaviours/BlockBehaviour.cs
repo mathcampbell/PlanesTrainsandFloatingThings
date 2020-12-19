@@ -4,6 +4,8 @@ using System.IO;
 using BlockDefinitions;
 using BlockDefinitions.Types;
 
+using DataTypes.Extensions;
+
 using UnityEngine;
 
 using Vehicle.Blocks;
