@@ -10,11 +10,13 @@ namespace Vehicle
 	/// <summary>
 	/// The behaviour that manages the main vehicle's GameObject through an instance of <see cref="VehicleData"/>.
 	/// </summary>
+	[DefaultExecutionOrder(defaultExecutionOrder)]
 	public class VehicleBehaviour : M0noBehaviour
 	{
+		public const int defaultExecutionOrder = 0;
 
-
-		private VehicleData vehicleData;
+		[NonSerialized] // todo: we probably should in some way to make hot-reload work, but Unity is too dumb to do it properly.
+		public VehicleData vehicleData;
 
 
 		/// <inheritdoc />
