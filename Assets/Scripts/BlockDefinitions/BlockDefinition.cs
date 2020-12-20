@@ -74,6 +74,21 @@ namespace BlockDefinitions
 
 
 		/// <summary>
+		/// Should this Block be Shaft in the Mechanical Power Shaft system.
+		/// A component has logic, while a shaft just connects components together, and is abstracted away during simulation.
+		/// </summary>
+		[DataMember]
+		public readonly bool IsShaft = false;
+
+		/// <summary>
+		/// Should this Block be Component in the Mechanical Power Shaft system.
+		/// A component has logic, while a shaft just connects components together, and is abstracted away during simulation.
+		/// </summary>
+		[DataMember]
+		public readonly bool IsShaftComponent = false;
+
+
+		/// <summary>
 		/// The faces of the block that are sealed (are water and pressure tight).
 		/// </summary>
 		[DataMember]

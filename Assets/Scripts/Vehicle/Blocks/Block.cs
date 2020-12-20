@@ -40,6 +40,9 @@ namespace Vehicle.Blocks
 
 		public bool HasProperties => myBlockDefinition.HasProperties;
 
+		public bool IsShaft => myBlockDefinition.IsShaft;
+		public bool IsShaftComponent => myBlockDefinition.IsShaftComponent;
+
 		public float Mass => myBlockDefinition.Mass;
 
 		public string Name => myBlockDefinition.Name;
