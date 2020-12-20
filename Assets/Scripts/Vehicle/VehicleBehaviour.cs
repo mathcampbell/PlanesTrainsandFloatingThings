@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+
+using UnityEngine;
 
 using DataTypes;
 
@@ -6,7 +8,7 @@ using DataTypes;
 namespace Vehicle
 {
 	/// <summary>
-	/// The behaviour that manages the main vehicle's GameObject
+	/// The behaviour that manages the main vehicle's GameObject through an instance of <see cref="VehicleData"/>.
 	/// </summary>
 	public class VehicleBehaviour : M0noBehaviour
 	{
@@ -14,6 +16,26 @@ namespace Vehicle
 
 		private VehicleData vehicleData;
 
+
+		/// <inheritdoc />
+		protected override void OnStart()
+		{
+			if (null == vehicleData) throw new Exception($"{nameof(VehicleBehaviour)} with null {nameof(VehicleData)}");
+
+			vehicleData.Initialize();
+		}
+
+
+
+		void FixedUpdate()
+		{
+			vehicleData.UnityFixedUpdate();
+		}
+
+		void Update()
+		{
+			vehicleData.UnityUpdate();
+		}
 
 
 	}
