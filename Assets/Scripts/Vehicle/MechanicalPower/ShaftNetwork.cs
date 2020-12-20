@@ -47,7 +47,7 @@ namespace Vehicle.MechanicalPower
 		public float inertia { get; set; }
 
 
-		internal bool needsReconfiguration = false;
+		internal bool needsReconfiguration = true;
 
 		/// <summary>
 		/// Signal to this network that it needs to reconfigure the <see cref="ShaftNetworkGroup"/> topography.

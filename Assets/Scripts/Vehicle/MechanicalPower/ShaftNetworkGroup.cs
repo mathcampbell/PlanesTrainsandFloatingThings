@@ -251,7 +251,7 @@ namespace Vehicle.MechanicalPower
 
 
 
-		internal void ReConfigureTopology()
+		internal void ReconfigureTopology()
 		{
 			networks.Clear(); // clear the list of networks, because that list has side effects.
 			conversionDicts.Clear(); // clear the conversion dict, because the info is outdated.

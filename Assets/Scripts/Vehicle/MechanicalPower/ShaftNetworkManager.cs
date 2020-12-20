@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -73,10 +73,10 @@ namespace Vehicle.MechanicalPower
 
 			foreach (var networkGroup in toReconfigure)
 			{
-				ReconfigureTopology();
+				networkGroup.ReconfigureTopology();
 			}
 
-			// I guess that something more needs to happen at this point, but I can't remember what that would be.
+			// todo: I guess that something more needs to happen at this point, but I can't remember what that would be.
 			// Let's see if it breaks or not.
 			//throw new NotImplementedException();
 		}
