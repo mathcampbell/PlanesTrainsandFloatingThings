@@ -20,6 +20,8 @@ using BlockDefinitions.Types;
 
 using DataTypes.Extensions;
 
+using Vehicle.MechanicalPower;
+
 using Volume = Vehicle.Volumes.Volume;
 
 namespace Vehicle
@@ -28,7 +30,7 @@ namespace Vehicle
 	/// This class holds all vehicle related data, such as the Design, Editor state and Runtime/simulation state.
 	/// </summary>
 	[DataContract]
-	public class VehicleData : IDeserializationCallback
+	public class VehicleData
 	{
 		// todo: is the following still true?
 			// This class will be added to the root object of any vehicle added to a world scene.
@@ -122,6 +124,9 @@ namespace Vehicle
 		/// </summary>
 		public readonly List<Volume> volumes = new List<Volume>();
 
+
+		public ShaftNetworkManager ShaftNetworkManager;
+
 		#endregion Editor
 
 		#region Runtime/Simulation
@@ -135,7 +140,20 @@ namespace Vehicle
 
 
 
+		#region Initialization
+		/// <summary>
+		/// Will be called by the <see cref="VehicleBehaviour"/> that contains us.
+		/// </summary>
 		public void Initialize()
+		{
+			InitializeInternalStructures();
+
+			InitializeVolumes();
+
+			InitializeShafts();
+		}
+
+		private void InitializeInternalStructures()
 		{
 			// Because C# says so I have to do this here.
 			dictPosition2BlockRO = new ReadOnlyDictionary<Vector3Int, Block>(dictPosition2Block);
@@ -166,21 +184,42 @@ namespace Vehicle
 			}
 
 			size = Mathv.Abs(boundsMax - boundsMin);
-
-			InitializeVolumes();
-
-			// todo: shafts
 		}
 
-		public void InitializeVolumes()
+		private void InitializeVolumes()
 		{
 			// todo: implement
 		}
 
-		/// <inheritdoc />
-		public void OnDeserialization(object sender)
+		private void InitializeShafts()
 		{
-			Initialize();
+			ShaftNetworkManager = new ShaftNetworkManager(this);
+			ShaftNetworkManager.Initialize();
+		}
+
+		#endregion Initialization
+
+
+		/// <summary>
+		/// FixedUpdate, on the Unity Main Thread
+		/// </summary>
+		public void UnityFixedUpdate()
+		{
+			// In the future we could do stuff in parallel, and only synchronize here (do the calculations threaded)
+
+			// todo: volumes
+			// todo: buoyancy
+			ShaftNetworkManager.FixedUpdate();
+		}
+
+		/// <summary>
+		/// Update, on the Unity Main Thread
+		/// </summary>
+		public void UnityUpdate()
+		{
+			// In the future we could do stuff in parallel, and only synchronize here (do the calculations threaded)
+
+			// todo: particles etc.
 		}
 
 	}

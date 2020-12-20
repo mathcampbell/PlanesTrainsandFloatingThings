@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,15 +22,26 @@ namespace Vehicle.MechanicalPower
 
 
 		internal bool NeedsReconfiguration = true;
-		private void FixedUpdate()
+
+
+		public ShaftNetworkManager()
+		{
+
+		}
+		public ShaftNetworkManager(VehicleData parent)
+		{
+			this.parent = parent;
+		}
+
+		public void UnityFixedUpdate()
 		{
 			// todo: multiThreading, this is 99% pure C# so we can run it in parallel,
 			// and only synchronize here instead of running all the computations
+
 			if (NeedsReconfiguration)
 			{
 				ReconfigureTopology();
 			}
-
 
 			foreach (var networkGroup in networkGroups)
 				networkGroup.ShaftUpdate();
@@ -49,7 +60,7 @@ namespace Vehicle.MechanicalPower
 			var allShafts = temp.Where(b => b.IsShaft);
 			var allShaftComponentBlocks = temp.Where(b => b.IsShaftComponent);
 
-
+			// todo: implement
 		}
 
 		private void ReconfigureTopology()
