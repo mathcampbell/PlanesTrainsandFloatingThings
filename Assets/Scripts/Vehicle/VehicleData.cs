@@ -209,7 +209,7 @@ namespace Vehicle
 
 			// todo: volumes
 			// todo: buoyancy
-			ShaftNetworkManager.FixedUpdate();
+			ShaftNetworkManager.UnityFixedUpdate();
 		}
 
 		/// <summary>
