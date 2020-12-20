@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,17 +21,14 @@ namespace Vehicle.MechanicalPower
 		private List<ShaftNetworkGroup> networkGroups = new List<ShaftNetworkGroup>();
 
 
+		internal bool NeedsReconfiguration = true;
 		private void FixedUpdate()
 		{
 			// todo: multiThreading, this is 99% pure C# so we can run it in parallel,
 			// and only synchronize here instead of running all the computations
-			foreach (var network in networks)
+			if (NeedsReconfiguration)
 			{
-				if (network.needsReconfiguration)
-				{
-					ReconfigureTopology();
-					break;
-				}
+				ReconfigureTopology();
 			}
 
 
@@ -73,6 +70,8 @@ namespace Vehicle.MechanicalPower
 			{
 				networkGroup.ReconfigureTopology();
 			}
+
+			NeedsReconfiguration = false;
 
 			// todo: I guess that something more needs to happen at this point, but I can't remember what that would be.
 			// Let's see if it breaks or not.

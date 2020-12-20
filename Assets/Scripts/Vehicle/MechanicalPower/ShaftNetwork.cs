@@ -16,6 +16,8 @@ namespace Vehicle.MechanicalPower
 		public ShaftNetworkGroup networkGroup;
 
 
+		public ShaftNetworkManager manager => networkGroup.manager;
+
 
 		/// <summary>
 		/// All <see cref="ShaftComponent"/>s in this network.
@@ -56,6 +58,7 @@ namespace Vehicle.MechanicalPower
 		public void SignalNeedReconfiguration()
 		{
 			needsReconfiguration = true;
+			manager.NeedsReconfiguration = true;
 		}
 
 	}

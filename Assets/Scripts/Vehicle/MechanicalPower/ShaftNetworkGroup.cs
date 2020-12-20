@@ -17,6 +17,10 @@ namespace Vehicle.MechanicalPower
 	/// </summary>
 	public class ShaftNetworkGroup
 	{
+		internal ShaftNetworkManager manager;
+
+
+
 		/// <summary>
 		/// <see cref="ShaftNetwork"/>s that for this <see cref="ShaftNetworkGroup"/>
 		/// </summary>
