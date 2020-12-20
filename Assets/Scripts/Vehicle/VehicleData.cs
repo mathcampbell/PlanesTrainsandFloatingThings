@@ -165,6 +165,8 @@ namespace Vehicle
 			foreach (var block in blocks)
 			{
 				dictPosition2Block.Add(block.position, block);
+				// todo: for blocks that occupy multiple voxels: do something.
+				// Note: voxels should be reserved per subBody, so you can place wedges in the same voxel if they are in separate bodies and face the correct way.
 
 				boundsMin.UpdateBoundsMin(block.BoundsMin);
 				boundsMax.UpdateBoundsMax(block.BoundsMax);
