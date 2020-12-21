@@ -40,7 +40,7 @@ public class ControlSurface : MonoBehaviour
 	{
 		// If the wing has been referenced, then control stiffening will want to be used.
 		if (wing != null)
-            rigid = GetComponentInParent<Rigidbody>();
+			rigid = GetComponentInParent<Rigidbody>();
 	}
 
 	private void Start()

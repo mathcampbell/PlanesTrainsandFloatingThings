@@ -157,9 +157,9 @@ namespace Vehicle.MechanicalPower
 			internal float componentUpdateTotalAbsTorque;
 
 			internal ShaftNetwork componentUpdateActiveNetwork;
-			internal float   componentUpdateRPMFactor = 1;
-			internal float   componentUpdateTorqueFactor = 1;
-			internal float   componentUpdateOrientationFactor = 1;
+			internal float componentUpdateRPMFactor = 1;
+			internal float componentUpdateTorqueFactor = 1;
+			internal float componentUpdateOrientationFactor = 1;
 
 			internal void Run()
 			{

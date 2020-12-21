@@ -47,8 +47,7 @@ namespace DataTypes.Extensions
 			else
 			{
 				MemberDataType = property.PropertyType;
-				getter = property.GetGetMethod
-					         (true)
+				getter = property.GetGetMethod(true)
 				      ?? property.DeclaringType.GetProperty(property.Name).GetGetMethod(true);
 				setter = property.GetSetMethod(true)
 				      ?? property.DeclaringType.GetProperty(property.Name).GetSetMethod(true);

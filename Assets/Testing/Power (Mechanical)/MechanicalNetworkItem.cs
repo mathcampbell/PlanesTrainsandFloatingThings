@@ -35,5 +35,4 @@ public abstract class MechanicalNetworkItem : MonoBehaviour
 	public abstract void AddToNetwork();
 
 	public abstract void RemoveFromNetwork();
-    
 }

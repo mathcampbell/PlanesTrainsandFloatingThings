@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class NumericInput : Datanode
 {
-    public NumericOutput connectedNode;
-    public float inputNumeric;
+	public NumericOutput connectedNode;
+	public float inputNumeric;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+	// Start is called before the first frame update
+	void Start()
+	{
 
-    }
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.LookAt(Camera.main.transform.position, -Vector3.up);
-    }
+	// Update is called once per frame
+	void Update()
+	{
+		transform.LookAt(Camera.main.transform.position, -Vector3.up);
+	}
 
-    private void FixedUpdate()
-    {
-        if (connectedNode)
-        {
-            inputNumeric = connectedNode.ouputNumeric;
-        }
-        
+	private void FixedUpdate()
+	{
+		if (connectedNode)
+		{
+			inputNumeric = connectedNode.ouputNumeric;
+		}
+		
 
-    }
+	}
 }

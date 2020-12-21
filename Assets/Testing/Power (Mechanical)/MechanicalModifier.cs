@@ -8,7 +8,7 @@ public abstract class MechanicalModifier : MechanicalNetworkItem
 	public float requested;
 	public float recieved;
 	public float torqueModifier;
-    public float rpmModifier;
+	public float rpmModifier;
 
 	// Start is called before the first frame update
 	void Start()

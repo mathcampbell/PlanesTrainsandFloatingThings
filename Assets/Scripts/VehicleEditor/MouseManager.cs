@@ -269,7 +269,7 @@ namespace VehicleEditor
 
 					if (PositionOK == false)
 					{
-						//   placePosition = placePosition + (hitInfo.normal*-0.25f);   
+						//placePosition = placePosition + (hitInfo.normal*-0.25f);
 
 						if (null != CurrentBlock && CurrentBlock != ShipRoot)
 						{
@@ -1002,16 +1002,16 @@ namespace VehicleEditor
 
 			for (int i = 0; i < allBlocks.Length; i++)
 			{
-				// Material[] electricMats = allBlocks[i].GetAllMaterials();
-				// // for (int j = 0; j < electricMats.Length; j++)
-				// // {
-				// //     electricMats[j] = DataMat;
-				// // }
+				//Material[] electricMats = allBlocks[i].GetAllMaterials();
+				//for (int j = 0; j < electricMats.Length; j++)
+				//{
+				//	electricMats[j] = DataMat;
+				//}
 				if (allBlocks[i] is ActiveBlockBehaviour)
 				{ }
 				else
 				{
-					//   allBlocks[i].SetAllMaterials(electricMats);
+					//allBlocks[i].SetAllMaterials(electricMats);
 					allBlocks[i].SetGhost();
 				}
 			}

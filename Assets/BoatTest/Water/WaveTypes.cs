@@ -4,12 +4,12 @@ using System.Linq.Expressions;
 using System;
 using System.Collections.Specialized;
 
-//Different wavetypes
+// Different wavetypes
 
 public class WaveTypes 
 {
 
-	//Sinus waves
+	// Sinus waves
 	public static float SinXWave(
 		Vector3 position, 
 		float speed, 
@@ -17,30 +17,30 @@ public class WaveTypes
 		float waveDistance,
 		float noiseStrength, 
 		float noiseWalk,
-        float timeSinceStart) 
+		float timeSinceStart) 
 	{
-        float x = position.x;
-        float y = 0f;
-        float z = position.z;
+		float x = position.x;
+		float y = 0f;
+		float z = position.z;
 
-		//Using only vertex.x or vertex.z will produce straight waves
-		//Using only vertex.y will produce an up/down movement
-		//vertex.x + vertex.y + vertex.z rolling waves
-		//vertex.x * vertex.z produces a moving sea without rolling waves
+		// Using only vertex.x or vertex.z will produce straight waves
+		// Using only vertex.y will produce an up/down movement
+		// vertex.x + vertex.y + vertex.z rolling waves
+		// vertex.x * vertex.z produces a moving sea without rolling waves
 
 		float waveType = z;
 
-        y += Mathf.Sin((timeSinceStart * speed + waveType) / waveDistance) * scale;
+		y += Mathf.Sin((timeSinceStart * speed + waveType) / waveDistance) * scale;
 
-        //Add noise to make it more realistic
-        y += Mathf.PerlinNoise(x + noiseWalk, y + Mathf.Sin(timeSinceStart * 0.1f)) * noiseStrength;
+		// Add noise to make it more realistic
+		y += Mathf.PerlinNoise(x + noiseWalk, y + Mathf.Sin(timeSinceStart * 0.1f)) * noiseStrength;
 
-        return y;
+		return y;
 	}
 
 
 
-	//Gerstner Waves
+	// Gerstner Waves
 	public static float GerstnerWave(
 		Vector3 position,
 		float amplitude,

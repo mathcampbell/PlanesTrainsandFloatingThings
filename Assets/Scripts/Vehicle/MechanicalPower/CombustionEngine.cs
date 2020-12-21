@@ -31,15 +31,15 @@ namespace Vehicle.MechanicalPower
 		/// </summary>
 		public float torqueOutput;
 
-        /// <summary>
-        /// The current RPM of the engine, evaluated on ShaftUpdate().
-        /// </summary>
+		/// <summary>
+		/// The current RPM of the engine, evaluated on ShaftUpdate().
+		/// </summary>
 		public float currentRPM = 0;
 
-        /// <summary>
-        /// Is the Engine running? Set by Engine block componnent.
-        /// </summary>
-        public bool engineRunning;
+		/// <summary>
+		/// Is the Engine running? Set by Engine block componnent.
+		/// </summary>
+		public bool engineRunning;
 
 
 

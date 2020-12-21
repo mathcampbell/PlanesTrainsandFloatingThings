@@ -31,7 +31,7 @@ namespace Vehicle.MechanicalPower
 
 		public float bladeStress;
 		public float altitude; // Rather than trying to pass the rigidbody down via the ShaftNetworkManager to the ShaftNetworkGroup to the Network to the item; we'll just update the altitude from the prop Block object which will need linked to each Propellor script anyway.
-                               // Prop Blocks will pull in location information which for large vehicles prop may  be some way away from the rigidbody's location. We can get the exact centrepoint of the prop.
+		// Prop Blocks will pull in location information which for large vehicles prop may  be some way away from the rigidbody's location. We can get the exact centrepoint of the prop.
 
 
 		/// <inheritdoc />
