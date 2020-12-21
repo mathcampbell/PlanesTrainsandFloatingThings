@@ -43,7 +43,7 @@ namespace Vehicle
 
 		#region Design
 
-		#region BlockRecord Optimalization (Can be ignored for now)
+		#region BlockRecord Optimization (Ignore for now)
 		/// <summary>
 		/// BlockRecords are for simple blocks that don't need to store additional information.
 		/// </summary>
@@ -166,7 +166,8 @@ namespace Vehicle
 			{
 				dictPosition2Block.Add(block.position, block);
 				// todo: for blocks that occupy multiple voxels: do something.
-				// Note: voxels should be reserved per subBody, so you can place wedges in the same voxel if they are in separate bodies and face the correct way.
+				// Note: voxels should be reserved per subBody, so you can place wedges in the same voxel
+				// if they are in separate bodies and face the correct way.
 
 				boundsMin.UpdateBoundsMin(block.BoundsMin);
 				boundsMax.UpdateBoundsMax(block.BoundsMax);

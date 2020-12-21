@@ -43,13 +43,13 @@ namespace Vehicle
 
 		public void AddBlock(Block block)
 		{
-
+			throw new NotImplementedException();
 		}
 
 
 		public void RemoveBlock(Block block)
 		{
-
+			throw new NotImplementedException();
 		}
 
 		public void RemoveBlock(Vector3Int gridPosition)
