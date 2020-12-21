@@ -60,7 +60,6 @@ public class WaveTypes
 		*/
 		float x_coord = position.x;
 		float z_coord = position.z;
-		
 		float y_coord = 0;
 
 		Vector2 x_0 = new Vector2(x_coord, z_coord);
@@ -75,6 +74,5 @@ public class WaveTypes
 		y_coord = amplitude * Mathf.Cos(wavevector * x_0 - frequency * time);
 		*/
 		return y_coord;
-		
-	}	
+	}
 }
