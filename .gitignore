@@ -9,7 +9,9 @@
 .DS_Store
 ._.DS_Store
 
-
+# mono crash files
+mono_crash.*.json
+mono_crash.*.blob
 
 # Build stuff
 [Ll]ibrary/
