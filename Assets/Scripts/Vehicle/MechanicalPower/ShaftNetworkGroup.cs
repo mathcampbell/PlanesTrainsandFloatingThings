@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Assets.Scripts;
+using DataTypes.Extensions;
+
+using Tools;
 
 using UnityEngine;
 
-namespace Assets.Testing.MechanicalPower
+namespace Vehicle.MechanicalPower
 {
 	/// <summary>
 	/// Collection of connected <see cref="ShaftNetwork"/>s
@@ -15,6 +17,10 @@ namespace Assets.Testing.MechanicalPower
 	/// </summary>
 	public class ShaftNetworkGroup
 	{
+		internal ShaftNetworkManager manager;
+
+
+
 		/// <summary>
 		/// <see cref="ShaftNetwork"/>s that for this <see cref="ShaftNetworkGroup"/>
 		/// </summary>
@@ -249,7 +255,7 @@ namespace Assets.Testing.MechanicalPower
 
 
 
-		internal void ReConfigureTopology()
+		internal void ReconfigureTopology()
 		{
 			networks.Clear(); // clear the list of networks, because that list has side effects.
 			conversionDicts.Clear(); // clear the conversion dict, because the info is outdated.

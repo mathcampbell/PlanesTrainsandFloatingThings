@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Testing.MechanicalPower
+namespace Vehicle.MechanicalPower
 {
 	/// <summary>
 	/// A <see cref="ShaftComponent"/> that links two <see cref="ShaftNetwork"/>s with a fixed ratio between them.

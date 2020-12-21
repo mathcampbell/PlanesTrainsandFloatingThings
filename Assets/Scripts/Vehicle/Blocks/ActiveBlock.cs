@@ -1,18 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Runtime.Serialization;
 
-public class ActiveBlock : Block
+namespace Vehicle.Blocks
 {
-	// Start is called before the first frame update
-	void Start()
+	/// <summary>
+	/// The derived ActiveBlock classes will hold the data related to a vehicle's design and simulation,
+	/// so it's position (,etc.) and the properties that may have been set in the VehicleEditor and the simulation state.
+	/// </summary>
+	[DataContract]
+	public abstract class ActiveBlock : Block
 	{
-		
-	}
 
-	// Update is called once per frame
-	void Update()
-	{
-		
 	}
 }

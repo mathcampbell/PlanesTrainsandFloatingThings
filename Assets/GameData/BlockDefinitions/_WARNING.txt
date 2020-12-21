@@ -1,0 +1,2 @@
+Any changes made here will be overwritten by the C# hardcoded definitions when you use the "Block Definition Inspector Target" inspector.
+Definitions that are not in C# hardcode are removed.

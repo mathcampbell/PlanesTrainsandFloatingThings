@@ -1,89 +1,139 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Xml;
+
+using BlockDefinitions;
+using BlockDefinitions.Types;
+
+using DataTypes.Extensions;
+
+using Tools;
+
 using UnityEngine;
 
-public class Block : MonoBehaviour
+namespace Vehicle.Blocks
 {
-
-	[HideInInspector]
-	public BoxCollider Collider;
-
-	public string blockName;
-	public int blockID;
-	public string description;
-	public float mass;
-	
-	public float sidelength;
-	public float volume;
-
-	public Material[] matArray;
-
-	public Animator BlockAnim;
-   
-	
-	void Awake()
+	/// <summary>
+	/// The block class, and derived classes will hold the data related to a vehicle's design and simulation,
+	/// so it's position (,etc.) and the properties that may have been set in the VehicleEditor, and the simulation state.
+	/// </summary>
+	[DataContract]
+	public class Block : IDeserializationCallback
 	{
-		Collider = GetComponent<BoxCollider>();
-		matArray = this.GetComponentInChildren<Renderer>().materials;
-		BlockAnim = GetComponent<Animator>();
+		#region Definition
+		// Shortcuts to the Definition of this block.
+
+		internal BlockDefinition myBlockDefinition;
+
+		[DataMember]
+		public readonly BlockID blockID;
+
+		public bool IsSingleCubeBlock => myBlockDefinition.IsSingleCubeBlock;
+
+		public bool IsMultiCubeBlock => myBlockDefinition.IsMultiCubeBlock;
+
+		public bool IsActiveBlock => myBlockDefinition.IsActiveBlock;
+
+		public bool HasProperties => myBlockDefinition.HasProperties;
+
+		public bool IsShaft => myBlockDefinition.IsShaft;
+		public bool IsShaftComponent => myBlockDefinition.IsShaftComponent;
+
+		public float Mass => myBlockDefinition.Mass;
+
+		public string Name => myBlockDefinition.Name;
+
+		public string Description => myBlockDefinition.Description;
+		#endregion Definition
+
+
+		#region Design
+		// How this block relates to the vehicle.
+
+		[DataMember]
+		public Vector3Int position;
+
+		[DataMember]
+		public Orientation orientation;
+
+		/// <summary>
+		/// The bounds in VehicleSpace (so taking into account position and orientation.)
+		/// </summary>
+		public Vector3Int BoundsMin => throw new NotImplementedException();
+
+		/// <summary>
+		/// The bounds in VehicleSpace (so taking into account position and orientation.)
+		/// </summary>
+		public Vector3Int BoundsMax => throw new NotImplementedException();
+
+
+		#endregion
+
+
+
+		#region Simulation
+
+		/// <summary>
+		/// Range 0, 1
+		/// </summary>
+		[DataMember]
+		public float damage;
+
+		#endregion
+
+
+
+		public Block()
+		{
+
+		}
+
+		public Block(BlockDefinition d)
+		{
+			myBlockDefinition = d;
+			blockID = d.BlockID;
+		}
+
+		/// <inheritdoc />
+		public void OnDeserialization(object sender)
+		{
+			myBlockDefinition = BlockDefinition.Definitions[blockID];
+		}
+
+
+		#region Static
+		#region Serialization
+
+		// Derived Types, the serializer needs to know about them or it'll choke.
+		private static readonly List<Type> SerializerKnownTypes = Reflection.FindAllDerivedTypes<BlockDefinition>(Assembly.GetExecutingAssembly());
+
+		// The serializer that will handle the data, creating it is said to be expensive, so we reuse it.
+		private static readonly DataContractSerializer Serializer = new DataContractSerializer(typeof(Block), SerializerKnownTypes);
+
+		// Optimization for binary operations.
+		private static readonly XmlDictionary SerializerDictionary = new XmlDictionary();
+
+		public static void WriteToStreamBinary(Stream s, Block data)
+		{
+			using (var writer = XmlDictionaryWriter.CreateBinaryWriter(s, SerializerDictionary))
+			{
+				Serializer.WriteObject(writer, data);
+			}
+		}
+
+		public static Block ReadFromStreamBinary(Stream s)
+		{
+			using (var reader = XmlDictionaryReader.CreateBinaryReader(s, SerializerDictionary, XmlDictionaryReaderQuotas.Max))
+			{
+				return (Block)Serializer.ReadObject(reader);
+			}
+		}
+
+		#endregion Serialization
+		#endregion Static
 	}
-
-
-	// Start is called before the first frame update
-	void Start()
-	{
-		
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
-
-	public virtual void Init()
-	{
-
-	}
-
-	public void SetMaterial(Material mat)
-	{
-		this.GetComponentInChildren<Renderer>().material = mat;
-	}
-	
-	public void SetAllMaterials(Material[] newMats)
-	{
-		// Material[] matArray = GetComponentInChildren<Renderer>().materials;
-		//  for (int i = 0; i<matArray.Length; i++)
-		//  {
-		//       matArray[i] = newMats[i];
-		//   }
-
-		this.GetComponentInChildren<Renderer>().materials = newMats;
-	}
-
-	public void ResetMaterials()
-	{
-		this.GetComponentInChildren<Renderer>().materials = matArray;
-	}
-
-	public Material[] GetAllMaterials()
-	{
-		Material[] currentMats = this.GetComponentInChildren<Renderer>().materials;    
-		return currentMats;
-		/*List<Material> matArray = new List<Material>();
-		this.GetComponentInChildren<Renderer>().GetMaterials(matArray);
-		return matArray.ToArray();
-		*/
-	}
-
-    public virtual void SetGhost()
-    {
-		BlockAnim.SetBool("BlockGhost", true);
-    }
-
-    public virtual void SetSolid()
-    {
-		BlockAnim.SetBool("BlockGhost", false);
-    }
 }

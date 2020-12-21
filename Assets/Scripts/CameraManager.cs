@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraManager : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {	
+	void Start () {
 		if(TheCamera == null)
 		{
 			// Do we have a camera component?
@@ -48,7 +48,6 @@ public class CameraManager : MonoBehaviour {
 		CraneCamera();
 	}
 
-	
 
 	void CraneCamera()
 	{
@@ -69,7 +68,7 @@ public class CameraManager : MonoBehaviour {
 		Vector3 newPosition = cameraRig.transform.position + actualCrane;
 		cameraRig.transform.position = newPosition;
 	}
-   void PanCamera()
+	void PanCamera()
 	{
 		Vector3 input = new Vector3( Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical") );
 
@@ -101,8 +100,8 @@ public class CameraManager : MonoBehaviour {
 	}
 
 
-	void OrbitCamera () {
-	
+	void OrbitCamera ()
+	{
 		if(Input.GetMouseButtonDown(1) == true)
 		{
 			// The mouse was pressed ON THIS FRAME

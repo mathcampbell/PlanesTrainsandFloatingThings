@@ -6,10 +6,6 @@ using System.Linq;
 
 public class GridBlock : MonoBehaviour
 {
-
-    
-    public bool isOccupied;
-    public Vector3 worldPosition;
-    
-
+	public bool isOccupied; // Occupied by a block
+	public Vector3 worldPosition;
 }

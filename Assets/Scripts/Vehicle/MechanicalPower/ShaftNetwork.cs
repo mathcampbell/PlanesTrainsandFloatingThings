@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Assets.Testing.MechanicalPower
+namespace Vehicle.MechanicalPower
 {
 	/// <summary>
 	/// A <see cref="ShaftNetwork"/> is a collection of directly connected <see cref="ShaftComponent"/>s.
@@ -15,6 +15,8 @@ namespace Assets.Testing.MechanicalPower
 		/// </summary>
 		public ShaftNetworkGroup networkGroup;
 
+
+		public ShaftNetworkManager manager => networkGroup.manager;
 
 
 		/// <summary>
@@ -47,7 +49,7 @@ namespace Assets.Testing.MechanicalPower
 		public float inertia { get; set; }
 
 
-		internal bool needsReconfiguration = false;
+		internal bool needsReconfiguration = true;
 
 		/// <summary>
 		/// Signal to this network that it needs to reconfigure the <see cref="ShaftNetworkGroup"/> topography.
@@ -56,6 +58,7 @@ namespace Assets.Testing.MechanicalPower
 		public void SignalNeedReconfiguration()
 		{
 			needsReconfiguration = true;
+			manager.NeedsReconfiguration = true;
 		}
 
 	}

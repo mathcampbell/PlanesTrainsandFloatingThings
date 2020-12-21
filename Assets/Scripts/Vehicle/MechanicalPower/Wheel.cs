@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using UnityEngine;
 
-namespace Assets.Testing.MechanicalPower
+namespace Vehicle.MechanicalPower
 {
 	public class Wheel : ShaftComponent
 	{
@@ -22,6 +22,8 @@ namespace Assets.Testing.MechanicalPower
 		{
 			var active = network.networkGroup.CU; // Shortcut.
 
+			// todo: Unity will complain if we are not on the main thread, probably best to put the wheelCollider in a wrapper
+			// that caches the values, so we can run this code threaded.
 			float rpmDelta = wheelCollider.rpm - active.RPM;
 
 			float torque = rpmDelta * magicVariable;

@@ -1,40 +1,52 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Linq;
+
+using BlockDefinitions;
+
+using UnityEngine;
 using UnityEngine.UI;
 
-public class ToolbarBuildButtons : MonoBehaviour {
+using Vehicle.BlockBehaviours;
+using Vehicle.Blocks;
 
-	// Use this for initialization
-	void Start () {
+namespace VehicleEditor
+{
+	public class ToolbarBuildButtons : MonoBehaviour {
 
-		MouseManager mouseManager = GameObject.FindObjectOfType<MouseManager>();
-	
-		// Populate our button list
+		public GameObject BuildButtonPrefab;
 
-		for (int i = 0; i < VehiclePartPrefabs.Length; i++)
+		public BlockDefinition[] Definitions;
+
+		// Use this for initialization
+		void Start ()
 		{
-			Block vehiclePart = VehiclePartPrefabs[i];
-
-			GameObject buttonGameObject = (GameObject)Instantiate(BuildButtonPrefab, this.transform);
-			Text buttonLabel = buttonGameObject.GetComponentInChildren<Text>();
-			buttonLabel.text = vehiclePart.name;
-
-			Button theButton = buttonGameObject.GetComponent<Button>();
+			Definitions = BlockDefinition.Definitions.Values.ToArray();
 
 
-			theButton.onClick.AddListener( () => { 
-				mouseManager.PrefabBlock = vehiclePart;
-				mouseManager.SetNextBlock();
-			 } );
+
+			MouseManager mouseManager = GameObject.FindObjectOfType<MouseManager>();
+
+			// Populate our button list
+
+			for (int i = 0; i < Definitions.Length; i++)
+			{
+				var definition = Definitions[i];
+
+				GameObject buttonGameObject = (GameObject)Instantiate(BuildButtonPrefab, this.transform);
+				Text buttonLabel = buttonGameObject.GetComponentInChildren<Text>();
+				buttonLabel.text = definition.Name;
+
+				Button theButton = buttonGameObject.GetComponent<Button>();
+
+
+				theButton.onClick.AddListener( () => {
+					mouseManager.SetNextBlock(definition);
+				} );
+			}
 		}
 
-	}
-
-	public GameObject BuildButtonPrefab;
-	public Block[] VehiclePartPrefabs;
+		// Update is called once per frame
+		void Update () {
 	
-	// Update is called once per frame
-	void Update () {
-	
+		}
 	}
 }

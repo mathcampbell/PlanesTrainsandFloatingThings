@@ -6,53 +6,61 @@ using System.Threading.Tasks;
 
 using UnityEngine;
 
-namespace Assets.Testing.MechanicalPower
+namespace Vehicle.MechanicalPower
 {
-
-/* Shaft stuff general list of things to do
- * TODO: Friction calculation: Check the math.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
-
-
-
 	/// <summary>
 	/// Class responsible for managing the (Super)<see cref="ShaftNetwork"/>s of a vehicle.
 	/// TODO: Docked vehicles.
 	/// </summary>
-	public class ShaftNetworkManager : MonoBehaviour
+	public class ShaftNetworkManager
 	{
-		private GameObject myVehicle;
+		private VehicleData parent;
 
-		private List<ShaftNetwork> networks;
+		private List<ShaftNetwork> networks = new List<ShaftNetwork>();
 
-		private List<ShaftNetworkGroup> networkGroups;
+		private List<ShaftNetworkGroup> networkGroups = new List<ShaftNetworkGroup>();
 
 
+		internal bool NeedsReconfiguration = true;
 
-		private void FixedUpdate()
+
+		public ShaftNetworkManager()
 		{
-			foreach (var network in networks)
-			{
-				if (network.needsReconfiguration)
-				{
-					ReconfigureTopology();
-					break;
-				}
-			}
 
+		}
+		public ShaftNetworkManager(VehicleData parent)
+		{
+			this.parent = parent;
+		}
+
+		public void UnityFixedUpdate()
+		{
+			// todo: multiThreading, this is 99% pure C# so we can run it in parallel,
+			// and only synchronize here instead of running all the computations
+
+			if (NeedsReconfiguration)
+			{
+				ReconfigureTopology();
+			}
 
 			foreach (var networkGroup in networkGroups)
 				networkGroup.ShaftUpdate();
+		}
+
+		public void Initialize()
+		{
+			CreateNetworks();
+			ReconfigureTopology();
+		}
+
+		private void CreateNetworks()
+		{
+			var temp = parent.blocks.Where(b => b.IsShaft || b.IsShaftComponent).ToArray();
+
+			var allShafts = temp.Where(b => b.IsShaft);
+			var allShaftComponentBlocks = temp.Where(b => b.IsShaftComponent);
+
+			// todo: implement
 		}
 
 		private void ReconfigureTopology()
@@ -71,10 +79,14 @@ namespace Assets.Testing.MechanicalPower
 
 			foreach (var networkGroup in toReconfigure)
 			{
-				ReconfigureTopology();
+				networkGroup.ReconfigureTopology();
 			}
 
-			throw new NotImplementedException();
+			NeedsReconfiguration = false;
+
+			// todo: I guess that something more needs to happen at this point, but I can't remember what that would be.
+			// Let's see if it breaks or not.
+			//throw new NotImplementedException();
 		}
 	}
 }

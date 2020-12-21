@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Testing.MechanicalPower
+namespace Vehicle.MechanicalPower
 {
 	/// <summary>
 	/// A <see cref="ShaftEdgeComponent"/> with exactly two networks.
@@ -13,9 +13,9 @@ namespace Assets.Testing.MechanicalPower
 	{
 		public ShaftNetwork network2;
 
-		protected void ConversionFactorsSanityCheck(ShaftNetwork @from, ShaftNetwork to)
+		protected void ConversionFactorsSanityCheck(ShaftNetwork from, ShaftNetwork to)
 		{
-			if (@from == to) throw new ArgumentException("Both networks are the same network.");
+			if (from == to) throw new ArgumentException("Both networks are the same network.");
 
 			bool fromWrong = !(from == network || from == network2);
 			bool toWrong = !(to     == network || to   == network2);
