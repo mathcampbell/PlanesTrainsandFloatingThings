@@ -19,7 +19,7 @@ namespace BlockDefinitions
 		internal string nameOfFieldWithResourcePath;
 
 		/// <summary>
-		/// 
+		///
 		/// </summary>
 		/// <param name="nameOfFieldWithResourcePath">The name of the field that contains the path to the resource to load.
 		/// Use <see cref="nameof()"/> to get it, so that it will survive a rename of the field.</param>

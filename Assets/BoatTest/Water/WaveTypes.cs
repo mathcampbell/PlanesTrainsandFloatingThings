@@ -6,18 +6,18 @@ using System.Collections.Specialized;
 
 // Different wavetypes
 
-public class WaveTypes 
+public class WaveTypes
 {
 
 	// Sinus waves
 	public static float SinXWave(
-		Vector3 position, 
-		float speed, 
+		Vector3 position,
+		float speed,
 		float scale,
 		float waveDistance,
-		float noiseStrength, 
+		float noiseStrength,
 		float noiseWalk,
-		float timeSinceStart) 
+		float timeSinceStart)
 	{
 		float x = position.x;
 		float y = 0f;
@@ -52,12 +52,12 @@ public class WaveTypes
 	{
 		/*
 		 * y = A * cos(k * x_0 - w * t)
-		 * 
+		 *
 		 * A amplitude
 		 * x_0 = (x_o, z0)
 		 * w - frequency
 		 * t - time
-		*/ 
+		*/
 		float x_coord = position.x;
 		float z_coord = position.z;
 		
@@ -67,7 +67,7 @@ public class WaveTypes
 
 		/*
 		 * k = 2 * pi / lamda
-		 * 
+		 *
 		 * k - wavevector (determines the direction of the wave)
 		 * lambda - length of the wave
 		

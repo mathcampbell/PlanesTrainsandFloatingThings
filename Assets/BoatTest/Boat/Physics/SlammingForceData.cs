@@ -3,7 +3,7 @@ using System.Collections;
 
 //Data that belongs to one triangle in the original boat mesh
 //and is needed to calculate the slamming force
-public class SlammingForceData 
+public class SlammingForceData
 {
 	//The area of the original triangles - calculate once in the beginning because always the same
 	public float originalArea;

@@ -18,7 +18,7 @@ namespace DataTypes
 	/// The new order is: Reset(), Awake() [At this point AddComponent(), if it was used, returns] OnStart(), OnEnableAndAfterStart()
 	/// Note that Reset is only called in the UnityEditor, and contrary to the diagram here: https://docs.unity3d.com/Manual/ExecutionOrder.html
 	///		it is actually called before Awake() and OnEnable(): it is called immediately upon adding the component, and Awake() isn't called until PlayMode starts.
-	/// 
+	///
 	/// </remarks>
 	public abstract class M0noBehaviour : MonoBehaviour
 	{

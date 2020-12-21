@@ -297,7 +297,7 @@ namespace VehicleEditor
 				// Now we're gonna check if the place we're gonna place it (which we've checked is physcially ok, ie no overlaps) has a block snap to connect to.
 				if (SnapPointOK == true)
 				{
-					// Now we need to check that the new block has a snappoint that will accomodate the placement 
+					// Now we need to check that the new block has a snappoint that will accomodate the placement
 
 					CurrentBlock.collider.enabled = true;
 					Collider[] ColliderArray = CurrentBlock.GetComponentsInChildren<Collider>();
@@ -377,7 +377,7 @@ namespace VehicleEditor
 						{
 							CurrentLine = Instantiate(DataLine);
 							CurrentLine.transform.SetParent(CurrentNode.transform);
-							// If there's no Current Line, and the mouse is Down on a Node, we eed to make a new CurrentLine and then start it at *that* point. 
+							// If there's no Current Line, and the mouse is Down on a Node, we eed to make a new CurrentLine and then start it at *that* point.
 							// Then next frame, just update the other end of the line to the curent mouse position!)
 							linePositions[0] = CurrentNode.transform.position;
 							linePositions[1] = Camera.main.ScreenToWorldPoint
@@ -509,7 +509,7 @@ namespace VehicleEditor
 						{
 							CurrentLine = Instantiate(IOLine, CurrentOnOffNode.transform);
 
-							// If there's no Current Line, and the mouse is Down on a Node, we eed to make a new CurrentLine and then start it at *that* point. 
+							// If there's no Current Line, and the mouse is Down on a Node, we eed to make a new CurrentLine and then start it at *that* point.
 							// Then next frame, just update the other end of the line to the curent mouse position!)
 							linePositions[0] = CurrentOnOffNode.transform.position;
 							linePositions[1] = Camera.main.ScreenToWorldPoint
@@ -1208,7 +1208,7 @@ namespace VehicleEditor
 			//List<Block> allConnectedBlocks = new List<Block>();
 
 			//(allConnectedBlocks);
-			/*foreach (Transform t in allConnectedBlocks) 
+			/*foreach (Transform t in allConnectedBlocks)
 			{
 
 				if (t.gameObject.activeSelf)
@@ -1244,9 +1244,9 @@ namespace VehicleEditor
 
 			//Finding Inertia Vector
 
-			/*(foreach (Transform t in allConnectedBlocks) 
+			/*(foreach (Transform t in allConnectedBlocks)
 			{
-				if (t.gameObject.activeSelf) 
+				if (t.gameObject.activeSelf)
 				{
 					m = t.GetComponent<Block> ();
 					distance = new Vector3 (Mathf.Pow (t.localPosition.y - newCenterOfMass.y, 2.0f) + Mathf.Pow (t.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow (t.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow (t.localPosition.z - newCenterOfMass.z, 2.0f), Mathf.Pow (t.localPosition.x - newCenterOfMass.x, 2.0f) + Mathf.Pow (t.localPosition.y - newCenterOfMass.y, 2.0f));

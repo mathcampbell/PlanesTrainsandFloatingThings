@@ -88,9 +88,9 @@ public static class BoatPhysicsMath
 		// F_buoyancy = rho * g * V
 		// rho - density of the mediaum you are in
 		// g - gravity
-		// V - volume of fluid directly above the curved surface 
+		// V - volume of fluid directly above the curved surface
 
-		// V = z * S * n 
+		// V = z * S * n
 		// z - distance to surface
 		// S - surface area
 		// n - normal to the surface
@@ -123,7 +123,7 @@ public static class BoatPhysicsMath
 		// S - surface area
 		// Cf - Coefficient of frictional resistance
 
-		//We need the tangential velocity 
+		//We need the tangential velocity
 		//Projection of the velocity on the plane with the normal normalvec
 		//http://www.euclideanspace.com/maths/geometry/elements/plane/lineOnPlane/
 		Vector3 B = triangleData.normal;
@@ -182,7 +182,7 @@ public static class BoatPhysicsMath
 	{
 		//Modify for different turning behavior and planing forces
 		//f_p and f_S - falloff power, should be smaller than 1
-		//C - coefficients to modify 
+		//C - coefficients to modify
 
 		float velocity = triangleData.velocity.magnitude;
 
@@ -315,7 +315,7 @@ public static class BoatPhysicsMath
 		//float C_r = 0.002f; //0.001 to 0.003
 
 		//Final residual resistance
-		//float residualResistanceForce = 0.5f * rho * v * v * S * C_r; 
+		//float residualResistanceForce = 0.5f * rho * v * v * S * C_r;
 
 		//return residualResistanceForce;
 
@@ -364,12 +364,12 @@ public static class BoatPhysicsMath
 		//Drifting from waves according to:
 		//http://ocw.mit.edu/courses/mechanical-engineering/2-019-design-of-ocean-systems-spring-2011/lecture-notes/MIT2_019S11_DVL1.pdf
 
-		// F = rho * g * A^2 * n 
+		// F = rho * g * A^2 * n
 		// rho - density of the medium
 		// g - gravity
 		// A - area
 		// n - normal
-		 
+		
 		Vector3 waveDriftingForce = 0.5f * rho * Physics.gravity.y * area * area * normal;
 
 		waveDriftingForce.y = 0f;

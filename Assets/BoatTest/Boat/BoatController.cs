@@ -62,7 +62,7 @@ public class BoatController : MonoBehaviour
 	//Calculate the current speed in m/s
 	private void CalculateSpeed()
 	{
-		//Calculate the distance of the Transform Object between the fixedupdate calls with 
+		//Calculate the distance of the Transform Object between the fixedupdate calls with
 		//'(transform.position - lastPosition).magnitude' Now you know the 'meter per fixedupdate'
 		//Divide this value by Time.deltaTime to get meter per second
 		currentSpeed = (transform.position - lastPosition).magnitude / Time.deltaTime;

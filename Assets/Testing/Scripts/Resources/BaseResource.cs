@@ -22,5 +22,5 @@ public abstract class Resource
 	// Might also need the specific gas constant here as well/instead?
 	
 	public float density;
- 
+
 }

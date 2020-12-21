@@ -58,7 +58,7 @@ public class ConvexHull
 		unSortedList = unSortedList.OrderBy(n => GetAngle(new Vector3(n.x, 0f, n.z) - firstPoint)).ToList();
 
 		// Check if some angles are the same, if so we need to swap them
-		// Is most likely not needed 
+		// Is most likely not needed
 		// Can we do this in OderBy
 		//for (int i = 1; i < unSortedList.Count; i++)
 		//{

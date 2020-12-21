@@ -3,7 +3,7 @@ using System.Collections;
 
 // Controlls the water
 
-public class WaterController : MonoBehaviour 
+public class WaterController : MonoBehaviour
 {
 	public static WaterController current;
 
@@ -80,6 +80,6 @@ public class WaterController : MonoBehaviour
 		Shader.SetGlobalFloat("_WaterTime", Time.time);
 		Shader.SetGlobalFloat("_WaterNoiseStrength", noiseStrength);
 		Shader.SetGlobalFloat("_WaterNoiseWalk", noiseWalk);
-		  
+		
 	}
 }

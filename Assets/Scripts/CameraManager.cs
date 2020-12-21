@@ -40,7 +40,7 @@ public class CameraManager : MonoBehaviour {
 	public float PanSpeed = 0.1f;
 
 	// Update is called once per frame
-	void Update() 
+	void Update()
 	{
 		OrbitCamera();
 		DollyCamera();

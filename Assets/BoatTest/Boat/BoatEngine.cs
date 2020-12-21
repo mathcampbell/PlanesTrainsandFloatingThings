@@ -121,7 +121,7 @@ public class BoatEngine : MonoBehaviour
 	//	//Notice transform.right is forward because the boat is rotated
 
 	//	boatRigidBody.AddForceAtPosition(
-	//		forceFromPropeller * transform.right, 
+	//		forceFromPropeller * transform.right,
 	//		WaterJetPosition.transform.position,
 	//		ForceMode.Force);
 
@@ -136,13 +136,13 @@ public class BoatEngine : MonoBehaviour
 
 
 	//		boatRigidBody.AddForceAtPosition(
-	//			forceFromRudder * WaterJetPosition.transform.right, 
+	//			forceFromRudder * WaterJetPosition.transform.right,
 	//			WaterJetPosition.transform.position,
 	//			ForceMode.Force);
 
 	//		//To cancel out the forward movement
 	//		boatRigidBody.AddForceAtPosition(
-	//			forceFromRudder * -transform.right, 
+	//			forceFromRudder * -transform.right,
 	//			WaterJetPosition.transform.position,
 	//			ForceMode.Force);
 	//	}
@@ -166,7 +166,7 @@ public class BoatEngine : MonoBehaviour
 
 	//	float d = 0.5f;
 
-	//	float Q = Mathf.PI * d * d * 0.25f * v_jet; 
+	//	float Q = Mathf.PI * d * d * 0.25f * v_jet;
 
 	//	float m = PhysicsData.RHO_OCEAN_WATER * Q;
 
@@ -185,8 +185,8 @@ public class BoatEngine : MonoBehaviour
 
 	//	//The actionPoint has to be on the same y-level or it will produce a strange vobbling effect
 	//	Vector3 actionPoint = new Vector3(
-	//		0f, 
-	//		boatRigidBody.transform.position.y, 
+	//		0f,
+	//		boatRigidBody.transform.position.y,
 	//		WaterJetPosition.transform.position.z);
 
 	//	boatRigidBody.AddForceAtPosition(thrustFromWaterJet * WaterJetPosition.transform.forward, actionPoint);

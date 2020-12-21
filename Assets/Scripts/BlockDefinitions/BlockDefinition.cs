@@ -170,7 +170,7 @@ namespace BlockDefinitions
 		#endregion Instance Data
 
 		/// <summary>
-		/// 
+		///
 		/// </summary>
 		/// <param name="blockID"></param>
 		/// <param name="mass"></param>

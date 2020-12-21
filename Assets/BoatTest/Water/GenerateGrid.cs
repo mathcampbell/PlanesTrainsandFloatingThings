@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Generates a flat square mesh
 // From http://catlikecoding.com/unity/tutorials/procedural-grid/
-public static class GenerateGrid 
+public static class GenerateGrid
 {
 	// Generates a mesh width a width and a resolution which is the distance between each vertice
 	// So you need to make sure that width and resolution fit together
@@ -82,7 +82,7 @@ public static class GenerateGrid
 		mesh.tangents = tangents;
 		mesh.triangles = triangles;
 
-		// Normals are defined per vertex, so we have to fill another vector array. 
+		// Normals are defined per vertex, so we have to fill another vector array.
 		// Alternatively, we can ask the mesh to figure out the normals itself based on its triangles
 		mesh.RecalculateNormals();
 

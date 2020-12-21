@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 // Generates the mesh that's below and above the water
 // From http://www.gamasutra.com/view/news/237528/Water_interaction_model_for_boats_in_video_games.php
-public class ModifyBoatMesh 
+public class ModifyBoatMesh
 {
 	// The boat transform needed to get the global position of a vertice
 	private Transform boatTrans;
@@ -44,7 +44,7 @@ public class ModifyBoatMesh
 
 
 
-	public ModifyBoatMesh(GameObject boatObj, GameObject underWaterObj, GameObject aboveWaterObj, Rigidbody boatRB) 
+	public ModifyBoatMesh(GameObject boatObj, GameObject underWaterObj, GameObject aboveWaterObj, Rigidbody boatRB)
 	{
 		// Get the transform
 		boatTrans = boatObj.transform;
@@ -275,7 +275,7 @@ public class ModifyBoatMesh
 
 
 		// Save the data, such as normal, area, etc
-		// 2 triangles below the water  
+		// 2 triangles below the water
 		underWaterTriangleData.Add(new TriangleData(M, I_M, I_L, boatRB, timeSinceStart));
 		underWaterTriangleData.Add(new TriangleData(M, I_L, L, boatRB, timeSinceStart));
 		// 1 triangle above the water

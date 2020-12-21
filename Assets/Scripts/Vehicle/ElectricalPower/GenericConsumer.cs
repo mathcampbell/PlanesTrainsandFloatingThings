@@ -9,7 +9,7 @@ namespace Vehicle.ElectricalPower {
 		// Start is called before the first frame update
 		void Start()
 		{
-		 
+		
 
 		}
 

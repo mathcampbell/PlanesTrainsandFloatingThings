@@ -26,7 +26,7 @@ namespace DataTypes.Extensions
 		public readonly Type MemberDataType;
 
 		/// <summary>
-		/// 
+		///
 		/// </summary>
 		/// <param name="member">The <see cref="MemberInfo"/> instance to wrap</param>
 		public GetSetMemberInfo(MemberInfo member)

@@ -41,7 +41,7 @@ public class Thruster : KeybindableComponent {
 			SetParticles(true);
 
 		}
-		else 
+		else
 		{
 			// Not thrusting!
 			SetParticles(false);

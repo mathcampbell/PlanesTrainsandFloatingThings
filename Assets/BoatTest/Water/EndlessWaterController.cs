@@ -4,7 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 
 // Creates an endless sea
-public class EndlessWaterController : MonoBehaviour 
+public class EndlessWaterController : MonoBehaviour
 {
 	public static EndlessWaterController current;
 
@@ -91,7 +91,7 @@ public class EndlessWaterController : MonoBehaviour
 		// Add it to the list of all chunks
 		allWaterChunks.Add(newChunk);
 
-		// Need to set its width and resolution before instantiating a chunk because we 
+		// Need to set its width and resolution before instantiating a chunk because we
 		// are creating the mesh in awake
 		WaterSquare waterSquareScript = waterSquareObj.GetComponent<WaterSquare>();
 

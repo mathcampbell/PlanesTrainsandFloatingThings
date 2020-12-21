@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Move the particles to a position above the waves
-public class WaterWakesPS : MonoBehaviour 
+public class WaterWakesPS : MonoBehaviour
 {
 	ParticleSystem foamPS;
 
 	ParticleSystem.Particle[] foamParticles;
 
 
-	void Start() 
+	void Start()
 	{
 		foamPS = GetComponent<ParticleSystem>();	
 
@@ -19,9 +19,9 @@ public class WaterWakesPS : MonoBehaviour
 
 
 
-	// Should be in lateupdate accoridng to 
+	// Should be in lateupdate accoridng to
 	// https://docs.unity3d.com/ScriptReference/ParticleSystem.GetParticles.html
-	void LateUpdate() 
+	void LateUpdate()
 	{
 		// GetParticles is allocation free because we reuse the m_Particles buffer between updates
 		int numParticlesAlive = foamPS.GetParticles(foamParticles);

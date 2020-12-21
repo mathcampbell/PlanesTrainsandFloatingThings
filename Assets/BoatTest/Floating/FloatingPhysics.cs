@@ -109,13 +109,13 @@ public class FloatingPhysics : MonoBehaviour
 		// F_buoyancy = rho * g * V
 		// rho - density of the mediaum you are in
 		// g - gravity
-		// V - volume of fluid directly above the curved surface 
+		// V - volume of fluid directly above the curved surface
 
 		// The density of the water
 		float rhoWater = 1027f;
 		float gravity = -9.81f;
 
-		// V = z * S * n 
+		// V = z * S * n
 		// z - distance to surface
 		// S - surface area
 		// n - normal to the surface

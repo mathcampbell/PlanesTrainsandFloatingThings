@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 
 //Main controller for all boat physics
-public class BoatPhysics : MonoBehaviour 
+public class BoatPhysics : MonoBehaviour
 {
 	//Drags
 	//This is also the simplified collider mesh, and not the more complicated mesh
@@ -46,14 +46,14 @@ public class BoatPhysics : MonoBehaviour
 
 
 
-	void Awake() 
+	void Awake()
 	{
 		boatRB = this.GetComponent<Rigidbody>();
 	}
 
 
 
-	void Start() 
+	void Start()
 	{
 		//Init the script that will modify the boat mesh
 		modifyBoatMesh = new ModifyBoatMesh(boatMeshObj, underWaterObj, aboveWaterObj, boatRB);
@@ -91,7 +91,7 @@ public class BoatPhysics : MonoBehaviour
 
 
 
-	void FixedUpdate() 
+	void FixedUpdate()
 	{
 		//Change the center of mass - experimental - move to Start() later
 		boatRB.centerOfMass = centerOfMass;
@@ -116,7 +116,7 @@ public class BoatPhysics : MonoBehaviour
 	{
 		//The resistance coefficient - same for all triangles
 		float Cf = BoatPhysicsMath.ResistanceCoefficient(
-			rhoWater, 
+			rhoWater,
 			boatRB.velocity.magnitude,
 			modifyBoatMesh.CalculateUnderWaterLength());
 
@@ -199,7 +199,7 @@ public class BoatPhysics : MonoBehaviour
 			//Calculate the forces
 			Vector3 forceToAdd = Vector3.zero;
 
-			//Force 1 - Air resistance 
+			//Force 1 - Air resistance
 			forceToAdd += BoatPhysicsMath.AirResistanceForce(rhoAir, triangleData, VisbyData.C_r);
 
 			//Add the forces to the boat

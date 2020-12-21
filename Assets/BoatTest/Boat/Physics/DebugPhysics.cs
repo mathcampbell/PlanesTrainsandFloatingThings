@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 //To be able to change the different physics parameters real time
-public class DebugPhysics : MonoBehaviour 
+public class DebugPhysics : MonoBehaviour
 {
 	public static DebugPhysics current;
 
@@ -29,7 +29,7 @@ public class DebugPhysics : MonoBehaviour
 
 
 
-	void Start() 
+	void Start()
 	{
 		current = this;
 	}

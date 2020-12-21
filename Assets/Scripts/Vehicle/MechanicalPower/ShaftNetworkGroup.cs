@@ -195,12 +195,12 @@ namespace Vehicle.MechanicalPower
 
 
 			/// <summary>
-			/// 
+			///
 			/// </summary>
 			public float RPM => SuperNetwork.rpm * componentUpdateRPMFactor;
 
 			/// <summary>
-			/// 
+			///
 			/// </summary>
 			public uint CurrentOrientation => (uint)(SuperNetwork.currentOrientation * componentUpdateOrientationFactor);
 
@@ -300,7 +300,7 @@ namespace Vehicle.MechanicalPower
 						DoStuff(toNetwork, fromNetwork);
 
 						if (toNetwork != primaryNetwork)
-						{ 
+						{
 							// Compute direct to primaryNetwork:
 
 							conversionDicts.Add((primaryNetwork, toNetwork), conversionDicts[(primaryNetwork, fromNetwork)] * conversionDicts[(fromNetwork, toNetwork)]);

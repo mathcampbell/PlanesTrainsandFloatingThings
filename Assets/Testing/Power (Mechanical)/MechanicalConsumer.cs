@@ -38,7 +38,7 @@ public abstract class MechanicalConsumer : MechanicalNetworkItem
 	/// </summary>
 	/// <returns></returns>
 	public abstract float PotentialConsumption();
-  
+
 	/// <summary>
 	/// Consume the given amount of power. (This method is to trigger any side effacts the consumption may have)
 	/// </summary>
