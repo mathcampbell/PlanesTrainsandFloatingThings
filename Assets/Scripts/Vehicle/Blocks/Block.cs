@@ -24,6 +24,11 @@ namespace Vehicle.Blocks
 	[DataContract]
 	public class Block : IDeserializationCallback
 	{
+		public const float WorldToDesignScale = 4;
+		public const float DesignToWorldScale = 1 / WorldToDesignScale;
+
+
+
 		#region Definition
 		// Shortcuts to the Definition of this block.
 
@@ -63,12 +68,12 @@ namespace Vehicle.Blocks
 		/// <summary>
 		/// The bounds in VehicleSpace (so taking into account position and orientation.)
 		/// </summary>
-		public Vector3Int BoundsMin => throw new NotImplementedException();
+		public Vector3Int BoundsMin => new Vector3Int(0,0,0); // todo: Implement properly
 
 		/// <summary>
 		/// The bounds in VehicleSpace (so taking into account position and orientation.)
 		/// </summary>
-		public Vector3Int BoundsMax => throw new NotImplementedException();
+		public Vector3Int BoundsMax => new Vector3Int(1, 1, 1); // todo: Implement properly
 
 
 		#endregion
