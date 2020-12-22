@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
+using DataTypes.Extensions;
+
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Tools
 {
@@ -28,6 +32,10 @@ namespace Tools
 			}
 		}
 
+		private const MeshUpdateFlags DoNothingUpdateFlags = MeshUpdateFlags.DontValidateIndices
+		                                                   | MeshUpdateFlags.DontNotifyMeshUsers
+		                                                   | MeshUpdateFlags.DontRecalculateBounds;
+
 		/// <summary>
 		/// Must run on Unity Thread.
 		/// Does NOT remove any duplicated data.
@@ -35,14 +43,16 @@ namespace Tools
 		/// </summary>
 		/// <param name="meshes"></param>
 		/// <returns></returns>
-		public static Mesh CombineMeshes_Dumb(DataItem[] meshes)
+		public static Mesh CombineMeshes_Dumb(ICollection<DataItem> meshes)
 		{
-			int vertexCount = meshes.Aggregate(0, (count, dataItem) => count + dataItem.mesh.vertexCount);
+			var vertexCount = meshes.Aggregate(0, (i, item) => i + item.mesh.vertexCount);
+			var subMeshCount = meshes.Aggregate(0, (i, item) => i + item.mesh.subMeshCount);
 
 			var allVertices = new Vector3[vertexCount];
 			var allNormals = new Vector3[vertexCount];
 
 			var vertexIndex = 0;
+
 
 			foreach (var item in meshes)
 			{
@@ -55,8 +65,8 @@ namespace Tools
 
 				for (int i = 0; i < meshVertices.Length;)
 				{
-					allVertices[vertexIndex] = transform * meshVertices[i];
-					allNormals[vertexIndex] = normalTransform * meshNormals[i];
+					allVertices[vertexIndex] = (transform * meshVertices[i].WithW(1)).Xyz();
+					allNormals[vertexIndex] = (normalTransform * meshNormals[i]);
 
 					vertexIndex++;
 					i++;
@@ -64,34 +74,37 @@ namespace Tools
 			}
 
 			var result = new Mesh();
+			result.subMeshCount = subMeshCount;
 
 			result.SetVertices(allVertices);
 			result.SetNormals(allNormals);
 
-			// Unity does sanity checking on indices, so we have to add them after all of the vertices.
 			var subMeshIndex = 0;
 			var baseIndex = 0;
+
 			foreach (var item in meshes)
 			{
 				var mesh = item.mesh;
-
 				for (int smi = 0; smi < mesh.subMeshCount; smi++)
 				{
 					var subMeshDescriptor = mesh.GetSubMesh(smi);
 
 					var smIndices = mesh.GetIndices(smi, false);
 
-					for (int i = 0; i < smIndices.Length;)
+					for (int i = 0; i < smIndices.Length;i++)
 					{
-						smIndices[i] = baseIndex + smIndices[i++];
+						smIndices[i] = baseIndex + smIndices[i];
 					}
 
-					result.SetIndices(smIndices, subMeshDescriptor.topology, subMeshIndex);
+					result.SetIndices(smIndices, subMeshDescriptor.topology, subMeshIndex++);
 				}
 
-				subMeshIndex++;
 				baseIndex += mesh.vertexCount;
 			}
+
+			result.RecalculateBounds();
+			result.Optimize();
+			result.MarkModified();
 
 			return result;
 		}
