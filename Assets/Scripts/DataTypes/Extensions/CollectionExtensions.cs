@@ -55,7 +55,7 @@ namespace DataTypes.Extensions {
 		}
 
 		/// <summary>
-		/// Adds, or update the the item at key with value.
+		/// Adds, or updates the the item at key with value.
 		/// </summary>
 		/// <typeparam name="TKey">Type of the Key</typeparam>
 		/// <typeparam name="TValue">Type of the Value</typeparam>

@@ -58,14 +58,19 @@ namespace Tools
 			{
 				var mesh = item.mesh;
 				var transform = item.transform;
-				var normalTransform = Matrix4x4.Rotate(transform.rotation); // Normals should only be rotated.
+
+				// Normals should only be rotated.
+				// Note: if scale is always 1 we can just apply the normal transform to the vector3 directly.
+				var normalTransform = Matrix4x4.Rotate(transform.rotation);
 
 				var meshVertices = mesh.vertices;
 				var meshNormals = mesh.normals;
 
 				for (int i = 0; i < meshVertices.Length;)
 				{
+					// We need a vector4 with w = 1 to apply translation, that's just how matrices work.
 					allVertices[vertexIndex] = (transform * meshVertices[i].WithW(1)).Xyz();
+
 					allNormals[vertexIndex] = (normalTransform * meshNormals[i]);
 
 					vertexIndex++;
@@ -78,6 +83,9 @@ namespace Tools
 
 			result.SetVertices(allVertices);
 			result.SetNormals(allNormals);
+
+			// Unity will screech if the vertices don't exist yet, when we start adding indices that reference them.
+			// So we need to loop twice.
 
 			var subMeshIndex = 0;
 			var baseIndex = 0;

@@ -4,6 +4,8 @@ namespace DataTypes.Extensions
 {
 	public static class VectorExt
 	{
+		// @Leopard original file lives in StormworksEditor
+
 		#region Downgrades
 
 		public static Vector3 Xyz(this Vector4 v)

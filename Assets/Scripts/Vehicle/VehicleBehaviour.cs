@@ -26,7 +26,7 @@ namespace Vehicle
 		public VehicleData vehicleData;
 
 
-		public Material TempMaterial;
+		public Material TempMaterial; // Temporary: we should assign the proper material per subMesh.
 
 		private MeshFilter meshFilter;
 		private new MeshRenderer renderer; // hide obsolete renderer in MonoBehaviour
@@ -44,16 +44,21 @@ namespace Vehicle
 
 			vehicleData.Initialize();
 
+			SetMesh();
+		}
+
+		private void SetMesh()
+		{
 			mainMesh = MeshCombiner.CombineMeshes_Dumb(MeshCombinerData().ToList());
 			meshFilter.sharedMesh = mainMesh;
 
 			renderer.materials = new Material[mainMesh.subMeshCount];
 			for (int i = 0; i < renderer.materials.Length; i++)
 			{
+				// todo: assign correct material
 				renderer.materials[i] = TempMaterial;
 			}
 		}
-
 
 
 		void FixedUpdate()
@@ -71,21 +76,23 @@ namespace Vehicle
 
 		private IEnumerable<MeshCombiner.DataItem> MeshCombinerData()
 		{
+			// Note: blocks with meshes that move need to do that elsewhere.
 			foreach (var block in vehicleData.blocks)
 			{
 				if (null != block.myBlockDefinition.Mesh)
 				{
 					var pos = (Vector3) block.position * Block.DesignToWorldScale;
-					var rot = Quaternion.identity; // todo: implement properly
-					var scl = Vector3.one;
+					var rot = Quaternion.identity; // todo: implement rotation properly.
+					var scl = Vector3.one; // We may allow scaling parts in the future.
 
+					// If the resulting mesh looks broken, try fiddling with the order of these operations.
 					var transform = Matrix4x4.Rotate(rot) * Matrix4x4.Scale(scl) * Matrix4x4.Translate(pos);
 
 					yield return new MeshCombiner.DataItem(block.myBlockDefinition.Mesh, transform);
 				}
 				else
 				{
-					// todo: implement properly (use BlockFaces)
+					// todo: BlockFaces, may need to be implemented elsewhere though.
 				}
 			}
 		}
