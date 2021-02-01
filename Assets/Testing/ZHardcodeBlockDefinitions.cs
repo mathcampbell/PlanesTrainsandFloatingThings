@@ -9,7 +9,8 @@ using DataTypes.Extensions;
 
 using UnityEngine;
 
-namespace Testing {
+namespace Testing
+{
 	/// <summary>
 	/// This class contains C# hardcoded <see cref="BlockDefinition"/>s, for testing purposes.
 	/// </summary>

@@ -26,6 +26,7 @@ namespace BlockDefinitions.Kinds
 		  , BlockFace[] shaftSides = null
 		) : base(blockID, mass, name, description, meshFilePath, materialFilePath, sealedSides, connectableSides)
 		{
+			this.IsShaft = true;
 			this.shaftSides = shaftSides;
 		}
 	}

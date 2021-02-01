@@ -54,7 +54,7 @@ namespace BlockDefinitions
 		/// Does this block consist of a single Cube?
 		/// </summary>
 		[DataMember]
-		public readonly bool IsSingleCubeBlock = true;
+		public bool IsSingleCubeBlock { get; protected set; } = true;
 
 		/// <summary>
 		/// Does this block consist of multiple Cubes?
@@ -65,14 +65,14 @@ namespace BlockDefinitions
 		/// Does this block have an <see cref="Update"/> method?
 		/// </summary>
 		[DataMember]
-		public readonly bool IsActiveBlock = false;
+		public bool IsActiveBlock { get; protected set; } = false;
 
 
 		/// <summary>
 		/// Does this block have properties that can be set in the VehicleEditor (so it's selectable there)
 		/// </summary>
 		[DataMember]
-		public readonly bool HasProperties = false;
+		public bool HasProperties { get; protected set; } = false;
 
 
 		/// <summary>
@@ -80,21 +80,21 @@ namespace BlockDefinitions
 		/// A component has logic, while a shaft just connects components together, and is abstracted away during simulation.
 		/// </summary>
 		[DataMember]
-		public readonly bool IsShaft = false;
+		public bool IsShaft { get; protected set; } = false;
 
 		/// <summary>
 		/// Should this Block be Component in the Mechanical Power Shaft system.
 		/// A component has logic, while a shaft just connects components together, and is abstracted away during simulation.
 		/// </summary>
 		[DataMember]
-		public readonly bool IsShaftComponent = false;
+		public bool IsShaftComponent { get; protected set; } = false;
 
 
 		/// <summary>
 		/// The faces of the block that are sealed (are water and pressure tight).
 		/// </summary>
 		[DataMember]
-		public readonly BlockFace[] SealedSides;
+		public BlockFace[] SealedSides { get; protected set; }
 
 		/// <summary>
 		/// The faces of the block that other blocks can be attached to.
@@ -104,25 +104,25 @@ namespace BlockDefinitions
 		/// If that is the case it *may* refer to the same instance as <see cref="SealedSides"/>.
 		/// </remarks>
 		[DataMember]
-		public readonly BlockFace[] ConnectableSides;
+		public BlockFace[] ConnectableSides { get; protected set; }
 
 		/// <summary>
 		/// The mass of the block.
 		/// </summary>
 		[DataMember]
-		public readonly float Mass; // todo: Do we need to specify where the COM will be?
+		public float Mass { get; protected set; } // todo: Do we need to specify where the COM will be?
 
 		/// <summary>
 		/// The volume of the block.
 		/// </summary>
 		[DataMember]
-		public readonly float Volume;
+		public float Volume { get; protected set; }
 
 		/// <summary>
 		/// The name of the block.
 		/// </summary>
 		[DataMember]
-		public readonly string Name;
+		public string Name { get; protected set; }
 
 		//[DataMember]
 		public float sidelength  = 0.25f; // @Math should this be moved to BlockDefinition? What is it used for? (since not all blocks will be square)
@@ -136,7 +136,7 @@ namespace BlockDefinitions
 		/// The Description of the block.
 		/// </summary>
 		[DataMember]
-		public readonly string Description;
+		public string Description { get; protected set; }
 
 
 		/// <summary>
@@ -144,7 +144,7 @@ namespace BlockDefinitions
 		/// Note: this can be <see cref="null"/>, for example for blocks that create a mesh shared with neighbors on the fly.
 		/// </summary>
 		[DataMember]
-		public readonly string MeshFilePath;
+		public string MeshFilePath { get; protected set; }
 
 
 		/// <summary>
@@ -158,7 +158,7 @@ namespace BlockDefinitions
 
 
 		[DataMember]
-		public readonly string MaterialFilePath;
+		public string MaterialFilePath { get; protected set; }
 
 		[FetchDefinitionData(nameof(MaterialFilePath))]
 		public Material Material { get; private set; }
