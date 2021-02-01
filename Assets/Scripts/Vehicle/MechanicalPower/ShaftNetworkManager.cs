@@ -60,7 +60,7 @@ namespace Vehicle.MechanicalPower
 			var allShafts = temp.Where(b => b.IsShaft);
 			var allShaftComponentBlocks = temp.Where(b => b.IsShaftComponent);
 
-			// todo: implement
+			// todo: implement (blocked by implementation of Definition and Block for Shaft and ShaftComponent)
 		}
 
 		private void ReconfigureTopology()

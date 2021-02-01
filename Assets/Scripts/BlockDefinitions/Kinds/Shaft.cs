@@ -7,8 +7,11 @@ namespace BlockDefinitions.Kinds
 	[DataContract]
 	public class Shaft : BlockDefinition
 	{
+		/// <summary>
+		/// The sides on the block that shafts may connect to.
+		/// </summary>
 		[DataMember]
-		public readonly BlockFace[] shaftSides;
+		public BlockFace[] shaftSides { get; protected set; }
 
 
 
