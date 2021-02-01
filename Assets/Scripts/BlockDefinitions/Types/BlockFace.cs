@@ -17,35 +17,62 @@ namespace BlockDefinitions.Types
 	public struct BlockFace
 	{
 		/// <summary>
-		/// The gridPosition where face(s) will be defined.
+		/// The facePosition where face is defined.
 		/// </summary>
 		/// <remarks>
-		/// Multiple BlockFaces may be defined for the same gridPosition, if the gridPosition has multiple FaceShapes on it.
+		/// Note: faces and voxels live in separate coordinate systems.
+		/// The facePosition 0,0,0 defines the face between voxel 0,0,0 and todo: whatever forward is under the default/identity orientation.
 		/// </remarks>
 		[DataMember]
-		public Vector3Int gridPosition; // todo: use smaller dataType? Vector3sbyte does not exist but should suffice.
+		public Vector3Int gridPosition; // todo: use smaller dataType? Vector3Int16 does not exist but should suffice.
 
 		/// <summary>
-		/// The side(s) of that position where face(s) will be.
+		/// The orientation of the face
 		/// </summary>
 		[DataMember]
-		public BlockSides side; // todo: Replace with orientation, see top of file comment.
+		public Orientation orientation;
+		// todo: can we use even smaller type here?
+		// Would only need to handle rotations around single axis and mirroring.
+		// todo: is that true for non-trivial shapes though? (like the wedge)
 
 		/// <summary>
-		/// The shape of the face(s).
+		/// The shape of the face.
 		/// </summary>
 		[DataMember]
 		public BlockFaceShape shape;
 
+		/// <summary>
+		/// Is the face flat.
+		/// </summary>
+		public bool shapeIsFlat => throw new NotImplementedException();
+
 
 
 		/// <summary>
-		/// Check that the item is valid. Invalid items are those with <see cref="BlockSides.None"/> or <see cref="BlockFaceShape.None"/>.
+		/// Check that the item is valid. Invalid items are those with <see cref="BlockFaceShape.None"/>.
 		/// </summary>
 		/// <returns></returns>
 		public bool IsValid()
 		{
-			return side != BlockSides.None && shape != BlockFaceShape.None;
+			return shape != BlockFaceShape.None;
+		}
+
+		public bool IsMatchingFace(BlockFace other)
+		{
+			// The goal of this check is to find faces that match.
+			// For example the touching faces on adjacent cubes.
+			// So that the mesh generator can completely omit them from the mesh, because they can't be seen.
+
+			if (gridPosition != other.gridPosition) return false; // probably always valid.
+
+
+			if (shape != other.shape) return false; // todo: this WILL NOT be true in all cases.
+
+
+			if (shape == BlockFaceShape.Square)
+				return this.orientation.IsDirectionSameOrOpposite(other.orientation);
+
+			throw new NotImplementedException("Special cases ignored for now.");
 		}
 	}
 

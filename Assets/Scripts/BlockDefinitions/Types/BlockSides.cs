@@ -8,6 +8,7 @@ namespace BlockDefinitions.Types
 	/// </summary>
 	[Flags]
 	[DataContract]
+	[Obsolete]
 	public enum BlockSides : UInt16
 	{
 		// We need to set the values explicitly, because it defaults to just counting upwards.

@@ -30,8 +30,6 @@ namespace Testing
 				     new BlockFace()
 				     {
 					     shape = BlockFaceShape.Square,
-					     gridPosition = Vector3Int.zero,
-					     side = BlockSides.All,
 				     }
 			     })
 			};
