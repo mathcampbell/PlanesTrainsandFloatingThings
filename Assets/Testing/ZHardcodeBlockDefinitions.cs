@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 
 using BlockDefinitions;
+using BlockDefinitions.Kinds;
 using BlockDefinitions.Types;
 
 using DataTypes.Extensions;
+
+using UnityEngine;
 
 namespace Testing {
 	/// <summary>
@@ -21,6 +24,15 @@ namespace Testing {
 			  , new BlockDefinition(id++, 10, "Wedge",           "Wedge",           "Models/Block_Primitives/1x1wedge.obj",   "Materials/Block Materials/Block.mat")
 			  , new BlockDefinition(id++, 10, "Triangle corner", "Triangle corner", "Models/Block_Primitives/1x1pyramid.obj", "Materials/Block Materials/Block.mat")
 			  , new EngineBD(id++, 100, "Engine V6", "Engine with sounds and a model.", "Models/Block_Primitives/EngineV6.fbx")
+			  , new Shaft(id++, 10, "Shaft-Omni", "A shaft that connects in all 6 directions.", shaftSides: new BlockFace[]
+			     {
+				     new BlockFace()
+				     {
+					     shape = BlockFaceShape.Square,
+					     gridPosition = Vector3Int.zero,
+					     side = BlockSides.All,
+				     }
+			     })
 			};
 
 			{ // Sanity check
