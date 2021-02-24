@@ -1,14 +1,14 @@
 fileFormatVersion: 2
 guid: 6eebedea71336ce4d83df05d7d507e82
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: buoybody
-    second: {fileID: 2100000, guid: 160ce42f0a0e35445be1bf92628f49d4, type: 2}
+    second: {fileID: 2100000, guid: efe562921fecd974e80e27aedbf6ef30, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -115,6 +115,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
