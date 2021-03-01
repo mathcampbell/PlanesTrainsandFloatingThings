@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: ee2336d740ba2ac45bf6fde29be9844d
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -12,6 +12,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Colourable
+    second: {fileID: 2100000, guid: 3361e6ae5d2c040408f23a51637fe0d7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Doorhandle
     second: {fileID: 2100000, guid: dd692902b2ae6e947ab73df6f1d48877, type: 2}
   - first:
@@ -19,6 +24,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Gutter
     second: {fileID: 2100000, guid: 2e3a54429a3b9ac448ebe32c1d5c01f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: House
+    second: {fileID: 2100000, guid: d11aa29a708786b4e83d6ac6824047e7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -145,6 +155,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
