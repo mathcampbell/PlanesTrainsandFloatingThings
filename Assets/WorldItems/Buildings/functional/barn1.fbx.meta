@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: d3fb42664e746384eb415d76d18b4539
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: 4188544198697808205
@@ -27,6 +27,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Colourable
+    second: {fileID: 2100000, guid: 7245be3c46a7d5f4b8e615c0b7935703, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Grey Concrete
     second: {fileID: 2100000, guid: ce2eff4668855784cada24554de5a92f, type: 2}
   - first:
@@ -34,6 +39,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Grey Vinyl
     second: {fileID: 2100000, guid: c2275b6b627425e4489cd3a91390aa42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: House
+    second: {fileID: 2100000, guid: 82a381ad3ef4dd64c93f7836d1778bce, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -155,6 +165,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
