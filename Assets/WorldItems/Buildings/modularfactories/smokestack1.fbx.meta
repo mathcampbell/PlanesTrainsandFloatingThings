@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 2e33c4fd497cc6847a932f6be3ea97bd
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -19,6 +19,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Brick
     second: {fileID: 2100000, guid: c87329ab33b82f7419e7ff93bdea24b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Factory
+    second: {fileID: 2100000, guid: d5c2c8b1ac859ef46a66f2f8e8184989, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -150,6 +155,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

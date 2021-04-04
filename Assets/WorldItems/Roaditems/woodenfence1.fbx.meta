@@ -1,14 +1,14 @@
 fileFormatVersion: 2
 guid: 8a7510d8f73e0fb47947e3d9a9d6928f
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: wood
-    second: {fileID: 2100000, guid: 6a70208e2d68061459522ddaeb39c364, type: 2}
+    second: {fileID: 2100000, guid: da36a9c42c11bba42bf867f629f38c90, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -100,6 +100,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

@@ -1,14 +1,19 @@
 fileFormatVersion: 2
 guid: 5da68ff16ff14814c9ba00905b6800f7
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Object
+    second: {fileID: 2100000, guid: 8579757990053064a84b7c7bcf58e1d9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: rock
-    second: {fileID: 2100000, guid: 4100992cf3e54944c85f62e69c58e009, type: 2}
+    second: {fileID: 2100000, guid: 8579757990053064a84b7c7bcf58e1d9, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -100,6 +105,7 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
